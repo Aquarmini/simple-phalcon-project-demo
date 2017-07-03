@@ -222,7 +222,7 @@ class AliController extends Controller
             $url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?';
             $params = [
                 'app_id' => $appid,
-                'scope' => 'auth_user',
+                'scope' => 'auth_zhima',
                 'redirect_uri' => $redirect_uri
             ];
             return $this->response->redirect($url . http_build_query($params));
