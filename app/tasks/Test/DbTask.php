@@ -30,7 +30,7 @@ class DbTask extends Task
 
     public function existAction()
     {
-        $res = \App\Utils\DB::tableExists('user1');
+        $res = \App\Utils\DB::tableExists('user');
         print_r($res);
     }
 
