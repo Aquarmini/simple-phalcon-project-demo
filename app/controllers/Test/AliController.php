@@ -258,6 +258,7 @@ class AliController extends Controller
             print_r($result->$responseNode);
         } else {
             echo "失败";
+            print_r($result->$responseNode);
         }
     }
 
