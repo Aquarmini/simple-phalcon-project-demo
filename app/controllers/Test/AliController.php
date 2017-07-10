@@ -274,10 +274,10 @@ class AliController extends Controller
         $redirect_uri = env('MONSTER_ALIPAY_REDIRECT_URI');
         if (empty($code)) {
             // 获取code
-            $url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?';
+            $url = 'https://openauth.alipay.com/oauth2/appToAppAuth.htm?';
             $params = [
                 'app_id' => $appid,
-                'scope' => 'auth_zhima',
+                // 'scope' => 'auth_zhima',
                 'redirect_uri' => $redirect_uri
             ];
             return $this->response->redirect($url . http_build_query($params));
@@ -321,6 +321,7 @@ class AliController extends Controller
 
         $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
         $resultCode = $result->$responseNode->code;
+        print_r($result);
         print_r($result->$responseNode);
         if (!empty($resultCode) && $resultCode == 10000) {
             echo "成功";
