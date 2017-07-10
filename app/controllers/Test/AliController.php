@@ -321,6 +321,7 @@ class AliController extends Controller
 
         $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
         $resultCode = $result->$responseNode->code;
+        print_r($result->$responseNode);
         if (!empty($resultCode) && $resultCode == 10000) {
             echo "成功";
         } else {
