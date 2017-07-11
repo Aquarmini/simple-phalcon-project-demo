@@ -17,18 +17,24 @@ class AlipayController extends Controller
 
     public function userInfoAction()
     {
-        $AliClient = AlipayClient::getInstance();
+        $client = AlipayClient::getInstance();
         $code = $this->request->get('auth_code');
         if (empty($code)) {
             $redirect_url = $this->redirectUrl . "/test/alipay/userInfo";
-            $url = $AliClient->getOauthCodeUrl($redirect_url);
+            $url = $client->getOauthCodeUrl($redirect_url);
             return $this->response->redirect($url);
         }
 
-        $userinfo = $AliClient->getOauthInfo($code);
+        $oauth_info = $client->getOauthInfo($code);
 
-        print_r($this->request->get());
-        print_r($userinfo);
+        dump($this->request->get());
+        dump($oauth_info);
+
+        $access_token = $oauth_info->access_token;
+        $user_id = $oauth_info->user_id;
+        $userinfo = $client->getUserInfo($access_token);
+
+        dump($userinfo);
     }
 
 }

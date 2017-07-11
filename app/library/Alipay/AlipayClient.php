@@ -34,7 +34,10 @@ class AlipayClient
 
     protected $format = 'json';
 
+    protected $aopClient;
+
     public static $instances;
+
 
     public function __construct()
     {
@@ -46,6 +49,7 @@ class AlipayClient
 
         include __DIR__ . '/AopSdk.php';
 
+        $this->aopClient = $this->getAopClient();
     }
 
     public static function getInstance()
@@ -54,6 +58,21 @@ class AlipayClient
             self::$instances = new AlipayClient();
         }
         return self::$instances;
+    }
+
+    public function getAopClient()
+    {
+        $aop = new AopClient();
+        $aop->gatewayUrl = $this->gatewayUrl;
+        $aop->appId = $this->appId;
+        $aop->rsaPrivateKey = $this->appPrivateKey;
+        $aop->alipayrsaPublicKey = $this->aliPublicKey;
+        $aop->signType = $this->signType;
+        $aop->postCharset = $this->postCharset;
+        $aop->apiVersion = $this->apiVersion;
+        $aop->format = $this->format;
+
+        return $aop;
     }
 
     public function getOauthCodeUrl($redirect_uri)
@@ -75,24 +94,21 @@ class AlipayClient
      */
     public function getOauthInfo($authCode)
     {
-        $aop = new AopClient();
-        $aop->gatewayUrl = $this->gatewayUrl;
-        $aop->appId = $this->appId;
-        $aop->rsaPrivateKey = $this->appPrivateKey;
-        $aop->alipayrsaPublicKey = $this->aliPublicKey;
-        $aop->signType = $this->signType;
-        $aop->postCharset = $this->postCharset;
-        $aop->apiVersion = $this->apiVersion;
-        $aop->format = $this->format;
-
         $request = new AlipaySystemOauthTokenRequest();
         $request->setGrantType("authorization_code");
         $request->setCode($authCode);
-        $result = $aop->execute($request);
+        $result = $this->aopClient->execute($request);
         $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
 
         return $result->$responseNode;
 
+    }
+
+    public function getUserInfo($accessToken)
+    {
+        $request = new \AlipayUserInfoShareRequest();
+        $result = $this->aopClient->execute($request, $accessToken);
+        return $result;
     }
 
     /**
