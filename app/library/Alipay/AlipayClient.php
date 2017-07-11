@@ -120,7 +120,7 @@ class AlipayClient
     {
         $req = new AlipayTradeWapPayRequest();
         $data['out_trade_no'] = $order_no;
-        $data['total_amount'] = $real_price / 100;
+        $data['total_amount'] = $real_price;
         $data['subject'] = '测试支付';
         $data['seller_id'] = $this->sellerId;
         $data['product_code'] = 'QUICK_WAP_PAY';
