@@ -50,7 +50,7 @@ class AlipayController extends Controller
      */
     public function paymentAction()
     {
-        $client = new AlipayClient();
+        $client = AlipayClient::getInstance();
         $notify_url = $this->redirectUrl . "/test/alipay/notify";
         $return_url = $this->redirectUrl . "/test/alipay/return";
         $res = $client->getPaymentOrder("ORDER" . Str::random(12), 0.01, $notify_url, $return_url);
@@ -75,7 +75,6 @@ class AlipayController extends Controller
         $oauth_info = $client->getOauthInfo($code);
         $user_id = $oauth_info->user_id;
 
-        $client = new AlipayClient();
         $return_url = $this->redirectUrl . "/test/alipay/return";
         $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
         $notify_url = $this->redirectUrl . "/test/alipay/notify";
@@ -106,7 +105,7 @@ class AlipayController extends Controller
         Log::info("DEBUG ALIPAY NOTIFY");
         $data = $this->request->get();
         Log::info("DEBUG ALIPAY " . json_encode($data));
-        $result = \App\Library\Alipay\AlipayClient::getInstance()->verify($data);
+        $result = AlipayClient::getInstance()->verify($data);
 
         /* 实际验证过程建议商户添加以下校验。
          1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
