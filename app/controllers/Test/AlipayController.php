@@ -84,13 +84,57 @@ class AlipayController extends Controller
 
         $return_url = $this->redirectUrl . "/test/alipay/return";
         $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
-        $notify_url = $this->redirectUrl . "/test/alipay/notify";
+        $notify_url = $this->redirectUrl . "/test/alipay/signNotify";
         $out_trade_no = "ORDER" . uniqid();
 
         $result = $client->withholdingSign($return_url, $notify_url);
 
         dump($result);
         return $this->response->redirect($result);
+    }
+
+    public function signNotifyAction()
+    {
+
+        $verify_result = AlipayClient::getInstance()->mapiVerify();
+
+        if ($verify_result) {//验证成功
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //请在这里加上商户的业务逻辑程序代
+            $data = $this->request->get();
+            Log::info(json_encode($data));
+
+            //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
+
+            //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
+
+            //支付宝交易号
+
+            $trade_no = $_POST['trade_no'];
+
+            //交易状态
+            $trade_status = $_POST['trade_status'];
+
+
+            //判断是否在商户网站中已经做过了这次通知返回的处理
+            //如果没有做过处理，那么执行商户的业务程序
+            //如果有做过处理，那么不执行商户的业务程序
+
+            echo "success";        //请不要修改或删除
+
+            //调试用，写文本函数记录程序运行情况是否正常
+            //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
+
+            //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        } else {
+            //验证失败
+            echo "fail";
+
+            //调试用，写文本函数记录程序运行情况是否正常
+            //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
+        }
     }
 
     public function withholdingPayAction()
@@ -115,7 +159,6 @@ class AlipayController extends Controller
         dump($data);
     }
 
-
     public function returnAction()
     {
         $data = $this->request->get();
@@ -127,6 +170,7 @@ class AlipayController extends Controller
     {
         Log::info("DEBUG ALIPAY NOTIFY");
         $data = $this->request->get();
+        unset($data['_url']);
         Log::info("DEBUG ALIPAY " . json_encode($data));
         $result = AlipayClient::getInstance()->verify($data);
 

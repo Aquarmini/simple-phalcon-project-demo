@@ -12,6 +12,7 @@ use AopClient;
 use AlipaySystemOauthTokenRequest;
 use AlipayTradeWapPayRequest;
 use AlipayAcquireCreateandpayRequest;
+use App\Library\Alipay\Mapi\AlipayNotify;
 use App\Library\Alipay\Mapi\AlipaySubmit;
 use App\Library\Alipay\Mapi\Config;
 use App\Utils\Log;
@@ -235,6 +236,15 @@ class AlipayClient
         $html_text = $alipaySubmit->buildRequestForm($data);
 
         return $html_text;
+    }
+
+    public function mapiVerify()
+    {
+        $config = new Config();
+        //计算得出通知验证结果
+        $alipayNotify = new AlipayNotify($config);
+        $verify_result = $alipayNotify->verifyNotify();
+        return $verify_result;
     }
 
     public function verify($data)
