@@ -29,7 +29,7 @@ class Md5
      * @param $key    私钥
      *                return 签名结果
      */
-    public function md5Verify($prestr, $sign, $key)
+    public static function md5Verify($prestr, $sign, $key)
     {
         $prestr = $prestr . $key;
         $mysgin = md5($prestr);

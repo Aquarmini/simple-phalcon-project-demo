@@ -111,18 +111,18 @@ class AlipayNotify
     public function getSignVeryfy($para_temp, $sign)
     {
         //除去待签名参数数组中的空值和签名参数
-        $para_filter = paraFilter($para_temp);
+        $para_filter = Core::paraFilter($para_temp);
 
         //对待签名参数数组排序
-        $para_sort = argSort($para_filter);
+        $para_sort = Core::argSort($para_filter);
 
         //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
-        $prestr = createLinkstring($para_sort);
+        $prestr = Core::createLinkstring($para_sort);
 
         $isSgin = false;
         switch (strtoupper(trim($this->alipay_config['sign_type']))) {
             case "MD5" :
-                $isSgin = md5Verify($prestr, $sign, $this->alipay_config['key']);
+                $isSgin = Md5::md5Verify($prestr, $sign, $this->alipay_config['key']);
                 break;
             default :
                 $isSgin = false;
