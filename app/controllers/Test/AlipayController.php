@@ -25,7 +25,10 @@ class AlipayController extends Controller
             return $this->response->redirect($url);
         }
 
+        $userinfo = $AliClient->getOauthInfo($code);
+
         print_r($this->request->get());
+        print_r($userinfo);
     }
 
 }
