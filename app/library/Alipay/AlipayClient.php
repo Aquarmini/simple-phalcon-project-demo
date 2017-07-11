@@ -209,13 +209,14 @@ class AlipayClient
 
         $data['out_trade_no'] = $outTradeNo;
         $data['subject'] = '签约并扣款测试';
-        $data['product_code'] = 'FINGERPRINT_FAST_PAY';
+        $data['product_code'] = 'GENERAL_WITHHOLDING';
         $data['total_fee'] = $totalFee;
         $data['buyer_id'] = $buyerId;
 
         $config = new Config();
         $alipaySubmit = new AlipaySubmit($config);
         $html_text = $alipaySubmit->buildRequestForm($data);
+
         return $html_text;
     }
 
