@@ -94,6 +94,21 @@ class AlipayController extends Controller
         return $this->response->redirect($result);
     }
 
+    public function withholdingPayAction()
+    {
+        $client = AlipayClient::getInstance();
+
+        $return_url = $this->redirectUrl . "/test/alipay/return";
+        $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
+        $notify_url = $this->redirectUrl . "/test/alipay/notify";
+        $out_trade_no = "ORDER" . uniqid();
+
+        $result = $client->withholdingPay($out_trade_no, 0.01, $return_url, $notify_url);
+
+        dump($result);
+        return $this->response->redirect($result);
+    }
+
     public function cancelAction()
     {
         $data = $this->request->get();

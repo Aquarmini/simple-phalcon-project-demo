@@ -197,6 +197,27 @@ class AlipayClient
         return $html_text;
     }
 
+    public function withholdingPay($outTradeNo, $totalFee, $returnUrl, $notifyUrl)
+    {
+        //构造要请求的参数数组，无需改动
+        $data['service'] = 'alipay.acquire.createandpay';
+        $data['partner'] = $this->parterId;
+        $data['seller_id'] = $this->sellerId;
+        $data['_input_charset'] = strtolower($this->postCharset);
+        $data['return_url'] = $returnUrl;
+        $data['notify_url'] = $notifyUrl;
+
+        $data['out_trade_no'] = $outTradeNo;
+        $data['subject'] = '签约并扣款测试';
+        $data['product_code'] = 'FINGERPRINT_FAST_PAY';
+        $data['total_fee'] = $totalFee;
+
+        $config = new Config();
+        $alipaySubmit = new AlipaySubmit($config);
+        $html_text = $alipaySubmit->buildRequestForm($data);
+        return $html_text;
+    }
+
     public function verify($data)
     {
         $result = $this->aopClient->rsaCheckV1($data, $this->aliPublicKey, $this->signType);
