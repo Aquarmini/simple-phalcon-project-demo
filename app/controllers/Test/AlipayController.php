@@ -65,23 +65,16 @@ class AlipayController extends Controller
     public function withholdingAction()
     {
         $client = AlipayClient::getInstance();
-        $code = $this->request->get('auth_code');
-        if (empty($code)) {
-            $redirect_url = $this->redirectUrl . "/test/alipay/withholding";
-            $url = $client->getOauthCodeUrl($redirect_url);
-            return $this->response->redirect($url);
-        }
-
-        $oauth_info = $client->getOauthInfo($code);
-        $user_id = $oauth_info->user_id;
 
         $return_url = $this->redirectUrl . "/test/alipay/return";
         $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
         $notify_url = $this->redirectUrl . "/test/alipay/notify";
+        $out_trade_no = "ORDER" . uniqid();
 
         $redirect_url = $client->withholdingCreateAndPay(
-            $user_id, 0.01, $return_url, $notify_url, $cancel_url
+            $out_trade_no, 0.01, $return_url, $notify_url, $cancel_url
         );
+
         return $this->response->redirect($redirect_url);
     }
 

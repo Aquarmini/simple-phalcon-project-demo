@@ -25,6 +25,8 @@ class AlipayClient
 
     public $sellerId;
 
+    public $parterId;
+
     protected $gatewayUrl = 'https://openapi.alipay.com/gateway.do';
 
     protected $signType = 'RSA2';
@@ -47,6 +49,7 @@ class AlipayClient
         $this->aliPublicKey = env("MONSTER_ALIPAY_ALI_PUBLIC_KEY");
         $this->appPrivateKey = env("MONSTER_ALIPAY_APP_PRIVATE_KEY");
         $this->sellerId = env("MONSTER_ALIPAY_SELLERID");
+        $this->parterId = env("MONSTER_ALIPAY_PID");
 
         include __DIR__ . '/AopSdk.php';
 
@@ -141,7 +144,7 @@ class AlipayClient
      * @param $returnUrl      签约成功后会把签约结果同步返回给客户端。
      * @param $requestFromUrl 如果用户中途取消支付会返回该地址(唤起app)。
      */
-    public function withholdingCreateAndPay($partner, $totalFee, $returnUrl, $notifyUrl, $requestFromUrl)
+    public function withholdingCreateAndPay($out_trade_no, $totalFee, $returnUrl, $notifyUrl, $requestFromUrl)
     {
         // https://mapi.alipay.com/gateway.do?_input_charset=utf-8
         // &agreement_sign_parameters={"productCode":"GENERAL_WITHHOLDING_P","scene":"INDUSTRY|GAME_CHARGE"
@@ -161,8 +164,8 @@ class AlipayClient
         ]);
         $data['integration_type'] = "ALIAPP";
         $data['notify_url'] = $notifyUrl;
-        $data['out_trade_no'] = "ORDER" . uniqid();
-        $data['partner'] = $partner;
+        $data['out_trade_no'] = $out_trade_no;
+        $data['partner'] = $this->parterId;
         $data['product_code'] = 'GENERAL_WITHHOLDING';
         $data['request_from_url'] = $requestFromUrl;
         $data['return_url'] = $returnUrl;
@@ -188,74 +191,4 @@ class AlipayClient
         $result = $this->aopClient->rsaCheckV1($data, $this->aliPublicKey, $this->signType);
         return $result;
     }
-
-    protected function curl($url, $postFields = null)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_FAILONERROR, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-        $postBodyString = "";
-        $encodeArray = Array();
-        $postMultipart = false;
-
-
-        if (is_array($postFields) && 0 < count($postFields)) {
-
-            foreach ($postFields as $k => $v) {
-                if ("@" != substr($v, 0, 1)) //判断是不是文件上传
-                {
-
-                    $postBodyString .= "$k=" . urlencode($this->aopClient->characet($v, $this->postCharset)) . "&";
-                    $encodeArray[$k] = $this->aopClient->characet($v, $this->postCharset);
-                } else //文件上传用multipart/form-data，否则用www-form-urlencoded
-                {
-                    $postMultipart = true;
-                    $encodeArray[$k] = new \CURLFile(substr($v, 1));
-                }
-
-            }
-            unset ($k, $v);
-            curl_setopt($ch, CURLOPT_POST, true);
-            if ($postMultipart) {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $encodeArray);
-            } else {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, substr($postBodyString, 0, -1));
-            }
-        }
-
-        if ($postMultipart) {
-
-            $headers = array('content-type: multipart/form-data;charset=' . $this->postCharset . ';boundary=' . $this->getMillisecond());
-        } else {
-
-            $headers = array('content-type: application/x-www-form-urlencoded;charset=' . $this->postCharset);
-        }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-
-        $reponse = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-
-            throw new Exception(curl_error($ch), 0);
-        } else {
-            $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if (200 !== $httpStatusCode) {
-                throw new Exception($reponse, $httpStatusCode);
-            }
-        }
-
-        curl_close($ch);
-        return $reponse;
-    }
-
-    protected function getMillisecond()
-    {
-        list($s1, $s2) = explode(' ', microtime());
-        return (float)sprintf('%.0f', (floatval($s1) + floatval($s2)) * 1000);
-    }
-
 }
