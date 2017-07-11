@@ -177,6 +177,13 @@ class AlipayClient
         return $html_text;
     }
 
+    /**
+     * @desc   代扣签约
+     * @author limx
+     * @param $returnUrl
+     * @param $notifyUrl
+     * @return Mapi\提交表单HTML文本
+     */
     public function withholdingSign($returnUrl, $notifyUrl)
     {
         //构造要请求的参数数组，无需改动
@@ -196,6 +203,16 @@ class AlipayClient
         return $html_text;
     }
 
+    /**
+     * @desc   代扣支付
+     * @author limx
+     * @param $aggrementNo
+     * @param $outTradeNo
+     * @param $totalFee
+     * @param $returnUrl
+     * @param $notifyUrl
+     * @return Mapi\提交表单HTML文本
+     */
     public function withholdingPay($aggrementNo, $outTradeNo, $totalFee, $returnUrl, $notifyUrl)
     {
         //构造要请求的参数数组，无需改动
