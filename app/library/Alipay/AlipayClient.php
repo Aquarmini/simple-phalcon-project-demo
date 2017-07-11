@@ -214,8 +214,10 @@ class AlipayClient
 
         $config = new Config();
         $alipaySubmit = new AlipaySubmit($config);
-        $html_text = $alipaySubmit->buildRequestHttp($data);
-        return $html_text;
+        $html_text = $alipaySubmit->buildRequestForm($data);
+
+        $short_link_url = $alipaySubmit->getShortLink($html_text, trim($config['partner']));
+        return $short_link_url;
     }
 
     public function sign($data)
