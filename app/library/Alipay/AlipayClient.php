@@ -141,6 +141,17 @@ class AlipayClient
         return $this->aopClient->pageExecute($req, "POST");
     }
 
+    public function getCreditScore($accessToken)
+    {
+        $request = new \ZhimaCreditScoreGetRequest ();
+        $data['transaction_id'] = '201512100936588040000000465158';
+        $data['product_code'] = 'w1010100100000000001';
+        $request->setBizContent(json_encode($data));
+        $result = $this->aopClient->execute($request, $accessToken);
+        $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
+        return $result->$responseNode;
+    }
+
     /**
      * @desc   代扣签约并扣款
      * @author limx
