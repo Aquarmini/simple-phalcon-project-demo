@@ -26,7 +26,7 @@ class Core
      * @param $para 需要拼接的数组
      *              return 拼接完成以后的字符串
      */
-    public function createLinkstring($para)
+    public static function createLinkstring($para)
     {
         $arg = "";
         while (list ($key, $val) = each($para)) {
@@ -70,7 +70,7 @@ class Core
      * @param $para 签名参数组
      *              return 去掉空值与签名参数后的新签名参数组
      */
-    public function paraFilter($para)
+    public static function paraFilter($para)
     {
         $para_filter = array();
         while (list ($key, $val) = each($para)) {
@@ -85,7 +85,7 @@ class Core
      * @param $para 排序前的数组
      *              return 排序后的数组
      */
-    public function argSort($para)
+    public static function argSort($para)
     {
         ksort($para);
         reset($para);
@@ -117,7 +117,7 @@ class Core
      * @param $input_charset 编码格式。默认值：空值
      *                       return 远程输出的数据
      */
-    public function getHttpResponsePOST($url, $cacert_url, $para, $input_charset = '')
+    public static function getHttpResponsePOST($url, $cacert_url, $para, $input_charset = '')
     {
 
         if (trim($input_charset) != '') {

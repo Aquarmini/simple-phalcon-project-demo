@@ -16,7 +16,7 @@ class Md5
      * @param $key    私钥
      *                return 签名结果
      */
-    public function md5Sign($prestr, $key)
+    public static function md5Sign($prestr, $key)
     {
         $prestr = $prestr . $key;
         return md5($prestr);
