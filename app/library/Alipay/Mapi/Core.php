@@ -147,7 +147,7 @@ class Core
      * @param $cacert_url 指定当前工作目录绝对路径
      *                    return 远程输出的数据
      */
-    public function getHttpResponseGET($url, $cacert_url)
+    public static function getHttpResponseGET($url, $cacert_url)
     {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, 0); // 过滤HTTP头

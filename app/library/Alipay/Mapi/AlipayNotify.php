@@ -41,20 +41,6 @@ class AlipayNotify
                 $responseTxt = $this->getResponse($_POST["notify_id"]);
             }
 
-            //写日志记录
-            //if ($isSign) {
-            //	$isSignStr = 'true';
-            //}
-            //else {
-            //	$isSignStr = 'false';
-            //}
-            //$log_text = "responseTxt=".$responseTxt."\n notify_url_log:isSign=".$isSignStr.",";
-            //$log_text = $log_text.createLinkString($_POST);
-            //logResult($log_text);
-
-            //验证
-            //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
-            //isSign的结果不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
             if (preg_match("/true$/i", $responseTxt) && $isSign) {
                 return true;
             } else {
@@ -151,7 +137,7 @@ class AlipayNotify
             $veryfy_url = $this->http_verify_url;
         }
         $veryfy_url = $veryfy_url . "partner=" . $partner . "&notify_id=" . $notify_id;
-        $responseTxt = getHttpResponseGET($veryfy_url, $this->alipay_config['cacert']);
+        $responseTxt = Core::getHttpResponseGET($veryfy_url, $this->alipay_config['cacert']);
 
         return $responseTxt;
     }
