@@ -83,12 +83,12 @@ class AlipayClient
         return $aop;
     }
 
-    public function getOauthCodeUrl($redirect_uri)
+    public function getOauthCodeUrl($redirect_uri, $scope = 'auth_user')
     {
         $url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?';
         $params = [
             'app_id' => $this->appId,
-            'scope' => 'auth_user',
+            'scope' => $scope,
             'redirect_uri' => $redirect_uri
         ];
         return $url . http_build_query($params);

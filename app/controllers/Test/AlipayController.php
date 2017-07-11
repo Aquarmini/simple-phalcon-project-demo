@@ -230,7 +230,7 @@ class AlipayController extends Controller
         $code = $this->request->get('auth_code');
         if (empty($code)) {
             $redirect_url = $this->redirectUrl . "/test/alipay/credit";
-            $url = $client->getOauthCodeUrl($redirect_url);
+            $url = $client->getOauthCodeUrl($redirect_url, 'auth_zhima');
             return $this->response->redirect($url);
         }
 
