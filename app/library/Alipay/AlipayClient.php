@@ -11,11 +11,13 @@ namespace App\Library\Alipay;
 use AopClient;
 use AlipaySystemOauthTokenRequest;
 use AlipayTradeWapPayRequest;
+use ZhimaCreditScoreGetRequest;
 use AlipayAcquireCreateandpayRequest;
 use App\Library\Alipay\Mapi\AlipayNotify;
 use App\Library\Alipay\Mapi\AlipaySubmit;
 use App\Library\Alipay\Mapi\Config;
 use App\Utils\Log;
+use limx\Support\Str;
 
 class AlipayClient
 {
@@ -143,8 +145,8 @@ class AlipayClient
 
     public function getCreditScore($accessToken)
     {
-        $request = new \ZhimaCreditScoreGetRequest ();
-        $data['transaction_id'] = '201512100936588040000000465158';
+        $request = new ZhimaCreditScoreGetRequest();
+        $data['transaction_id'] = Str::random(64);
         $data['product_code'] = 'w1010100100000000001';
         $request->setBizContent(json_encode($data));
         $result = $this->aopClient->execute($request, $accessToken);
