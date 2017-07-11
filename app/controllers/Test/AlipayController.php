@@ -179,14 +179,14 @@ class AlipayController extends Controller
      * @desc   代扣回调
      * @author limx
      */
-    public function payNotify()
+    public function payNotifyAction()
     {
         $verify_result = AlipayClient::getInstance()->mapiVerify();
 
         if ($verify_result) {
             //验证成功
             //请在这里加上商户的业务逻辑程序代
-            
+
             $data = $this->request->get();
             Log::info(json_encode($data));
 
