@@ -202,7 +202,6 @@ class AlipayClient
         //构造要请求的参数数组，无需改动
         $data['service'] = 'alipay.acquire.createandpay';
         $data['partner'] = $this->parterId;
-        $data['seller_id'] = $this->sellerId;
         $data['_input_charset'] = strtolower($this->postCharset);
         $data['return_url'] = $returnUrl;
         $data['notify_url'] = $notifyUrl;
