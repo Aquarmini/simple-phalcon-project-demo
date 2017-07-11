@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Test;
 
-use App\Controllers\Controller;
 use App\Library\Alipay\AlipayClient;
 use App\Utils\Log;
 use limx\Support\Str;
