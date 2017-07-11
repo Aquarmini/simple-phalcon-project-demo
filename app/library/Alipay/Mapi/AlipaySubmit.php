@@ -191,7 +191,7 @@ class AlipaySubmit
         //注意：该功能PHP5环境及以上支持，需开通curl、SSL等PHP配置环境。建议本地调试时使用PHP开发软件
         $xmlstr = $this->buildRequestHttp($parameter);
         //计算得出返回xml验证结果
-
+        dump($xmlstr);
         $alipayNotify = new AlipayNotify($this->alipay_config);
         $verify_result = $alipayNotify->verifySign($xmlstr);
         dump($verify_result);
