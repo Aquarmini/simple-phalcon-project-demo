@@ -141,27 +141,46 @@ class AlipayClient
      * @param $returnUrl      签约成功后会把签约结果同步返回给客户端。
      * @param $requestFromUrl 如果用户中途取消支付会返回该地址(唤起app)。
      */
-    public function withholdingCreateAndPay($returnUrl, $notifyUrl, $requestFromUrl)
+    public function withholdingCreateAndPay($partner, $totalFee, $returnUrl, $notifyUrl, $requestFromUrl)
     {
-        $req = new AlipayAcquireCreateandpayRequest();
+        // https://mapi.alipay.com/gateway.do?_input_charset=utf-8
+        // &agreement_sign_parameters={"productCode":"GENERAL_WITHHOLDING_P","scene":"INDUSTRY|GAME_CHARGE"
+        // ,"externalAgreementNo":"201601010001","notifyUrl":"http://test.xxx.com/result/result.ashx"}
+        // &integration_type=ALIAPP&notify_url=http://test.xxx.com/result.aspx&out_trade_no=201601010001x
+        // &partner=2088101568351631&product_code=GENERAL_WITHHOLDING&request_from_url=myapp://result
+        // &return_url=myapp://result&seller_id=2088101568351631&service=alipay.acquire.page.createandpay
+        // &subject=test&total_fee=0.01&sign=53d0e696c8e755199ffa188e3f52b353&sign_type=MD5
+
+        $gatway_url = 'https://mapi.alipay.com/gateway.do';
+        $data['_input_charset'] = $this->postCharset;
+        $data['agreement_sign_parameters'] = json_encode([
+            'productCode' => 'GENERAL_WITHHOLDING_P',
+            'scene' => 'INDUSTRY|GAME_CHARGE',
+            'externalAgreementNo' => '201601010001',
+            'notifyUrl' => $notifyUrl,
+        ]);
+        $data['integration_type'] = "ALIAPP";
+        $data['notify_url'] = $notifyUrl;
+        $data['out_trade_no'] = "ORDER" . uniqid();
+        $data['partner'] = $partner;
         $data['product_code'] = 'GENERAL_WITHHOLDING';
-        $data['integration_type'] = 'ALIAPP';
         $data['request_from_url'] = $requestFromUrl;
         $data['return_url'] = $returnUrl;
-        $data['agreement_sign_parameters'] = [
-            'productCode' => 'GENERAL_WITHHOLDING_P',
-            'notifyUrl' => $notifyUrl,
-            'scene' => 'INDUSTRY|DIGITAL_MEDIA',
-            'externalAgreementNo' => time(),
-        ];
-        $bizContent = json_encode($data);
+        $data['seller_id'] = $this->sellerId;
+        $data['service'] = 'alipay.acquire.page.createandpay';
+        $data['subject'] = "测试";
+        $data['total_fee'] = $totalFee;
 
-        $req->setBizContent($bizContent);
 
-        $result = $this->aopClient->execute($req);
-        $responseNode = str_replace(".", "_", $req->getApiMethodName()) . "_response";
+        $data['sign'] = md5(http_build_query($data));
+        $data['sign_type'] = 'MD5';
 
-        return $result->$responseNode;
+        return $this->aopClient->curl($gatway_url, $data);
+    }
+
+    public function sign($data)
+    {
+
     }
 
     public function verify($data)
