@@ -102,8 +102,8 @@ class AlipayController extends Controller
         $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
         $notify_url = $this->redirectUrl . "/test/alipay/notify";
         $out_trade_no = "ORDER" . uniqid();
-        $buyer_id = env('ALIPAY_BUYERID');
-        $result = $client->withholdingPay($buyer_id, $out_trade_no, 0.01, $return_url, $notify_url);
+        $aggrement_no = '20170711000398688331'; // 签约返回的NO
+        $result = $client->withholdingPay($aggrement_no, $out_trade_no, 0.01, $return_url, $notify_url);
 
         dump($result);
         return $this->response->redirect($result);

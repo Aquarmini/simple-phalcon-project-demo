@@ -197,7 +197,7 @@ class AlipayClient
         return $html_text;
     }
 
-    public function withholdingPay($buyerId, $outTradeNo, $totalFee, $returnUrl, $notifyUrl)
+    public function withholdingPay($aggrementNo, $outTradeNo, $totalFee, $returnUrl, $notifyUrl)
     {
         //构造要请求的参数数组，无需改动
         $data['service'] = 'alipay.acquire.createandpay';
@@ -211,7 +211,8 @@ class AlipayClient
         $data['subject'] = '签约并扣款测试';
         $data['product_code'] = 'GENERAL_WITHHOLDING';
         $data['total_fee'] = $totalFee;
-        $data['buyer_id'] = $buyerId;
+        // $data['buyer_id'] = $buyerId;
+        $data['agreement_info'] = json_encode(['agreement_no' => $aggrementNo]);
 
         $config = new Config();
         $alipaySubmit = new AlipaySubmit($config);
