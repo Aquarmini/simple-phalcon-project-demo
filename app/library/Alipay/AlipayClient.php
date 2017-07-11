@@ -116,18 +116,8 @@ class AlipayClient
      * @author limx
      * @return string|\提交表单HTML文本
      */
-    public function getPaymentOrder($order_no, $real_price, $priceId)
+    public function getPaymentOrder($order_no, $real_price, $notifyUrl, $returnUrl)
     {
-        $aop = new AopClient();
-        $aop->gatewayUrl = $this->gatewayUrl;
-        $aop->appId = $this->appId;
-        $aop->rsaPrivateKey = $this->appPrivateKey;
-        $aop->signType = $this->signType;
-        $aop->postCharset = $this->postCharset;
-        $aop->format = $this->format;
-
-        $aop->alipayrsaPublicKey = $this->aliPublicKey;
-
         $req = new AlipayTradeWapPayRequest();
         $data['out_trade_no'] = $order_no;
         $data['total_amount'] = $real_price / 100;
@@ -136,24 +126,16 @@ class AlipayClient
         $data['product_code'] = 'QUICK_WAP_PAY';
         $bizContent = json_encode($data);
         $req->setBizContent($bizContent);
-        $req->setNotifyUrl('https://m.emmars.cn/payment/notify/alipay');
-        $req->setReturnUrl('https://open.emmars.cn/pay?isPay=true&priceId=' . $priceId);
+        $req->setNotifyUrl($notifyUrl);
+        $req->setReturnUrl($returnUrl);
 
-        return $aop->pageExecute($req, "GET");
+        // return $this->aopClient->pageExecute($req, "GET");
+        return $this->aopClient->pageExecute($req, "POST");
     }
 
     public function verify($data)
     {
-        $aop = new AopClient();
-        $aop->gatewayUrl = $this->gatewayUrl;
-        $aop->appId = $this->appId;
-        $aop->rsaPrivateKey = $this->appPrivateKey;
-        $aop->alipayrsaPublicKey = $this->aliPublicKey;
-        $aop->signType = $this->signType;
-        $aop->postCharset = $this->postCharset;
-        $aop->format = $this->format;
-
-        $result = $aop->rsaCheckV1($data, $this->aliPublicKey, $this->signType);
+        $result = $this->aopClient->rsaCheckV1($data, $this->aliPublicKey, $this->signType);
         return $result;
     }
 
