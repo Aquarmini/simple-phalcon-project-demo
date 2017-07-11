@@ -175,7 +175,7 @@ class AlipayClient
         $data['sign'] = md5(http_build_query($data));
         $data['sign_type'] = 'MD5';
 
-        return $this->curl($gatway_url, $data);
+        return $gatway_url . "?" . http_build_query($data);
     }
 
     public function sign($data)

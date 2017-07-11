@@ -78,11 +78,11 @@ class AlipayController extends Controller
         $return_url = $this->redirectUrl . "/test/alipay/return";
         $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
         $notify_url = $this->redirectUrl . "/test/alipay/notify";
-        $result = $client->withholdingCreateAndPay(
+
+        $redirect_url = $client->withholdingCreateAndPay(
             $user_id, 0.01, $return_url, $notify_url, $cancel_url
         );
-
-        dump($result);
+        return $this->response->redirect($redirect_url);
     }
 
     public function cancelAction()
