@@ -41,10 +41,10 @@ class AlipayController extends Controller
 
     public function paymentAction()
     {
-        $alipay_client = new AlipayClient();
+        $client = new AlipayClient();
         $notify_url = $this->redirectUrl . "/test/alipay/notify";
         $return_url = $this->redirectUrl . "/test/alipay/return";
-        $res = $alipay_client->getPaymentOrder("ORDER" . Str::random(12), 0.01, $notify_url, $return_url);
+        $res = $client->getPaymentOrder("ORDER" . Str::random(12), 1, $notify_url, $return_url);
 
         echo $res;
     }
@@ -58,6 +58,7 @@ class AlipayController extends Controller
 
     public function notifyAction()
     {
+        Log::info("DEBUG ALIPAY NOTIFY");
         $data = $this->request->get();
         Log::info("DEBUG ALIPAY " . json_encode($data));
         $result = \App\Library\Alipay\AlipayClient::getInstance()->verify($data);
