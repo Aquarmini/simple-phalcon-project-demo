@@ -11,6 +11,7 @@ namespace App\Library\Alipay;
 use AopClient;
 use AlipaySystemOauthTokenRequest;
 use AlipayTradeWapPayRequest;
+use AlipayAcquireCreateandpayRequest;
 
 class AlipayClient
 {
@@ -131,6 +132,36 @@ class AlipayClient
 
         // return $this->aopClient->pageExecute($req, "GET");
         return $this->aopClient->pageExecute($req, "POST");
+    }
+
+
+    /**
+     * @desc   代扣签约并扣款
+     * @author limx
+     * @param $returnUrl      签约成功后会把签约结果同步返回给客户端。
+     * @param $requestFromUrl 如果用户中途取消支付会返回该地址(唤起app)。
+     */
+    public function withholdingCreateAndPay($returnUrl, $notifyUrl, $requestFromUrl)
+    {
+        $req = new AlipayAcquireCreateandpayRequest();
+        $data['product_code'] = 'GENERAL_WITHHOLDING';
+        $data['integration_type'] = 'ALIAPP';
+        $data['request_from_url'] = $requestFromUrl;
+        $data['return_url'] = $returnUrl;
+        $data['agreement_sign_parameters'] = [
+            'productCode' => 'GENERAL_WITHHOLDING_P',
+            'notifyUrl' => $notifyUrl,
+            'scene' => 'INDUSTRY|DIGITAL_MEDIA',
+            'externalAgreementNo' => time(),
+        ];
+        $bizContent = json_encode($data);
+
+        $req->setBizContent($bizContent);
+
+        $result = $this->aopClient->execute($req);
+        $responseNode = str_replace(".", "_", $req->getApiMethodName()) . "_response";
+
+        return $result->$responseNode;
     }
 
     public function verify($data)

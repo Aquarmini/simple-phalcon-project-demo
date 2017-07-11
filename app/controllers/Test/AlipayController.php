@@ -17,6 +17,11 @@ class AlipayController extends Controller
         parent::initialize();
     }
 
+    /**
+     * @desc   用户授权信息 个人信息
+     * @author limx
+     * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
+     */
     public function userInfoAction()
     {
         $client = AlipayClient::getInstance();
@@ -39,6 +44,10 @@ class AlipayController extends Controller
         dump($userinfo);
     }
 
+    /**
+     * @desc   支付
+     * @author limx
+     */
     public function paymentAction()
     {
         $client = new AlipayClient();
@@ -48,6 +57,29 @@ class AlipayController extends Controller
 
         echo $res;
     }
+
+    /**
+     * @desc   支付宝代扣 首次签约并扣款
+     * @author limx
+     */
+    public function withholdingAction()
+    {
+        $client = new AlipayClient();
+        $return_url = $this->redirectUrl . "/test/alipay/return";
+        $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
+        $notify_url = $this->redirectUrl . "/test/alipay/notify";
+        $result = $client->withholdingCreateAndPay($return_url, $notify_url, $cancel_url);
+
+        dump($result);
+    }
+
+    public function cancelAction()
+    {
+        $data = $this->request->get();
+        $data['ret'] = "CANCEL";
+        dump($data);
+    }
+
 
     public function returnAction()
     {
