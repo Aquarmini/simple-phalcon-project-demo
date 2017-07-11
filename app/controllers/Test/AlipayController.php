@@ -75,7 +75,8 @@ class AlipayController extends Controller
             $out_trade_no, 0.01, $return_url, $notify_url, $cancel_url
         );
 
-        return $this->response->redirect($redirect_url);
+        echo $redirect_url;
+        // return $this->response->redirect($redirect_url);
     }
 
     public function cancelAction()
