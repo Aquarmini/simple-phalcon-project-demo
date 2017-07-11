@@ -14,6 +14,7 @@ use AlipayTradeWapPayRequest;
 use AlipayAcquireCreateandpayRequest;
 use App\Library\Alipay\Mapi\AlipaySubmit;
 use App\Library\Alipay\Mapi\Config;
+use App\Utils\Log;
 
 class AlipayClient
 {
@@ -134,7 +135,7 @@ class AlipayClient
         $req->setBizContent($bizContent);
         $req->setNotifyUrl($notifyUrl);
         $req->setReturnUrl($returnUrl);
-
+        Log::info($notifyUrl);
         // return $this->aopClient->pageExecute($req, "GET");
         return $this->aopClient->pageExecute($req, "POST");
     }

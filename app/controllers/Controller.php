@@ -23,7 +23,7 @@ abstract class Controller extends \Phalcon\Mvc\Controller
     {
         // 在每一个找到的动作前执行
         $url = $this->request->getURI();
-        Log::info("URI" . $url);
+        Log::info("URI " . $url);
     }
 
     public function afterExecuteRoute()
