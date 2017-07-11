@@ -190,6 +190,31 @@ class AlipayController extends Controller
             $data = $this->request->get();
             Log::info(json_encode($data));
 
+            $trade_no = $this->request->get('trade_no');
+            $subject = $this->request->get('subject');
+            $paytools_pay_amount = $this->request->get('paytools_pay_amount');
+            $buyer_email = $this->request->get('buyer_email');
+            $gmt_create = $this->request->get('gmt_create');
+            $notify_type = $this->request->get('notify_type');
+            $quantity = $this->request->get('quantity');
+            $out_trade_no = $this->request->get('out_trade_no'); // 商户订单号 根据此字段修改订单状态
+            $seller_id = $this->request->get('seller_id');
+            $notify_time = $this->request->get('notify_time');
+            $trade_status = $this->request->get('trade_status'); // 支付状态 TRADE_SUCCESS支付成功
+            $total_fee = $this->request->get('total_fee');
+            $gmt_payment = $this->request->get('gmt_payment');
+            $seller_email = $this->request->get('seller_email');
+            $notify_action_type = $this->request->get('notify_action_type');
+            $price = $this->request->get('price');
+            $buyer_id = $this->request->get('buyer_id');
+            $notify_id = $this->request->get('notify_id');
+            $sign_type = $this->request->get('sign_type');
+            $sign = $this->request->get('sign');
+            if ($trade_status == 'TRADE_SUCCESS') {
+                // 订单逻辑处理
+                Log::info("代扣成功！！！");
+            }
+
             echo "success";
 
 
