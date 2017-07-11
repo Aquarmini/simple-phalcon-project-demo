@@ -214,7 +214,7 @@ class AlipayClient
 
         $config = new Config();
         $alipaySubmit = new AlipaySubmit($config);
-        $html_text = $alipaySubmit->buildRequestForm($data);
+        $html_text = $alipaySubmit->buildRequestHttp($data);
         return $html_text;
     }
 
