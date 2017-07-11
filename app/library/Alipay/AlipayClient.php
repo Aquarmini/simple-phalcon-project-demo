@@ -154,6 +154,7 @@ class AlipayClient
         // &return_url=myapp://result&seller_id=2088101568351631&service=alipay.acquire.page.createandpay
         // &subject=test&total_fee=0.01&sign=53d0e696c8e755199ffa188e3f52b353&sign_type=MD5
 
+
         $gatway_url = 'https://mapi.alipay.com/gateway.do';
         $data['_input_charset'] = $this->postCharset;
         $data['agreement_sign_parameters'] = json_encode([
@@ -173,10 +174,7 @@ class AlipayClient
         $data['service'] = 'alipay.acquire.page.createandpay';
         $data['subject'] = "测试";
         $data['total_fee'] = $totalFee;
-
-
-        $data['sign'] = md5(http_build_query($data));
-        $data['sign_type'] = 'MD5';
+        $data["sign"] = $this->aopClient->generateSign($data, $this->signType);
 
         return $gatway_url . "?" . http_build_query($data);
     }
