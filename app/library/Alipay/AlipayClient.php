@@ -197,7 +197,7 @@ class AlipayClient
         return $html_text;
     }
 
-    public function withholdingPay($outTradeNo, $totalFee, $returnUrl, $notifyUrl)
+    public function withholdingPay($buyerId, $outTradeNo, $totalFee, $returnUrl, $notifyUrl)
     {
         //构造要请求的参数数组，无需改动
         $data['service'] = 'alipay.acquire.createandpay';
@@ -211,6 +211,7 @@ class AlipayClient
         $data['subject'] = '签约并扣款测试';
         $data['product_code'] = 'FINGERPRINT_FAST_PAY';
         $data['total_fee'] = $totalFee;
+        $data['buyer_id'] = $buyerId;
 
         $config = new Config();
         $alipaySubmit = new AlipaySubmit($config);
