@@ -79,6 +79,11 @@ class AlipayController extends Controller
         return $this->response->redirect($result);
     }
 
+    /**
+     * @desc   代扣签约
+     * @author limx
+     * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
+     */
     public function signAction()
     {
         $client = AlipayClient::getInstance();
@@ -94,9 +99,12 @@ class AlipayController extends Controller
         return $this->response->redirect($result);
     }
 
+    /**
+     * @desc   代扣签约回调
+     * @author limx
+     */
     public function signNotifyAction()
     {
-
         $verify_result = AlipayClient::getInstance()->mapiVerify();
 
         if ($verify_result) {//验证成功
@@ -147,19 +155,48 @@ class AlipayController extends Controller
         }
     }
 
+    /**
+     * @desc   代扣
+     * @author limx
+     * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
+     */
     public function withholdingPayAction()
     {
         $client = AlipayClient::getInstance();
 
         $return_url = $this->redirectUrl . "/test/alipay/return";
         $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
-        $notify_url = $this->redirectUrl . "/test/alipay/notify";
+        $notify_url = $this->redirectUrl . "/test/alipay/payNotify";
         $out_trade_no = "ORDER" . uniqid();
-        $aggrement_no = '20170711000398688331'; // 签约返回的NO
+        $aggrement_no = Cache::get('agreement_no'); // 签约返回的NO
         $result = $client->withholdingPay($aggrement_no, $out_trade_no, 0.01, $return_url, $notify_url);
 
         dump($result);
         return $this->response->redirect($result);
+    }
+
+    /**
+     * @desc   代扣回调
+     * @author limx
+     */
+    public function payNotify()
+    {
+        $verify_result = AlipayClient::getInstance()->mapiVerify();
+
+        if ($verify_result) {
+            //验证成功
+            //请在这里加上商户的业务逻辑程序代
+            
+            $data = $this->request->get();
+            Log::info(json_encode($data));
+
+            echo "success";
+
+
+        } else {
+
+            echo "fail";
+        }
     }
 
     public function cancelAction()
