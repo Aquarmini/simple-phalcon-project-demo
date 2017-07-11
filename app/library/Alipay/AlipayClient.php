@@ -180,7 +180,7 @@ class AlipayClient
     public function withholdingSign($returnUrl, $notifyUrl)
     {
         //构造要请求的参数数组，无需改动
-        $data['service'] = 'alipay.acquire.page.createandpay';
+        $data['service'] = 'alipay.dut.customer.agreement.page.sign';
         $data['partner'] = $this->parterId;
         $data['seller_id'] = $this->sellerId;
         $data['_input_charset'] = strtolower($this->postCharset);
