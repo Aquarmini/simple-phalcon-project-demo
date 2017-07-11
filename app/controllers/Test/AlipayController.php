@@ -71,9 +71,24 @@ class AlipayController extends Controller
         $notify_url = $this->redirectUrl . "/test/alipay/notify";
         $out_trade_no = "ORDER" . uniqid();
 
-        $result = $client->withholdingCreateAndPay2(
+        $result = $client->withholdingCreateAndPay(
             $out_trade_no, 0.01, $return_url, $notify_url, $cancel_url
         );
+
+        dump($result);
+        return $this->response->redirect($result);
+    }
+
+    public function signAction()
+    {
+        $client = AlipayClient::getInstance();
+
+        $return_url = $this->redirectUrl . "/test/alipay/return";
+        $cancel_url = $this->redirectUrl . "/test/alipay/cancel";
+        $notify_url = $this->redirectUrl . "/test/alipay/notify";
+        $out_trade_no = "ORDER" . uniqid();
+
+        $result = $client->withholdingSign($return_url, $notify_url);
 
         dump($result);
         return $this->response->redirect($result);

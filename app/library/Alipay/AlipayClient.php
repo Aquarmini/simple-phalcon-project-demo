@@ -139,68 +139,27 @@ class AlipayClient
         return $this->aopClient->pageExecute($req, "POST");
     }
 
-
     /**
      * @desc   代扣签约并扣款
      * @author limx
+     * @param $outTradeNo     订单号
+     * @param $totalFee       费用
      * @param $returnUrl      签约成功后会把签约结果同步返回给客户端。
+     * @param $notifyUrl
      * @param $requestFromUrl 如果用户中途取消支付会返回该地址(唤起app)。
      */
-    public function withholdingCreateAndPay($out_trade_no, $totalFee, $returnUrl, $notifyUrl, $requestFromUrl)
-    {
-        // https://mapi.alipay.com/gateway.do?_input_charset=utf-8
-        // &agreement_sign_parameters={"productCode":"GENERAL_WITHHOLDING_P","scene":"INDUSTRY|GAME_CHARGE"
-        // ,"externalAgreementNo":"201601010001","notifyUrl":"http://test.xxx.com/result/result.ashx"}
-        // &integration_type=ALIAPP&notify_url=http://test.xxx.com/result.aspx&out_trade_no=201601010001x
-        // &partner=2088101568351631&product_code=GENERAL_WITHHOLDING&request_from_url=myapp://result
-        // &return_url=myapp://result&seller_id=2088101568351631&service=alipay.acquire.page.createandpay
-        // &subject=test&total_fee=0.01&sign=53d0e696c8e755199ffa188e3f52b353&sign_type=MD5
-
-
-        $gatway_url = 'https://mapi.alipay.com/gateway.do';
-        $data['_input_charset'] = $this->postCharset;
-        $data['agreement_sign_parameters'] = json_encode([
-            'productCode' => 'GENERAL_WITHHOLDING_P',
-            'scene' => 'INDUSTRY|GAME_CHARGE',
-            'externalAgreementNo' => '201601010001',
-            'notifyUrl' => $notifyUrl,
-        ]);
-        $data['integration_type'] = "ALIAPP";
-        $data['notify_url'] = $notifyUrl;
-        $data['out_trade_no'] = $out_trade_no;
-        $data['partner'] = $this->parterId;
-        $data['product_code'] = 'GENERAL_WITHHOLDING';
-        $data['request_from_url'] = $requestFromUrl;
-        $data['return_url'] = $returnUrl;
-        $data['seller_id'] = $this->sellerId;
-        $data['service'] = 'alipay.acquire.page.createandpay';
-        $data['subject'] = "测试";
-        $data['total_fee'] = $totalFee;
-        $data["sign"] = $this->aopClient->generateSign($data, $this->signType);
-
-        return $gatway_url . "?" . http_build_query($data);
-    }
-
-    /**
-     * @desc   代扣签约并扣款
-     * @author limx
-     * @param $outTradeNo
-     * @param $totalFee
-     * @param $returnUrl
-     * @param $notifyUrl
-     * @param $requestFromUrl
-     */
-    public function withholdingCreateAndPay2($outTradeNo, $totalFee, $returnUrl, $notifyUrl, $requestFromUrl)
+    public function withholdingCreateAndPay($outTradeNo, $totalFee, $returnUrl, $notifyUrl, $requestFromUrl)
     {
         //构造要请求的参数数组，无需改动
         $data['service'] = 'alipay.acquire.page.createandpay';
         $data['partner'] = $this->parterId;
+        $data['seller_id'] = $this->sellerId;
+        $data['_input_charset'] = strtolower($this->postCharset);
+
         $data['out_trade_no'] = $outTradeNo;
         $data['subject'] = '签约并扣款测试';
         $data['product_code'] = 'GENERAL_WITHHOLDING';
         $data['total_fee'] = $totalFee;
-        $data['seller_id'] = $this->sellerId;
-        $data['_input_charset'] = strtolower($this->postCharset);
         $data['return_url'] = $returnUrl;
         $data['notify_url'] = $notifyUrl;
         $data['request_from_url'] = $requestFromUrl;
@@ -218,9 +177,24 @@ class AlipayClient
         return $html_text;
     }
 
-    public function sign($data)
+    public function withholdingSign($returnUrl, $notifyUrl)
     {
+        //构造要请求的参数数组，无需改动
+        $data['service'] = 'alipay.acquire.page.createandpay';
+        $data['partner'] = $this->parterId;
+        $data['seller_id'] = $this->sellerId;
+        $data['_input_charset'] = strtolower($this->postCharset);
+        $data['return_url'] = $returnUrl;
+        $data['notify_url'] = $notifyUrl;
 
+        $data['product_code'] = 'GENERAL_WITHHOLDING_P';
+        $data['access_info'] = json_encode(['channel' => 'WAP']);
+        $data['sign_validity_period'] = '1d'; // 签约有效期 可空
+
+        $config = new Config();
+        $alipaySubmit = new AlipaySubmit($config);
+        $html_text = $alipaySubmit->buildRequestForm($data);
+        return $html_text;
     }
 
     public function verify($data)
