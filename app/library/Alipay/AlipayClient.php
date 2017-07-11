@@ -12,6 +12,8 @@ use AopClient;
 use AlipaySystemOauthTokenRequest;
 use AlipayTradeWapPayRequest;
 use AlipayAcquireCreateandpayRequest;
+use App\Library\Alipay\Mapi\AlipaySubmit;
+use App\Library\Alipay\Mapi\Config;
 
 class AlipayClient
 {
@@ -177,6 +179,43 @@ class AlipayClient
         $data["sign"] = $this->aopClient->generateSign($data, $this->signType);
 
         return $gatway_url . "?" . http_build_query($data);
+    }
+
+    /**
+     * @desc   代扣签约并扣款
+     * @author limx
+     * @param $outTradeNo
+     * @param $totalFee
+     * @param $returnUrl
+     * @param $notifyUrl
+     * @param $requestFromUrl
+     */
+    public function withholdingCreateAndPay2($outTradeNo, $totalFee, $returnUrl, $notifyUrl, $requestFromUrl)
+    {
+        //构造要请求的参数数组，无需改动
+        $data['service'] = 'alipay.acquire.page.createandpay';
+        $data['partner'] = $this->parterId;
+        $data['out_trade_no'] = $outTradeNo;
+        $data['subject'] = '签约并扣款测试';
+        $data['product_code'] = 'GENERAL_WITHHOLDING';
+        $data['total_fee'] = $totalFee;
+        $data['seller_id'] = $this->sellerId;
+        $data['_input_charset'] = strtolower($this->postCharset);
+        $data['return_url'] = $returnUrl;
+        $data['notify_url'] = $notifyUrl;
+        $data['request_from_url'] = $requestFromUrl;
+        $data['integration_type'] = "ALIAPP";
+        $data['agreement_sign_parameters'] = json_encode([
+            'productCode' => 'GENERAL_WITHHOLDING_P',
+            'scene' => 'INDUSTRY|DIGITAL_MEDIA',
+            'externalAgreementNo' => $outTradeNo,
+            'notifyUrl' => $notifyUrl,
+        ]);
+
+        $config = new Config();
+        $alipaySubmit = new AlipaySubmit($config);
+        $html_text = $alipaySubmit->buildRequestForm($data);
+        return $html_text;
     }
 
     public function sign($data)

@@ -71,7 +71,7 @@ class AlipayController extends Controller
         $notify_url = $this->redirectUrl . "/test/alipay/notify";
         $out_trade_no = "ORDER" . uniqid();
 
-        $redirect_url = $client->withholdingCreateAndPay(
+        $redirect_url = $client->withholdingCreateAndPay2(
             $out_trade_no, 0.01, $return_url, $notify_url, $cancel_url
         );
 
