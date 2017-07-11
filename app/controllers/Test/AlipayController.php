@@ -76,7 +76,7 @@ class AlipayController extends Controller
         );
 
         dump($result);
-        // return $this->response->redirect($redirect_url);
+        return $this->response->redirect($result);
     }
 
     public function cancelAction()
