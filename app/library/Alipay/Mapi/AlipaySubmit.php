@@ -186,7 +186,7 @@ class AlipaySubmit
             "_input_charset" => "utf-8"
         );
 
-        var_dump($parameter);
+        dump($parameter);
         //建立请求
         //注意：该功能PHP5环境及以上支持，需开通curl、SSL等PHP配置环境。建议本地调试时使用PHP开发软件
         $xmlstr = $this->buildRequestHttp($parameter);
@@ -194,6 +194,8 @@ class AlipaySubmit
 
         $alipayNotify = new AlipayNotify($this->alipay_config);
         $verify_result = $alipayNotify->verifySign($xmlstr);
+        dump($verify_result);
+
         if ($verify_result) {//验证成功
             //解析XML
             $resParameter = $alipayNotify->getRspFromXML($xmlstr);

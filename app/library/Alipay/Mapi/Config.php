@@ -17,7 +17,7 @@ class Config implements \ArrayAccess
     public function __construct()
     {
         $this->item['partner'] = env('MONSTER_ALIPAY_PID');
-        $this->item['key'] = Str::random(32);
+        $this->item['key'] = env('MONSTER_ALIPAY_MD5_KEY');
         $this->item['seller_id'] = env("MONSTER_ALIPAY_SELLERID");
         $this->item['sign_type'] = strtoupper('MD5');
         $this->item['input_charset'] = strtolower('UTF-8');
