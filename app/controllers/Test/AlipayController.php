@@ -3,6 +3,7 @@
 namespace App\Controllers\Test;
 
 use App\Library\Alipay\AlipayClient;
+use App\Utils\Cache;
 use App\Utils\Log;
 use limx\Support\Str;
 
@@ -105,15 +106,24 @@ class AlipayController extends Controller
             Log::info(json_encode($data));
 
             //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
+            $partner_id = $this->request->get('partner_id');
+            $notify_time = $this->request->get('notify_time');
+            $sign_modify_time = $this->request->get('sign_modify_time');
+            $status = $this->request->get('status');
+            $agreement_no = $this->request->get('agreement_no'); // 签约ID 后面代扣时需要此参数
+            $sign_type = $this->request->get('sign_type');
+            $alipay_user_id = $this->request->get('alipay_user_id'); // 用户支付宝ID
+            $notify_type = $this->request->get('notify_type');
+            $invalid_time = $this->request->get('invalid_time'); // 签约失效时间
+            $sign = $this->request->get('sign');
+            $valid_time = $this->request->get('valid_time'); // 签约时间
+            $product_code = $this->request->get('product_code');
+            $scene = $this->request->get('scene');
+            $notify_id = $this->request->get('notify_id');
+            $sign_time = $this->request->get('sign_time');
 
-            //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
-
-            //支付宝交易号
-
-            $trade_no = $_POST['trade_no'];
-
-            //交易状态
-            $trade_status = $_POST['trade_status'];
+            // 存储签约ID
+            Cache::save('agreement_no', $agreement_no);
 
 
             //判断是否在商户网站中已经做过了这次通知返回的处理
