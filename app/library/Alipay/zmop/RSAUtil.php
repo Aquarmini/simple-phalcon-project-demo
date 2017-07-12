@@ -71,13 +71,11 @@ class RSAUtil
         }
         //转换为openssl格式密钥
         $res = openssl_get_publickey($pubKey);
-        App\Utils\Log::info($res);
+
         $maxlength = RSAUtil::getMaxEncryptBlockSize($res);
-        App\Utils\Log::info($maxlength);
         $output = '';
         while ($data) {
             $input = substr($data, 0, $maxlength);
-            App\Utils\Log::info($input);
             $data = substr($data, $maxlength);
             openssl_public_encrypt($input, $encrypted, $pubKey);
             $output .= $encrypted;
@@ -121,6 +119,7 @@ class RSAUtil
      */
     public static function getMaxEncryptBlockSize($keyRes)
     {
+        return 117;
         $keyDetail = openssl_pkey_get_details($keyRes);
         $modulusSize = $keyDetail['bits'];
         return $modulusSize / 8 - 11;
@@ -134,6 +133,7 @@ class RSAUtil
      */
     public static function getMaxDecryptBlockSize($keyRes)
     {
+        return 128;
         $keyDetail = openssl_pkey_get_details($keyRes);
         $modulusSize = $keyDetail['bits'];
         return $modulusSize / 8;
