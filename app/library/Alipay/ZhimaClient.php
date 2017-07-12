@@ -41,12 +41,12 @@ class ZhimaClient
 
     public function __construct()
     {
-        $this->appId = env("MONSTER_ALIPAY_APPID");
-        $this->redirectUri = env("MONSTER_ALIPAY_REDIRECT_URI");
-        $this->aliPublicKey = env("MONSTER_ALIPAY_ALI_PUBLIC_KEY");
-        $this->appPrivateKey = env("MONSTER_ALIPAY_APP_PRIVATE_KEY");
-        $this->sellerId = env("MONSTER_ALIPAY_SELLERID");
-        $this->parterId = env("MONSTER_ALIPAY_PID");
+        $this->appId = env("MONSTER_ZHIMA_APPID");
+        // $this->redirectUri = env("MONSTER_ALIPAY_REDIRECT_URI");
+        $this->aliPublicKey = env("MONSTER_ZHIMA_ALI_PUBLIC_KEY");
+        $this->appPrivateKey = env("MONSTER_ZHIMA_APP_PRIVATE_KEY");
+        // $this->sellerId = env("MONSTER_ALIPAY_SELLERID");
+        // $this->parterId = env("MONSTER_ALIPAY_PID");
 
         include_once __DIR__ . '/AopSdk.php';
 

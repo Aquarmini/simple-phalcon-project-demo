@@ -3,6 +3,7 @@
 namespace App\Controllers\Test;
 
 use App\Library\Alipay\AlipayClient;
+use App\Library\Alipay\ZhimaClient;
 use App\Utils\Cache;
 use App\Utils\Log;
 use limx\Support\Str;
@@ -229,7 +230,7 @@ class AlipayController extends Controller
 
     public function creditAction()
     {
-        $client = AlipayClient::getInstance();
+        $client = ZhimaClient::getInstance();
         $code = $this->request->get('auth_code');
         if (empty($code)) {
             $redirect_url = $this->redirectUrl . "/test/alipay/credit";
