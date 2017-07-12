@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 namespace App\Library\Alipay;
 
-use AopClient;
+use ZmopClient;
 
 class ZhimaClient
 {
@@ -16,15 +16,15 @@ class ZhimaClient
 
     public $redirectUri;
 
-    public $aliPublicKey;
+    public $aliPublicKeyFile;
 
-    public $appPrivateKey;
+    public $appPrivateKeyFile;
 
     public $sellerId;
 
     public $parterId;
 
-    protected $gatewayUrl = 'https://openapi.alipay.com/gateway.do';
+    protected $gatewayUrl = 'https://zmopenapi.zmxy.com.cn/openapi.do';
 
     protected $signType = 'RSA2';
 
@@ -42,15 +42,12 @@ class ZhimaClient
     public function __construct()
     {
         $this->appId = env("MONSTER_ZHIMA_APPID");
-        // $this->redirectUri = env("MONSTER_ALIPAY_REDIRECT_URI");
-        $this->aliPublicKey = env("MONSTER_ZHIMA_ALI_PUBLIC_KEY");
-        $this->appPrivateKey = env("MONSTER_ZHIMA_APP_PRIVATE_KEY");
-        // $this->sellerId = env("MONSTER_ALIPAY_SELLERID");
-        // $this->parterId = env("MONSTER_ALIPAY_PID");
+        $this->aliPublicKeyFile = ROOT_PATH . '/data/alipay/zhima/ali_public_key.pem';
+        $this->appPrivateKeyFile = ROOT_PATH . '/data/alipay/zhima/rsa_private_key.pem';
 
         include_once __DIR__ . '/AopSdk.php';
 
-        $this->aopClient = $this->getAopClient();
+        $this->aopClient = $this->getZmopClient();
     }
 
     public static function getInstance()
@@ -61,19 +58,15 @@ class ZhimaClient
         return self::$instances;
     }
 
-    public function getAopClient()
+    public function getZmopClient()
     {
-        $aop = new AopClient();
-        $aop->gatewayUrl = $this->gatewayUrl;
-        $aop->appId = $this->appId;
-        $aop->rsaPrivateKey = $this->appPrivateKey;
-        $aop->alipayrsaPublicKey = $this->aliPublicKey;
-        $aop->signType = $this->signType;
-        $aop->postCharset = $this->postCharset;
-        $aop->apiVersion = $this->apiVersion;
-        $aop->format = $this->format;
+        $client = new ZmopClient();
+        $client->gatewayUrl = $this->gatewayUrl;
+        $client->appId = $this->appId;
+        $client->privateKeyFilePath = $this->appPrivateKeyFile;
+        $client->zhiMaPublicKeyFilePath = $this->aliPublicKeyFile;
 
-        return $aop;
+        return $client;
     }
 
     public function getOauthCodeUrl($redirect_uri, $scope = 'auth_user')
