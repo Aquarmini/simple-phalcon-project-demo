@@ -177,7 +177,6 @@ class AlipayController extends Controller
         $result = $client->withholdingPay($aggrement_no, $out_trade_no, 0.01, $return_url, $notify_url);
 
         dump($result);
-        return $this->response->redirect($result);
     }
 
     /**
