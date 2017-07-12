@@ -47,8 +47,10 @@ class ZhimaClient
     public function __construct()
     {
         $this->appId = env("MONSTER_ZHIMA_APPID");
-        $this->aliPublicKeyFile = ROOT_PATH . '/data/alipay/zhima/ali_public_key.pem';
-        $this->appPrivateKeyFile = ROOT_PATH . '/data/alipay/zhima/rsa_private_key.pem';
+        // $this->aliPublicKeyFile = ROOT_PATH . '/data/alipay/zhima/ali_public_key.pem';
+        // $this->appPrivateKeyFile = ROOT_PATH . '/data/alipay/zhima/rsa_private_key.pem';
+        $this->aliPublicKeyFile = env('MONSTER_ZHIMA_ALI_PUBLIC_KEY');
+        $this->appPrivateKeyFile = env('MONSTER_ZHIMA_APP_PRIVATE_KEY');
         $this->aliPublicKey = env('MONSTER_ZHIMA_ALI_PUBLIC_KEY');
         $this->appPrivateKey = env('MONSTER_ZHIMA_APP_PRIVATE_KEY');
 

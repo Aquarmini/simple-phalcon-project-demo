@@ -1,21 +1,26 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: dengpeng.zdp
  * Date: 2015/9/28
  * Time: 19:11
  */
-
-class RSAUtil{
+class RSAUtil
+{
 
     /**
      * 加签
-     * @param $data 要加签的数据
+     * @param $data               要加签的数据
      * @param $privateKeyFilePath 私钥文件路径
      * @return string 签名
      */
-    public static function sign($data, $privateKeyFilePath) {
-        $priKey = file_get_contents($privateKeyFilePath);
+    public static function sign($data, $privateKeyFilePath)
+    {
+        $priKey = $privateKeyFilePath;
+        if (is_file($privateKeyFilePath)) {
+            $priKey = file_get_contents($privateKeyFilePath);
+        }
         $res = openssl_get_privatekey($priKey);
         openssl_sign($data, $sign, $res);
         openssl_free_key($res);
@@ -25,14 +30,18 @@ class RSAUtil{
 
     /**
      * 验签
-     * @param $data 用来加签的数据
-     * @param $sign 加签后的结果
+     * @param $data                 用来加签的数据
+     * @param $sign                 加签后的结果
      * @param $rsaPublicKeyFilePath 公钥文件路径
      * @return bool 验签是否成功
      */
-    public static function verify($data, $sign, $rsaPublicKeyFilePath) {
-        //读取公钥文件
-        $pubKey = file_get_contents($rsaPublicKeyFilePath);
+    public static function verify($data, $sign, $rsaPublicKeyFilePath)
+    {
+        $pubKey = $rsaPublicKeyFilePath;
+        if (is_file($rsaPublicKeyFilePath)) {
+            //读取公钥文件
+            $pubKey = file_get_contents($rsaPublicKeyFilePath);
+        }
 
         //转换为openssl格式密钥
         $res = openssl_get_publickey($pubKey);
@@ -49,47 +58,55 @@ class RSAUtil{
 
     /**
      * rsa加密
-     * @param $data 要加密的数据
+     * @param $data           要加密的数据
      * @param $pubKeyFilePath 公钥文件路径
      * @return string 加密后的密文
      */
-    public static function rsaEncrypt($data, $pubKeyFilePath){
-        //读取公钥文件
-        $pubKey = file_get_contents($pubKeyFilePath);
+    public static function rsaEncrypt($data, $pubKeyFilePath)
+    {
+        $pubKey = $pubKeyFilePath;
+        if (is_file($pubKeyFilePath)) {
+            //读取公钥文件
+            $pubKey = file_get_contents($pubKeyFilePath);
+        }
         //转换为openssl格式密钥
         $res = openssl_get_publickey($pubKey);
 
         $maxlength = RSAUtil::getMaxEncryptBlockSize($res);
-        $output='';
-        while($data){
-            $input= substr($data,0,$maxlength);
-            $data=substr($data,$maxlength);
-            openssl_public_encrypt($input,$encrypted,$pubKey);
-            $output.= $encrypted;
+        $output = '';
+        while ($data) {
+            $input = substr($data, 0, $maxlength);
+            $data = substr($data, $maxlength);
+            openssl_public_encrypt($input, $encrypted, $pubKey);
+            $output .= $encrypted;
         }
-        $encryptedData =  base64_encode($output);
+        $encryptedData = base64_encode($output);
         return $encryptedData;
     }
 
     /**
      * 解密
-     * @param $data 要解密的数据
+     * @param $data               要解密的数据
      * @param $privateKeyFilePath 私钥文件路径
      * @return string 解密后的明文
      */
-    public static function rsaDecrypt($data, $privateKeyFilePath){
-        //读取私钥文件
-        $priKey = file_get_contents($privateKeyFilePath);
+    public static function rsaDecrypt($data, $privateKeyFilePath)
+    {
+        $priKey = $privateKeyFilePath;
+        if (is_file($privateKeyFilePath)) {
+            //读取私钥文件
+            $priKey = file_get_contents($privateKeyFilePath);
+        }
         //转换为openssl格式密钥
         $res = openssl_get_privatekey($priKey);
         $data = base64_decode($data);
         $maxlength = RSAUtil::getMaxDecryptBlockSize($res);
-        $output='';
-        while($data){
-            $input = substr($data,0,$maxlength);
-            $data = substr($data,$maxlength);
-            openssl_private_decrypt($input,$out,$res);
-            $output.=$out;
+        $output = '';
+        while ($data) {
+            $input = substr($data, 0, $maxlength);
+            $data = substr($data, $maxlength);
+            openssl_private_decrypt($input, $out, $res);
+            $output .= $out;
         }
         return $output;
     }
@@ -100,10 +117,11 @@ class RSAUtil{
      * @param $keyRes
      * @return float
      */
-    public static function getMaxEncryptBlockSize($keyRes){
+    public static function getMaxEncryptBlockSize($keyRes)
+    {
         $keyDetail = openssl_pkey_get_details($keyRes);
         $modulusSize = $keyDetail['bits'];
-        return $modulusSize/8 - 11;
+        return $modulusSize / 8 - 11;
     }
 
     /**
@@ -112,9 +130,10 @@ class RSAUtil{
      * @param $keyRes
      * @return float
      */
-    public static function getMaxDecryptBlockSize($keyRes){
+    public static function getMaxDecryptBlockSize($keyRes)
+    {
         $keyDetail = openssl_pkey_get_details($keyRes);
         $modulusSize = $keyDetail['bits'];
-        return $modulusSize/8;
+        return $modulusSize / 8;
     }
 }
