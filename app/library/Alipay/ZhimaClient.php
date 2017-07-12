@@ -60,11 +60,13 @@ class ZhimaClient
 
     public function getZmopClient()
     {
-        $client = new ZmopClient();
-        $client->gatewayUrl = $this->gatewayUrl;
-        $client->appId = $this->appId;
-        $client->privateKeyFilePath = $this->appPrivateKeyFile;
-        $client->zhiMaPublicKeyFilePath = $this->aliPublicKeyFile;
+        $client = new ZmopClient(
+            $this->gatewayUrl,
+            $this->appId,
+            $this->postCharset,
+            $this->appPrivateKeyFile,
+            $this->aliPublicKeyFile
+        );
 
         return $client;
     }
