@@ -36,13 +36,10 @@ $lotusHome = dirname(__FILE__) . DIRECTORY_SEPARATOR . "lotusphp_runtime" . DIRE
 include($lotusHome . "Lotus.php");
 
 $lotus = new Lotus;
-$lotus->option["autoload_dir"] = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'aop';
-$lotus->devMode = AOP_SDK_DEV_MODE;
-$lotus->defaultStoreDir = AOP_SDK_WORK_DIR;
-$lotus->init();
-
-$lotus = new Lotus;
-$lotus->option["autoload_dir"] = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'zmop';
+$lotus->option["autoload_dir"] = [
+    dirname(__FILE__) . DIRECTORY_SEPARATOR . 'aop',
+    dirname(__FILE__) . DIRECTORY_SEPARATOR . 'zmop'
+];
 $lotus->devMode = AOP_SDK_DEV_MODE;
 $lotus->defaultStoreDir = AOP_SDK_WORK_DIR;
 $lotus->init();
