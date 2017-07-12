@@ -9,6 +9,7 @@
 namespace App\Library\Alipay;
 
 use ZmopClient;
+use AopClient;
 
 class ZhimaClient
 {
@@ -19,6 +20,10 @@ class ZhimaClient
     public $aliPublicKeyFile;
 
     public $appPrivateKeyFile;
+
+    public $aliPublicKey;
+
+    public $appPrivateKey;
 
     public $sellerId;
 
@@ -44,8 +49,10 @@ class ZhimaClient
         $this->appId = env("MONSTER_ZHIMA_APPID");
         $this->aliPublicKeyFile = ROOT_PATH . '/data/alipay/zhima/ali_public_key.pem';
         $this->appPrivateKeyFile = ROOT_PATH . '/data/alipay/zhima/rsa_private_key.pem';
+        $this->aliPublicKey = env('MONSTER_ZHIMA_ALI_PUBLIC_KEY');
+        $this->appPrivateKey = env('MONSTER_ZHIMA_APP_PRIVATE_KEY');
 
-        include_once __DIR__ . '/AopSdk.php';
+        include_once __DIR__ . '/ZmopSdk.php';
 
         $this->aopClient = $this->getZmopClient();
     }
@@ -68,48 +75,40 @@ class ZhimaClient
             $this->aliPublicKeyFile
         );
 
+        // $aop = new AopClient();
+        // $aop->gatewayUrl = $this->gatewayUrl;
+        // $aop->appId = $this->appId;
+        // $aop->rsaPrivateKey = $this->appPrivateKey;
+        // $aop->alipayrsaPublicKey = $this->aliPublicKey;
+        // $aop->signType = $this->signType;
+        // $aop->postCharset = $this->postCharset;
+        // $aop->apiVersion = $this->apiVersion;
+        // $aop->format = $this->format;
+
         return $client;
     }
 
-    public function getOauthCodeUrl($redirect_uri, $scope = 'auth_user')
+    public function getAuthInfoByMobile($mobile)
     {
-        $url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?';
-        $params = [
-            'app_id' => $this->appId,
-            'scope' => $scope,
-            'redirect_uri' => $redirect_uri
-        ];
-        return $url . http_build_query($params);
+        $request = new \ZhimaAuthInfoAuthorizeRequest();
+        $request->setChannel("apppc");
+        $request->setPlatform("zmop");
+        $request->setIdentityType("1");// 必要参数
+        $request->setIdentityParam(json_encode([
+            'mobileNo' => $mobile
+        ]));
+        $request->setBizParams(json_encode([
+            'auth_code' => 'M_H5',
+            'channelType' => 'app',
+        ]));
+        $url = $this->aopClient->generatePageRedirectInvokeUrl($request);
+        return $url;
     }
 
-    /**
-     * @desc   获取授权信息
-     * @author limx
-     * @param $authCode
-     * @return \SimpleXMLElement[]
-     */
-    public function getOauthInfo($authCode)
-    {
-        $request = new AlipaySystemOauthTokenRequest();
-        $request->setGrantType("authorization_code");
-        $request->setCode($authCode);
-        $result = $this->aopClient->execute($request);
-        $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
-
-        return $result->$responseNode;
-
-    }
-
-    public function getUserInfo($accessToken)
-    {
-        $request = new \AlipayUserInfoShareRequest();
-        $result = $this->aopClient->execute($request, $accessToken);
-        return $result;
-    }
 
     public function getCreditScore($accessToken)
     {
-        $request = new ZhimaCreditScoreGetRequest();
+        $request = new \ZhimaCreditScoreGetRequest();
         $data['transaction_id'] = Str::random(64);
         $data['product_code'] = 'w1010100100000000001';
         $request->setBizContent(json_encode($data));
