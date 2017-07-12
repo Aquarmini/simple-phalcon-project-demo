@@ -71,11 +71,13 @@ class RSAUtil
         }
         //转换为openssl格式密钥
         $res = openssl_get_publickey($pubKey);
-
+        App\Utils\Log::info($res);
         $maxlength = RSAUtil::getMaxEncryptBlockSize($res);
+        App\Utils\Log::info($maxlength);
         $output = '';
         while ($data) {
             $input = substr($data, 0, $maxlength);
+            App\Utils\Log::info($input);
             $data = substr($data, $maxlength);
             openssl_public_encrypt($input, $encrypted, $pubKey);
             $output .= $encrypted;
