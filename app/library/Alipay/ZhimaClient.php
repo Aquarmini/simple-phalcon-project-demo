@@ -9,7 +9,6 @@
 namespace App\Library\Alipay;
 
 use ZmopClient;
-use AopClient;
 
 class ZhimaClient
 {
@@ -39,7 +38,7 @@ class ZhimaClient
 
     protected $format = 'json';
 
-    protected $aopClient;
+    protected $client;
 
     public static $instances;
 
@@ -47,8 +46,6 @@ class ZhimaClient
     public function __construct()
     {
         $this->appId = env("MONSTER_ZHIMA_APPID");
-        // $this->aliPublicKeyFile = ROOT_PATH . '/data/alipay/zhima/ali_public_key.pem';
-        // $this->appPrivateKeyFile = ROOT_PATH . '/data/alipay/zhima/rsa_private_key.pem';
         $this->aliPublicKeyFile = env('MONSTER_ZHIMA_ALI_PUBLIC_KEY');
         $this->appPrivateKeyFile = env('MONSTER_ZHIMA_APP_PRIVATE_KEY');
         $this->aliPublicKey = env('MONSTER_ZHIMA_ALI_PUBLIC_KEY');
@@ -56,7 +53,7 @@ class ZhimaClient
 
         include_once __DIR__ . '/ZmopSdk.php';
 
-        $this->aopClient = $this->getZmopClient();
+        $this->client = $this->getZmopClient();
     }
 
     public static function getInstance()
@@ -77,16 +74,6 @@ class ZhimaClient
             $this->aliPublicKeyFile
         );
 
-        // $aop = new AopClient();
-        // $aop->gatewayUrl = $this->gatewayUrl;
-        // $aop->appId = $this->appId;
-        // $aop->rsaPrivateKey = $this->appPrivateKey;
-        // $aop->alipayrsaPublicKey = $this->aliPublicKey;
-        // $aop->signType = $this->signType;
-        // $aop->postCharset = $this->postCharset;
-        // $aop->apiVersion = $this->apiVersion;
-        // $aop->format = $this->format;
-
         return $client;
     }
 
@@ -103,10 +90,19 @@ class ZhimaClient
             'auth_code' => 'M_H5',
             'channelType' => 'app',
         ]));
-        $url = $this->aopClient->generatePageRedirectInvokeUrl($request);
+        $url = $this->client->generatePageRedirectInvokeUrl($request);
         return $url;
     }
 
+    public function getAuthInfoResult($params, $sign)
+    {
+        // 判断串中是否有%，有则需要decode
+        $params = strstr($params, '%') ? urldecode($params) : $params;
+        $sign = strstr($sign, '%') ? urldecode($sign) : $sign;
+
+        $result = $this->client->decryptAndVerifySign($params, $sign);
+        return $result;
+    }
 
     public function getCreditScore($accessToken)
     {
@@ -114,14 +110,9 @@ class ZhimaClient
         $data['transaction_id'] = Str::random(64);
         $data['product_code'] = 'w1010100100000000001';
         $request->setBizContent(json_encode($data));
-        $result = $this->aopClient->execute($request, $accessToken);
+        $result = $this->client->execute($request, $accessToken);
         $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
         return $result->$responseNode;
     }
 
-    public function verify($data)
-    {
-        $result = $this->aopClient->rsaCheckV1($data, $this->aliPublicKey, $this->signType);
-        return $result;
-    }
 }

@@ -228,7 +228,7 @@ class AlipayController extends Controller
         }
     }
 
-    public function creditAction()
+    public function zhimaAuthAction()
     {
         $client = ZhimaClient::getInstance();
         $auth_url = $client->getAuthInfoByMobile('18678017521');
@@ -237,6 +237,15 @@ class AlipayController extends Controller
         dump($auth_url);
 
         return $this->response->redirect($auth_url);
+    }
+
+    public function zhimaAuthRetAction()
+    {
+        $params = $this->request->get('params');
+        $sign = $this->request->get('sign');
+
+        $result = ZhimaClient::getInstance()->getAuthInfoResult($params, $sign);
+        dump($result);
     }
 
     public function cancelAction()
