@@ -231,10 +231,12 @@ class AlipayController extends Controller
     public function creditAction()
     {
         $client = ZhimaClient::getInstance();
-        $oauth_info = $client->getAuthInfoByMobile('18678017521');
+        $auth_url = $client->getAuthInfoByMobile('18678017521');
 
         dump($this->request->get());
-        dump($oauth_info);
+        dump($auth_url);
+
+        return $this->response->redirect($auth_url);
     }
 
     public function cancelAction()

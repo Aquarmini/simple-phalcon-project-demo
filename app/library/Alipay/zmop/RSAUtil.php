@@ -17,7 +17,10 @@ class RSAUtil
      */
     public static function sign($data, $privateKeyFilePath)
     {
-        $priKey = $privateKeyFilePath;
+        $priKey = "-----BEGIN RSA PRIVATE KEY-----\n" .
+            wordwrap($privateKeyFilePath, 64, "\n", true) .
+            "\n-----END RSA PRIVATE KEY-----";
+
         if (is_file($privateKeyFilePath)) {
             $priKey = file_get_contents($privateKeyFilePath);
         }
@@ -37,7 +40,9 @@ class RSAUtil
      */
     public static function verify($data, $sign, $rsaPublicKeyFilePath)
     {
-        $pubKey = $rsaPublicKeyFilePath;
+        $pubKey = "-----BEGIN PUBLIC KEY-----\n" .
+            wordwrap($rsaPublicKeyFilePath, 64, "\n", true) .
+            "\n-----END PUBLIC KEY-----";
         if (is_file($rsaPublicKeyFilePath)) {
             //读取公钥文件
             $pubKey = file_get_contents($rsaPublicKeyFilePath);
@@ -64,14 +69,15 @@ class RSAUtil
      */
     public static function rsaEncrypt($data, $pubKeyFilePath)
     {
-        $pubKey = $pubKeyFilePath;
+        $pubKey = "-----BEGIN PUBLIC KEY-----\n" .
+            wordwrap($pubKeyFilePath, 64, "\n", true) .
+            "\n-----END PUBLIC KEY-----";
         if (is_file($pubKeyFilePath)) {
             //读取公钥文件
             $pubKey = file_get_contents($pubKeyFilePath);
         }
         //转换为openssl格式密钥
         $res = openssl_get_publickey($pubKey);
-
         $maxlength = RSAUtil::getMaxEncryptBlockSize($res);
         $output = '';
         while ($data) {
@@ -92,7 +98,9 @@ class RSAUtil
      */
     public static function rsaDecrypt($data, $privateKeyFilePath)
     {
-        $priKey = $privateKeyFilePath;
+        $priKey = "-----BEGIN RSA PRIVATE KEY-----\n" .
+            wordwrap($privateKeyFilePath, 64, "\n", true) .
+            "\n-----END RSA PRIVATE KEY-----";
         if (is_file($privateKeyFilePath)) {
             //读取私钥文件
             $priKey = file_get_contents($privateKeyFilePath);
