@@ -6,6 +6,7 @@ use App\Library\Alipay\AlipayClient;
 use App\Library\Alipay\ZhimaClient;
 use App\Utils\Cache;
 use App\Utils\Log;
+use function GuzzleHttp\Psr7\parse_query;
 use limx\Support\Str;
 
 class AlipayController extends Controller
@@ -244,8 +245,12 @@ class AlipayController extends Controller
         $params = $this->request->get('params');
         $sign = $this->request->get('sign');
 
-        $result = ZhimaClient::getInstance()->getAuthInfoResult($params, $sign);
-        dump($result);
+        $result_str = ZhimaClient::getInstance()->getAuthInfoResult($params, $sign);
+        $result = [];
+        if ($result_str) {
+            parse_str($result_str, $result);
+            dump($result);
+        }
     }
 
     public function cancelAction()
