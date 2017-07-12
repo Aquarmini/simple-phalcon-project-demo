@@ -1,8 +1,7 @@
 <?php
 
-
-include('./RSAUtil.php');
-include('./WebUtil.php');
+include(__DIR__.'/RSAUtil.php');
+include(__DIR__.'/WebUtil.php');
 class ZmopClient {
 	//应用ID
 	public $appId;
