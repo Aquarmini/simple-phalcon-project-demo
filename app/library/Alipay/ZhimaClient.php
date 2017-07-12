@@ -104,15 +104,18 @@ class ZhimaClient
         return $result;
     }
 
-    public function getCreditScore($accessToken)
+    public function getCreditScore($openId)
     {
+        $transaction_id = date("YmdHis") . round(microtime() * 1000) . '0000000000001';
+
         $request = new \ZhimaCreditScoreGetRequest();
-        $data['transaction_id'] = Str::random(64);
-        $data['product_code'] = 'w1010100100000000001';
-        $request->setBizContent(json_encode($data));
-        $result = $this->client->execute($request, $accessToken);
-        $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
-        return $result->$responseNode;
+        $request->setChannel("apppc");
+        $request->setPlatform("zmop");
+        $request->setTransactionId($transaction_id);// 必要参数
+        $request->setProductCode("w1010100100000000001");// 必要参数
+        $request->setOpenId($openId);// 必要参数
+        $response = $this->client->execute($request);
+        return $response;
     }
 
 }

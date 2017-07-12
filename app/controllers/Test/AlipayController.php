@@ -231,6 +231,7 @@ class AlipayController extends Controller
 
     public function zhimaAuthAction()
     {
+        // 芝麻设置回调地址为 zhimaAuthRet
         $client = ZhimaClient::getInstance();
         $auth_url = $client->getAuthInfoByMobile('18678017521');
 
@@ -245,11 +246,24 @@ class AlipayController extends Controller
         $params = $this->request->get('params');
         $sign = $this->request->get('sign');
 
-        $result_str = ZhimaClient::getInstance()->getAuthInfoResult($params, $sign);
+        $client = ZhimaClient::getInstance();
+        $result_str = $client->getAuthInfoResult($params, $sign);
         $result = [];
         if ($result_str) {
             parse_str($result_str, $result);
+            $open_id = $result['open_id'];
+            $error_message = $result['error_message'];
+            $status = $result['status'];
+            $error_code = $result['error_code'];
+            $app_id = $result['app_id'];
+            $success = $result['success'];
             dump($result);
+
+            if ($error_code == 'SUCCESS') {
+                // 获取信用分
+                $result = $client->getCreditScore($open_id);
+                dump($result);
+            }
         }
     }
 
