@@ -56,7 +56,7 @@ class ZhimaClient
     public static function getInstance()
     {
         if (!isset(self::$instances) || !(self::$instances instanceof AlipayClient)) {
-            self::$instances = new AlipayClient();
+            self::$instances = new ZhimaClient();
         }
         return self::$instances;
     }
