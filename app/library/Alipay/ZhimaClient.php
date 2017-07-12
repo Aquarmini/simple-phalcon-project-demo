@@ -30,7 +30,7 @@ class ZhimaClient
 
     protected $gatewayUrl = 'https://zmopenapi.zmxy.com.cn/openapi.do';
 
-    protected $signType = 'RSA2';
+    protected $signType = 'RSA';
 
     protected $postCharset = 'UTF-8';
 
@@ -106,7 +106,8 @@ class ZhimaClient
 
     public function getCreditScore($openId)
     {
-        $transaction_id = date("YmdHis") . round(microtime() * 1000) . '0000000000001';
+        $num = rand(1, 9999999999999);
+        $transaction_id = date("YmdHis") . round(microtime() * 1000) . str_pad($num, 13, '0', STR_PAD_LEFT);
 
         $request = new \ZhimaCreditScoreGetRequest();
         $request->setChannel("apppc");
