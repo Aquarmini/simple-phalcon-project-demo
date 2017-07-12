@@ -127,7 +127,6 @@ class RSAUtil
      */
     public static function getMaxEncryptBlockSize($keyRes)
     {
-        return 117;
         $keyDetail = openssl_pkey_get_details($keyRes);
         $modulusSize = $keyDetail['bits'];
         return $modulusSize / 8 - 11;
@@ -141,7 +140,6 @@ class RSAUtil
      */
     public static function getMaxDecryptBlockSize($keyRes)
     {
-        return 128;
         $keyDetail = openssl_pkey_get_details($keyRes);
         $modulusSize = $keyDetail['bits'];
         return $modulusSize / 8;
