@@ -267,6 +267,28 @@ class AlipayController extends Controller
         }
     }
 
+    public function creditScoreAction()
+    {
+        $client = AlipayClient::getInstance();
+        $code = $this->request->get('auth_code');
+        if (empty($code)) {
+            $redirect_url = $this->redirectUrl . "/test/alipay/creditScore";
+            $url = $client->getOauthCodeUrl($redirect_url);
+            return $this->response->redirect($url);
+        }
+
+        $oauth_info = $client->getOauthInfo($code);
+
+        dump($this->request->get());
+        dump($oauth_info);
+
+        $access_token = $oauth_info->access_token;
+        $user_id = $oauth_info->user_id;
+
+        $result = $client->getCreditScore($user_id);
+        dump($result);
+    }
+
     public function cancelAction()
     {
         $data = $this->request->get();

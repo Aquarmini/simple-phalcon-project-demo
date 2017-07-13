@@ -143,15 +143,24 @@ class AlipayClient
         return $this->aopClient->pageExecute($req, "POST");
     }
 
-    public function getCreditScore($accessToken)
+    public function getCreditScore($userId)
     {
-        $request = new ZhimaCreditScoreGetRequest();
-        $data['transaction_id'] = Str::random(64);
-        $data['product_code'] = 'w1010100100000000001';
-        $request->setBizContent(json_encode($data));
-        $result = $this->aopClient->execute($request, $accessToken);
+        $request = new \ZhimaCreditScoreBriefGetRequest();
+        $num = rand(1, 9999999999999);
+        $transaction_id = date("YmdHis") . round(microtime() * 1000) . str_pad($num, 13, '0', STR_PAD_LEFT);
+
+        $request->setBizContent(json_encode([
+            'transaction_id' => $transaction_id,
+            'product_code' => 'w1010100000000002733',
+            'cert_type' => 'ALIPAY_USER_ID',
+            'cert_no' => $userId,
+            'admittance_score' => 650
+        ]));
+        $result = $this->aopClient->execute($request);
+
         $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
         return $result->$responseNode;
+
     }
 
     /**
