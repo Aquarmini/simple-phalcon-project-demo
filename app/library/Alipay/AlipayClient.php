@@ -209,12 +209,13 @@ class AlipayClient
         $data['notify_url'] = $notifyUrl;
 
         $data['product_code'] = 'GENERAL_WITHHOLDING_P';
-        $data['access_info'] = json_encode(['channel' => 'WAP']);
+        $data['access_info'] = json_encode(['channel' => 'ALIPAYAPP']);
         $data['sign_validity_period'] = '1d'; // 签约有效期 可空
 
         $config = new Config();
         $alipaySubmit = new AlipaySubmit($config);
         $html_text = $alipaySubmit->buildRequestForm($data);
+        Log::info($html_text);
         return $html_text;
     }
 
