@@ -57,7 +57,7 @@ class AlipayController extends Controller
     {
         $client = AlipayClient::getInstance();
         $notify_url = $this->appUrl . "/test/alipay/notify";
-        $return_url = $this->redirectUrl . "/test/alipay/return";
+        $return_url = $this->appUrl . "/test/alipay/return";
         $res = $client->getPaymentOrder("ORDER" . Str::random(12), 0.01, $notify_url, $return_url);
 
         echo $res;
