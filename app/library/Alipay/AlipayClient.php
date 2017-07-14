@@ -220,7 +220,7 @@ class AlipayClient
         $data['product_code'] = 'GENERAL_WITHHOLDING_P';
         // $data['access_info'] = json_encode(['channel' => 'WAP']);
         $data['access_info'] = json_encode(['channel' => 'ALIPAYAPP']);
-        $data['sign_validity_period'] = '1d'; // 签约有效期 可空
+        // $data['sign_validity_period'] = '1d'; // 签约有效期 可空
 
         $config = new Config();
         $alipaySubmit = new AlipaySubmit($config);
