@@ -106,7 +106,7 @@ class ZhimaClient
 
     public function getCreditScore($openId)
     {
-        $num = rand(1, 9999999999999);
+        $num = rand(1, 2147483647);
         $transaction_id = date("YmdHis") . round(microtime() * 1000) . str_pad($num, 13, '0', STR_PAD_LEFT);
 
         $request = new \ZhimaCreditScoreGetRequest();

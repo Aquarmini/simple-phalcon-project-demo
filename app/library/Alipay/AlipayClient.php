@@ -146,7 +146,7 @@ class AlipayClient
     public function getCreditScore($userId)
     {
         $request = new \ZhimaCreditScoreBriefGetRequest();
-        $num = rand(1, 9999999999999);
+        $num = rand(1, 2147483647);
         $transaction_id = date("YmdHis") . round(microtime() * 1000) . str_pad($num, 13, '0', STR_PAD_LEFT);
 
         $request->setBizContent(json_encode([
@@ -255,6 +255,29 @@ class AlipayClient
         // $data['buyer_id'] = $buyerId;
         $data['agreement_info'] = json_encode(['agreement_no' => $aggrementNo]);
 
+        $config = new Config();
+        $alipaySubmit = new AlipaySubmit($config);
+        $xmlstr = $alipaySubmit->buildRequestHttp($data);
+
+        $alipayNotify = new AlipayNotify($config);
+        $verify_result = $alipayNotify->verifySign($xmlstr);
+
+        if ($verify_result) {
+            //解析XML
+            $resParameter = $alipayNotify->getRspFromXML($xmlstr);
+            return $resParameter;
+        }
+        return null;
+    }
+
+    public function withholdingQuery($alipayUserId)
+    {
+        //构造要请求的参数数组，无需改动
+        $data['service'] = 'alipay.dut.customer.agreement.query';
+        $data['partner'] = $this->parterId;
+        $data['_input_charset'] = strtolower($this->postCharset);
+        $data['product_code'] = 'GENERAL_WITHHOLDING_P';
+        $data['alipay_user_id'] = $alipayUserId;
         $config = new Config();
         $alipaySubmit = new AlipaySubmit($config);
         $xmlstr = $alipaySubmit->buildRequestHttp($data);

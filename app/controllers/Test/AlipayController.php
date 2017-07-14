@@ -228,6 +228,29 @@ class AlipayController extends Controller
         }
     }
 
+    public function withholdingQueryAction()
+    {
+        $client = AlipayClient::getInstance();
+        $code = $this->request->get('auth_code');
+        if (empty($code)) {
+            $redirect_url = $this->redirectUrl . "/test/alipay/withholdingQuery";
+            $url = $client->getOauthCodeUrl($redirect_url);
+            return $this->response->redirect($url);
+        }
+
+        $oauth_info = $client->getOauthInfo($code);
+
+        dump($this->request->get());
+        dump($oauth_info);
+
+        $access_token = $oauth_info->access_token;
+        $user_id = $oauth_info->user_id;
+
+        $result = $client->withholdingQuery($user_id);
+        dump($result);
+
+    }
+
     public function zhimaAuthAction()
     {
         $mobile = $this->request->get('mobile');
