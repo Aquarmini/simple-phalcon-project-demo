@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace App\Tasks\Test;
 
+use App\Models\User;
 use App\Models\UserTitle;
 use limx\Support\Str;
 use Phalcon\Cli\Task;
@@ -29,12 +30,20 @@ class MysqlTask extends Task
         echo Color::colorize('  modelSave       通过模型新建数据', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  modelUpdate     通过模型更新数据', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  modelUpdateNoIndex     通过模型更新没有主键的数据', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  modelWrite      写入', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function modelWriteAction()
+    {
+        $user = User::findFirst(1);
+        $user->writeAttribute('email', '715557344@q.com');
+        $user->save();
     }
 
     public function modelUpdateNoIndexAction()
     {
         $res = UserTitle::findFirst([
-            'conditions' => 'uid=?0',
+            'conditions' => 'uid=?0 AND title_id=?1',
             'bind' => [1, 8],
         ]);
         print_r($res->toArray());
