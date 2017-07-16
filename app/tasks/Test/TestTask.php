@@ -31,7 +31,16 @@ class TestTask extends Task
         echo Color::colorize('  callfunc    测试匿名函数传值', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  incubator   测试incubator是否可以与phalcon扩展共用', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  date        YmdHis', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  file        file', Color::FG_GREEN), PHP_EOL;
 
+    }
+
+    public function fileAction()
+    {
+        $arr = ['boot' => 'success'];
+        include ROOT_PATH . '/data/php/arr1.php';
+        include ROOT_PATH . '/data/php/arr2.php';
+        print_r($arr);
     }
 
     public function dateAction()

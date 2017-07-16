@@ -9,7 +9,13 @@ composer.lock
 storage/log/*
 storage/cache/*
 storage/meta/*
+
 data/file
 data/nginx
 data/rsa
 data/ssl
+
+public/dist/
+node_modules/
+package-lock.json
+

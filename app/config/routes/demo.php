@@ -1,22 +1,11 @@
 <?php
-/**
- * 路由文件
- * 必须精确到控制器 App\Controllers\IndexController除外
- */
-$router = new Phalcon\Mvc\Router(false);
-
-$router->add('/:controller/:action/:params', [
-    'namespace' => 'App\Controllers',
-    'controller' => 1,
-    'action' => 2,
-    'params' => 3,
-]);
-
-$router->add('/:controller', [
-    'namespace' => 'App\Controllers',
-    'controller' => 1
-]);
-
+// +----------------------------------------------------------------------
+// | demo.php [ WE CAN DO IT JUST THINK IT ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2016-2017 limingxinleo All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: limx <715557344@qq.com> <https://github.com/limingxinleo>
+// +----------------------------------------------------------------------
 $router->add('/test/:controller/:action/:params', [
     'namespace' => 'App\Controllers\Test',
     'controller' => 1,
@@ -67,5 +56,3 @@ $router->mount($test);
 // 路由命名测试
 $router->add('/route/index/name', 'App\\Controllers\\Route\\Index::name');
 $router->add('/route/index/target', 'App\\Controllers\\Route\\Index::target')->setName('route.index.target');
-
-return $router;
