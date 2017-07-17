@@ -29,6 +29,40 @@ class StrTask extends Task
         echo Color::colorize('  strstr                  检测字符串是否包含另外一个字符串', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  textRandom              Phalcon\\Text随机字符串', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  camelize                大驼峰转化', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  match                   检测字符串是否存在中文', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function matchAction()
+    {
+        $msg = "字符串为 %s, 其中%s";
+
+        $str = '11222djfee';
+        if (preg_match("/[\x7f-\xff]/", $str)) {
+            echo Color::colorize(sprintf($msg, $str, '包含汉字'), Color::FG_GREEN) . PHP_EOL;
+        } else {
+            echo Color::colorize(sprintf($msg, $str, '不包含汉字'), Color::FG_GREEN) . PHP_EOL;
+        }
+
+        $str = '11222djf黎ee';
+        if (preg_match("/[\x7f-\xff]/", $str)) {
+            echo Color::colorize(sprintf($msg, $str, '包含汉字'), Color::FG_GREEN) . PHP_EOL;
+        } else {
+            echo Color::colorize(sprintf($msg, $str, '不包含汉字'), Color::FG_GREEN) . PHP_EOL;
+        }
+
+        $str = '1122 2djf黎ee';
+        if (preg_match("/[ ]/", $str)) {
+            echo Color::colorize(sprintf($msg, $str, '包含空格'), Color::FG_GREEN) . PHP_EOL;
+        } else {
+            echo Color::colorize(sprintf($msg, $str, '不包含空格'), Color::FG_GREEN) . PHP_EOL;
+        }
+
+        $str = '11222djf黎ee';
+        if (preg_match("/[ ]/", $str)) {
+            echo Color::colorize(sprintf($msg, $str, '包含空格'), Color::FG_GREEN) . PHP_EOL;
+        } else {
+            echo Color::colorize(sprintf($msg, $str, '不包含空格'), Color::FG_GREEN) . PHP_EOL;
+        }
     }
 
     public function camelizeAction()
