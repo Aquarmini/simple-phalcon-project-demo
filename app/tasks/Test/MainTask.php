@@ -54,6 +54,7 @@ class MainTask extends Task
         echo Color::colorize('  Test                    其他测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  WeChat                  微信开发测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  Yaml                    Yaml扩展测试', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  Yar                     Yar相关测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  Zip                     Zip相关测试', Color::FG_GREEN), PHP_EOL;
     }
 
