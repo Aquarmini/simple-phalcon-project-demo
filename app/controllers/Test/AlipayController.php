@@ -312,6 +312,35 @@ class AlipayController extends Controller
         dump($result);
     }
 
+    public function fuwuSmsAction()
+    {
+        $config = [
+            'appId' => env('MONSTER_FUWU_APPID'),
+            'aliPublicKey' => env('MONSTER_FUWU_ALI_PUBLIC_KEY'),
+            'appPrivateKey' => env('appPrivateKey')
+        ];
+
+        $client = AlipayClient::getInstance($config);
+
+        $code = $this->request->get('auth_code');
+        if (empty($code)) {
+            $redirect_url = $this->redirectUrl . "/test/alipay/fuwuSms";
+            $url = $client->getOauthCodeUrl($redirect_url);
+            return $this->response->redirect($url);
+        }
+
+        $oauth_info = $client->getOauthInfo($code);
+
+        dump($this->request->get());
+        dump($oauth_info);
+
+        $access_token = $oauth_info->access_token;
+        $user_id = $oauth_info->user_id;
+
+        // $client->sendFuwuMsg();
+
+    }
+
     public function cancelAction()
     {
         $data = $this->request->get();

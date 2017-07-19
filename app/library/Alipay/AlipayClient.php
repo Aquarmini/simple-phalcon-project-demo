@@ -48,24 +48,25 @@ class AlipayClient
     public static $instances;
 
 
-    public function __construct()
+    public function __construct($config = [])
     {
-        $this->appId = env("MONSTER_ALIPAY_APPID");
-        $this->redirectUri = env("MONSTER_ALIPAY_REDIRECT_URI");
-        $this->aliPublicKey = env("MONSTER_ALIPAY_ALI_PUBLIC_KEY");
-        $this->appPrivateKey = env("MONSTER_ALIPAY_APP_PRIVATE_KEY");
-        $this->sellerId = env("MONSTER_ALIPAY_SELLERID");
-        $this->parterId = env("MONSTER_ALIPAY_PID");
+        $this->appId = $config['appId'] ?? env("MONSTER_ALIPAY_APPID");
+        $this->redirectUri = $config['redirectUri'] ?? env("MONSTER_ALIPAY_REDIRECT_URI");
+        $this->aliPublicKey = $config['aliPublicKey'] ?? env("MONSTER_ALIPAY_ALI_PUBLIC_KEY");
+        $this->appPrivateKey = $config['appPrivateKey'] ?? env("MONSTER_ALIPAY_APP_PRIVATE_KEY");
+        $this->sellerId = $config['sellerId'] ?? env("MONSTER_ALIPAY_SELLERID");
+        $this->parterId = $config['parterId'] ?? env("MONSTER_ALIPAY_PID");
+        $this->signType = $config['signType'] ?? 'RSA2';
 
         include_once __DIR__ . '/AopSdk.php';
 
         $this->aopClient = $this->getAopClient();
     }
 
-    public static function getInstance()
+    public static function getInstance($config = [])
     {
         if (!isset(self::$instances) || !(self::$instances instanceof AlipayClient)) {
-            self::$instances = new AlipayClient();
+            self::$instances = new AlipayClient($config);
         }
         return self::$instances;
     }
