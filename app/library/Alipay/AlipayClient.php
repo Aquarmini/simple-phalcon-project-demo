@@ -168,7 +168,7 @@ class AlipayClient
     {
         $data['to_user_id'] = $userId;
         $data['template'] = [
-            'template_id' => '',
+            'template_id' => '0949435a14944dbba45247490429b156',
             'context' => [
                 'head_color' => '#85be53',
                 'url' => 'http://m.baidu.com',

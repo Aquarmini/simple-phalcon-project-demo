@@ -312,7 +312,7 @@ class AlipayController extends Controller
         dump($result);
     }
 
-    public function fuwuSmsAction()
+    public function sendSingleMessageAction()
     {
         $config = [
             'appId' => env('MONSTER_FUWU_APPID'),
