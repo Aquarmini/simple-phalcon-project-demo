@@ -324,7 +324,7 @@ class AlipayController extends Controller
 
         $code = $this->request->get('auth_code');
         if (empty($code)) {
-            $redirect_url = $this->redirectUrl . "/test/alipay/fuwuSms";
+            $redirect_url = $this->redirectUrl . "/test/alipay/sendSingleMessage";
             $url = $client->getOauthCodeUrl($redirect_url);
             return $this->response->redirect($url);
         }
