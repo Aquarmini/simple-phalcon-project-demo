@@ -164,6 +164,45 @@ class AlipayClient
 
     }
 
+    public function sendSingleMessage($userId, $template)
+    {
+        $data['to_user_id'] = $userId;
+        $data['template'] = [
+            'template_id' => '',
+            'context' => [
+                'head_color' => '#85be53',
+                'url' => 'http://m.baidu.com',
+                'action_name' => '查看详情',
+                'first' => [
+                    'color' => '#85be53',
+                    'value' => '测试信息',
+                ],
+                'keyword1' => [
+                    'color' => '#85be53',
+                    'value' => '测试信息',
+                ],
+                'keyword2' => [
+                    'color' => '#85be53',
+                    'value' => '测试信息',
+                ],
+                'keyword3' => [
+                    'color' => '#85be53',
+                    'value' => '测试信息',
+                ],
+                'remark' => [
+                    'color' => '#85be53',
+                    'value' => '测试信息',
+                ],
+            ],
+        ];
+        $request = new \AlipayOpenPublicMessageSingleSendRequest();
+        $request->setBizContent(json_encode($data));
+        $result = $this->aopClient->execute($request);
+
+        $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
+        return $result->$responseNode;
+    }
+
     /**
      * @desc   代扣签约并扣款
      * @author limx

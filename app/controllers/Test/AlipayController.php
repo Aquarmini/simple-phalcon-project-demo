@@ -337,7 +337,8 @@ class AlipayController extends Controller
         $access_token = $oauth_info->access_token;
         $user_id = $oauth_info->user_id;
 
-        // $client->sendFuwuMsg();
+        $result = $client->sendSingleMessage($user_id, []);
+        dump($result);
 
     }
 
