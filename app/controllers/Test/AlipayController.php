@@ -317,7 +317,7 @@ class AlipayController extends Controller
         $config = [
             'appId' => env('MONSTER_FUWU_APPID'),
             'aliPublicKey' => env('MONSTER_FUWU_ALI_PUBLIC_KEY'),
-            'appPrivateKey' => env('appPrivateKey')
+            'appPrivateKey' => env('MONSTER_FUWU_APP_PRIVATE_KEY')
         ];
 
         $client = AlipayClient::getInstance($config);
