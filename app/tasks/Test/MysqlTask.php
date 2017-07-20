@@ -31,6 +31,18 @@ class MysqlTask extends Task
         echo Color::colorize('  modelUpdate     通过模型更新数据', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  modelUpdateNoIndex     通过模型更新没有主键的数据', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  modelWrite      写入', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  modelUpdateOnly 只写入某些字段', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function modelUpdateOnlyAction()
+    {
+        $user = User::findFirst([
+            'order' => 'id DESC'
+        ]);
+        $res = $user->updateOnly([
+            'username' => uniqid(),
+        ]);
+        print_r($res);
     }
 
     public function modelWriteAction()
