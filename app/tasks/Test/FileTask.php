@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace App\Tasks\Test;
 
+use App\Utils\DB;
 use App\Utils\Log;
 use App\Utils\Redis;
 use Phalcon\Cli\Task;
@@ -27,8 +28,27 @@ class FileTask extends Task
         echo Color::colorize('  save        文件存储', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  csv         CSV文件解析', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  csvVol      CSV文件电压解析', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  csvCity     City文件解析', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  log         日志存储', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  image       图片裁剪', Color::FG_GREEN), PHP_EOL;
+    }
+
+    public function csvCityAction()
+    {
+        $file = fopen(ROOT_PATH . '/data/file/city_no.csv', 'r');
+        while ($data = fgetcsv($file)) { //每次读取CSV里面的一行内容
+            //print_r($data); //此为一个数组，要获得每一个数据，访问数组下标即可
+            $city_lists[] = $data;
+        }
+
+        $sql = "INSERT INTO city_no (city,`no`) VALUES(?,?);";
+        foreach ($city_lists as $item) {
+            if ($item[0] > 0 && $item[1] && $item[4]) {
+                DB::execute($sql, [$item[1], $item[4]]);
+            }
+        }
+
+        fclose($file);
     }
 
     public function imageAction()
