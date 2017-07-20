@@ -194,6 +194,12 @@ class ArrayTask extends Task
             return ($var & 1);
         })), Color::FG_LIGHT_GREEN), PHP_EOL;
 
+        $res = array_filter($arr, function ($var) {
+            return ($var > 4);
+        });
+
+        print_r($res);
+
     }
 
     public function fillAction($params)
