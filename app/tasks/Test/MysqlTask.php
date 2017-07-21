@@ -42,6 +42,10 @@ class MysqlTask extends Task
         $res = $user->updateOnly([
             'username' => uniqid(),
         ]);
+        
+        $res = $user->updateOnly([
+            'name' => uniqid(),
+        ]);
         print_r($res);
     }
 
