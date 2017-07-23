@@ -3,6 +3,7 @@
 namespace App\Controllers\Test;
 
 use App\Controllers\Controller;
+use Emojione\Emojione;
 
 class ViewController extends Controller
 {
@@ -59,6 +60,12 @@ class ViewController extends Controller
     public function vueAction()
     {
         return $this->view->render('test/view', 'vue');
+    }
+
+    public function emojiAction()
+    {
+        $client = Emojione::getClient();
+        echo $client->shortnameToImage(':beers:');
     }
 
 }
