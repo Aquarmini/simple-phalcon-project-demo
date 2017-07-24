@@ -31,6 +31,22 @@ class FileTask extends Task
         echo Color::colorize('  csvCity     City文件解析', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  log         日志存储', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  image       图片裁剪', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  writeCsv    写入csv文件', Color::FG_GREEN), PHP_EOL;
+
+    }
+
+    public function writeCsvAction()
+    {
+        $file = ROOT_PATH . '/storage/output/' . date('Ymd') . '/';
+        if (!is_dir($file)) {
+            mkdir($file, 0777, true);
+        }
+        $file .= 'write_csv.csv';
+        $fp = fopen($file, 'a');
+        for ($i = 0; $i < 10; $i++) {
+            fputcsv($fp, [$i, uniqid(), time()]);
+        }
+        fclose($fp);
     }
 
     public function csvCityAction()
