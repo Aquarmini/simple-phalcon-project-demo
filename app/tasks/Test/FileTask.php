@@ -32,7 +32,20 @@ class FileTask extends Task
         echo Color::colorize('  log         日志存储', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  image       图片裁剪', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  writeCsv    写入csv文件', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  writeExcel  写入excel文件', Color::FG_GREEN), PHP_EOL;
+    }
 
+    public function writeExcelAction()
+    {
+        $data = [
+            ['ID', 'NAME', 'SEX'],
+            [1, 'limx', '男'],
+            [2, 'lmx', '男'],
+            [3, 'Agnes', '女']
+        ];
+        $file = ROOT_PATH . '/storage/output/test';
+        \limx\Utils\Facades\Excel::sheet(0)->title('测试')
+            ->create($data)->store($file, 'xls');
     }
 
     public function writeCsvAction()
