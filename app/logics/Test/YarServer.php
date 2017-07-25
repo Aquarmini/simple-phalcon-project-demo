@@ -20,6 +20,16 @@ class YarServer
         return ['param' => $parameter, 'option' => $option];
     }
 
+    public function run($params = [])
+    {
+        foreach ($params['key'] as $item) {
+            foreach ($params['val'] as $item2) {
+
+            }
+        }
+        return true;
+    }
+
     protected function client_can_not_see()
     {
 
