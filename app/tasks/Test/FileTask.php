@@ -11,6 +11,7 @@ namespace App\Tasks\Test;
 use App\Utils\DB;
 use App\Utils\Log;
 use App\Utils\Redis;
+use limx\Utils\Facades\Excel;
 use Phalcon\Cli\Task;
 use limx\phalcon\Cli\Color;
 
@@ -43,9 +44,9 @@ class FileTask extends Task
             [2, 'lmx', '男'],
             [3, 'Agnes', '女']
         ];
-        $file = ROOT_PATH . '/storage/output/test';
-        \limx\Utils\Facades\Excel::sheet(0)->title('测试')
-            ->create($data)->store($file, 'xls');
+        $path = ROOT_PATH . '/storage/output/';
+        $name = 'test';
+        Excel::sheet(0)->title('测试')->create($data)->store($name, $path, 'xls');
     }
 
     public function writeCsvAction()
