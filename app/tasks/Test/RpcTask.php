@@ -2,11 +2,18 @@
 
 namespace App\Tasks\Test;
 
+use App\Logics\Test\ThriftRegister;
 use limx\phalcon\Cli\Color;
 use limx\Support\Str;
 use Yar_Client;
 
-class YarTask extends \Phalcon\Cli\Task
+use Thrift\Protocol\TBinaryProtocol;
+use Thrift\Transport\TSocket;
+use Thrift\Transport\THttpClient;
+use Thrift\Transport\TBufferedTransport;
+use Thrift\Exception\TException;
+
+class RpcTask extends \Phalcon\Cli\Task
 {
 
     public function mainAction()
@@ -17,19 +24,38 @@ class YarTask extends \Phalcon\Cli\Task
         }
 
         echo Color::head('Help:') . PHP_EOL;
-        echo Color::colorize('  Yar扩展测试') . PHP_EOL . PHP_EOL;
+        echo Color::colorize('  Rpc扩展测试') . PHP_EOL . PHP_EOL;
 
         echo Color::head('Usage:') . PHP_EOL;
         echo Color::colorize('  php run Test\\\\Yar [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         echo Color::head('Actions:') . PHP_EOL;
-        echo Color::colorize('  hello       调用hello方法', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  yar         调用hello方法', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  run         数据量极大的RPC调用', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  thrift      调用hello方法', Color::FG_GREEN) . PHP_EOL;
+
     }
 
-    public function helloAction()
+    public function thriftAction()
     {
-        $client = new Yar_Client("http://demo.phalcon.app/test/yar");
+        ThriftRegister::register();
+        $socket = new THttpClient('demo.phalcon.app', 80, '/test/rpc/thrift');
+        // $socket = new TSocket('localhost', 9090);
+
+        $transport = new TBufferedTransport($socket, 1024, 1024);
+        $protocol = new TBinaryProtocol($transport);
+        $client = new \HelloThrift\HelloServiceClient($protocol);
+
+        $transport->open();
+
+        echo $client->sayHello(" World! ");
+
+        $transport->close();
+    }
+
+    public function yarAction()
+    {
+        $client = new Yar_Client("http://demo.phalcon.app/test/rpc/yar");
         /* the following setopt is optinal */
         $client->SetOpt(YAR_OPT_CONNECT_TIMEOUT, 1000);
 
