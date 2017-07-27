@@ -4,8 +4,14 @@ namespace App\Models\RedisModel;
 
 use limx\utils\RedisModel\Model;
 
-class BaseModel extends Model
+class User2 extends Model
 {
+    protected $key = 'redisdmodel:user:{id}';
+
+    protected $type = 'hash';
+
+    protected $fillable = ['id', 'username', 'name'];
+
     protected function initRedisClient($parameters, $options)
     {
         if (!isset($parameters['host'])) {
@@ -31,8 +37,9 @@ class BaseModel extends Model
     {
         $info = array_intersect_key($data, array_flip((array)$this->fillable));
         $data = array_merge(array_fill_keys($this->fillable, ''), $info);
-        return $this->create($primaryKey, $data);
+        return $this->create($primaryKey, $data, 60);
     }
+
 
     public function destroy($primaryKey)
     {
@@ -40,11 +47,12 @@ class BaseModel extends Model
             $primaryKey = [$primaryKey];
         }
 
-        return $this->whereIn($this->primaryFieldName, $primaryKey)->delete();
+        return $this->whereIn('id', $primaryKey)->delete();
     }
 
     public function flushAll()
     {
         return $this->delete();
     }
+
 }

@@ -51,6 +51,9 @@ class RedisTask extends Task
         $info = \App\Models\User::findFirst(1)->toArray();
         $model = new \App\Models\RedisModel\User();
         echo $model->replace(1, $info);
+
+        $model = new \App\Models\RedisModel\User2();
+        echo $model->replace(1, $info);
     }
 
     public function withtimeAction()
