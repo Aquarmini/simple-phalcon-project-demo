@@ -2,9 +2,7 @@
 
 namespace App\Models\RedisModel;
 
-use limx\utils\RedisModel\Model;
-
-class User2 extends Model
+class User2 extends BaseModel
 {
     protected $key = 'redisdmodel:user:{id}';
 
@@ -32,27 +30,4 @@ class User2 extends Model
 
         parent::initRedisClient($parameters, $options);
     }
-
-    public function replace($primaryKey, $data)
-    {
-        $info = array_intersect_key($data, array_flip((array)$this->fillable));
-        $data = array_merge(array_fill_keys($this->fillable, ''), $info);
-        return $this->create($primaryKey, $data, 60);
-    }
-
-
-    public function destroy($primaryKey)
-    {
-        if (!is_array($primaryKey)) {
-            $primaryKey = [$primaryKey];
-        }
-
-        return $this->whereIn('id', $primaryKey)->delete();
-    }
-
-    public function flushAll()
-    {
-        return $this->delete();
-    }
-
 }

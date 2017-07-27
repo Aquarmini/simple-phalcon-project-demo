@@ -22,7 +22,7 @@
 		"illuminate/support": "^5.4",
 		"overtrue/wechat": "~3.1",
 		"pimple/pimple": "^3.0",
-		"limingxinleo/redis-model": "^0.0.1",
+		"limingxinleo/redis-model": "^0.1.0",
 		"limingxinleo/utils-curl": "^0.1.1",
 		"hightman/xunsearch": "^1.4",
 		"limingxinleo/support-str": "^1.0",
