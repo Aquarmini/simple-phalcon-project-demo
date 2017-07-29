@@ -27,6 +27,8 @@ class QueueTask extends \App\Tasks\System\QueueTask
     // 等待时间
     protected $waittime = 1;
 
+    protected $processHandleMaxNumber = 10;
+
     protected function redisClient()
     {
         return Redis::getInstance('127.0.0.1', '910123');
@@ -45,9 +47,9 @@ class QueueTask extends \App\Tasks\System\QueueTask
     protected function handle($data)
     {
         echo Color::success($data);
-        if (rand(1, 100) < 10) {
-            throw new Exception("BUG");
-        }
+        // if (rand(1, 100) < 10) {
+        //     throw new Exception("BUG");
+        // }
         Log::info($data);
     }
 
@@ -70,6 +72,11 @@ class QueueTask extends \App\Tasks\System\QueueTask
             ];
             $redis->zadd($this->delayKey, time() + 10, json_encode($data));
         }
+    }
+
+    protected function quit()
+    {
+        echo Color::colorize('子进程退出！', Color::FG_LIGHT_CYAN) . PHP_EOL;
     }
 
 }
