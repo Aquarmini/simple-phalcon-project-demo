@@ -56,3 +56,4 @@ $router->mount($test);
 // 路由命名测试
 $router->add('/route/index/name', 'App\\Controllers\\Route\\Index::name');
 $router->add('/route/index/target', 'App\\Controllers\\Route\\Index::target')->setName('route.index.target');
+$router->add('/test/index/debug/{token}', 'App\\Controllers\\Test\\Index::debug');

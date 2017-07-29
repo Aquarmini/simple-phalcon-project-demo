@@ -2,6 +2,7 @@
 //declare(strict_types = 1);
 namespace App\Controllers\Test;
 
+use App\Models\Role;
 use App\Utils\Debug;
 use App\Utils\Log;
 use App\Utils\Redis;
@@ -27,6 +28,17 @@ class IndexController extends Controller
     {
         exit;
         echo phpinfo();
+    }
+
+    public function debugAction($token)
+    {
+        dump($token);
+
+        $user = User::find()->toArray();
+        dump($user);
+
+        $role = Role::find()->toArray();
+        dump($role);
     }
 
     public function macAction()
