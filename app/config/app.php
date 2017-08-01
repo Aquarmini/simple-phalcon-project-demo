@@ -11,7 +11,7 @@ return [
     'project-name' => 'limx-phalcon-project',
     // 定时执行的脚本
     'cron-tasks' => [
-        ['task' => 'Test\\Test', 'action' => 'sleep', 'params' => [2], 'schedule' => ['everyMinute', []]],
+        ['task' => 'Test\\Test', 'action' => 'sleep', 'params' => [2], 'schedule' => ['hourly', []]],
         // ['task' => 'System\\Clear', 'action' => 'view', 'params' => ['yes'], 'schedule' => ['dailyAt', [2, 0]]],
     ],
     'error-code' => [
