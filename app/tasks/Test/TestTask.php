@@ -129,6 +129,7 @@ class TestTask extends Task
 
     public function sleepAction($params)
     {
+        print_r($params);
         $time = 5;
         if (count($params) > 0) {
             $time = intval($params[0]);
