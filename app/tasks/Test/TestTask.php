@@ -32,6 +32,20 @@ class TestTask extends Task
         echo Color::colorize('  incubator   测试incubator是否可以与phalcon扩展共用', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  date        YmdHis', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  file        file', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  stdClass    stdClass用法', Color::FG_GREEN), PHP_EOL;
+
+    }
+
+    public function stdClassAction()
+    {
+        $obj = new \stdClass();
+        $obj->success = true;
+        $obj->model = new \stdClass();
+        $obj->model->isOk = true;
+        $obj->model->name = 'limx';
+        $obj->model->sex = 1;
+
+        print_r($obj);
 
     }
 
