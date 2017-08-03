@@ -33,7 +33,21 @@ class TestTask extends Task
         echo Color::colorize('  date        YmdHis', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  file        file', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  stdClass    stdClass用法', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  json        json编码', Color::FG_GREEN), PHP_EOL;
 
+    }
+
+    public function jsonAction()
+    {
+        $arr = [
+            'code' => 1,
+            'msg' => '哈哈哈',
+            'data' => [1, 2, 'lalala'],
+        ];
+
+        echo json_encode($arr) . PHP_EOL;
+        echo json_encode($arr, JSON_UNESCAPED_UNICODE) . PHP_EOL;
+        echo json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . PHP_EOL;
     }
 
     public function stdClassAction()
