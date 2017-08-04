@@ -12,8 +12,6 @@
     "require": {
         "php": ">=5.6",
         "ext-phalcon": "^3.0",
-        "limingxinleo/phalcon-utils": "dev-master",
-        "vlucas/phpdotenv": "^2.4",
         "limingxinleo/limx-redis": "^1.0",
         "endroid/qrcode": "^1.7",
         "limingxinleo/limx-pdo": "^1.2",
@@ -33,7 +31,9 @@
         "phpoffice/phpexcel": "^1.8",
         "limingxinleo/utils-excel": "^0.0.1",
         "apache/thrift": "^0.10.0",
-        "limingxinleo/support-schedule": "^0.0.2"
+        "limingxinleo/support-schedule": "^0.0.2",
+        "limingxinleo/phalcon-utils": "^1.3.1",
+        "vlucas/phpdotenv": "^2.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.6",
