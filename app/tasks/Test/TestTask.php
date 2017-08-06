@@ -53,8 +53,10 @@ class TestTask extends Task
     public function stdClassAction()
     {
         $obj = new \stdClass();
+        print_r(empty($obj));
         $obj->success = true;
         $obj->model = new \stdClass();
+        print_r(empty($obj->model));
         $obj->model->isOk = true;
         $obj->model->name = 'limx';
         $obj->model->sex = 1;
