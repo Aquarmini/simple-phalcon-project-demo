@@ -31,12 +31,12 @@ class QueueTask extends \App\Tasks\System\QueueTask
 
     protected function redisClient()
     {
-        return Redis::getInstance('127.0.0.1', '910123');
+        return Redis::getInstance(env('REDIS_HOST'), env('REDIS_AUTH'));
     }
 
     protected function redisChildClient()
     {
-        return Redis::getInstance('127.0.0.1', '910123', 0, 6379, uniqid());
+        return Redis::getInstance(env('REDIS_HOST'), env('REDIS_AUTH'), 0, 6379, uniqid());
     }
 
     /**
