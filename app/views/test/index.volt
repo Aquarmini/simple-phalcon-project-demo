@@ -57,6 +57,7 @@
                 <a type="button" class="btn btn-default" href="{{ url('test/view/vue') }}">vue支持</a>
                 <a type="button" class="btn btn-default" href="{{ url('test/view/emoji') }}">Emoji表情测试</a>
                 <a type="button" class="btn btn-default" href="{{ url('test/index/debug/adkkkdfsdf') }}">DEBUG</a>
+                <a type="button" class="btn btn-default" href="{{ url('test/index/request') }}">请求参数详解</a>
 
             </div>
             <div class="col-md-12">
