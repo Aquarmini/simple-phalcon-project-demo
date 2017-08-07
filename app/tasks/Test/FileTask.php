@@ -34,6 +34,19 @@ class FileTask extends Task
         echo Color::colorize('  image       图片裁剪', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  writeCsv    写入csv文件', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  writeExcel  写入excel文件', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  mkdir       mkdir编码', Color::FG_GREEN), PHP_EOL;
+    }
+
+    public function mkdirAction()
+    {
+        $dir = ROOT_PATH . '/storage/test';
+        mkdir($dir, 0777, true);
+        echo '新建完毕' . PHP_EOL;
+        file_put_contents(
+            $dir . '/t.log',
+            date('Y-m-d H:i:s') . PHP_EOL,
+            FILE_APPEND
+        );
     }
 
     public function writeExcelAction()
