@@ -23,6 +23,7 @@ class Test implements JobInterface
     public function handle()
     {
         Log::info($this->msg);
+        echo $this->msg . PHP_EOL;
     }
 
 }
