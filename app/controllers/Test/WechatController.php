@@ -3,6 +3,7 @@
 namespace App\Controllers\Test;
 
 use App\Controllers\Controller;
+use EasyWeChat\Foundation\Application;
 
 class WechatController extends Controller
 {
@@ -19,7 +20,7 @@ class WechatController extends Controller
 
     public function indexAction()
     {
-        $config = app('easywechat');
+        $config = app('easywechat')->toArray();
         dump($config);
         $app = new Application($config);
         $response = $app->oauth->scopes(['snsapi_userinfo'])->redirect();
