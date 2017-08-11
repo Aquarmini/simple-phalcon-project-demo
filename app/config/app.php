@@ -29,8 +29,8 @@ return [
         /**
          * 账号基本信息，请从微信公众平台/开放平台获取
          */
-        'app_id' => env('WECHAT_APPID', 'your-app-id'),         // AppID
-        'secret' => env('WECHAT_APPSECRET', 'your-app-secret'),     // AppSecret
+        'app_id' => env('MONSTER_WECHAT_APPID', 'your-app-id'),         // AppID
+        'secret' => env('MONSTER_WECHAT_SECRET', 'your-app-secret'),     // AppSecret
         'token' => 'your-token',          // Token
         'aes_key' => '',                    // EncodingAESKey，安全模式下请一定要填写！！！
         /**
@@ -60,8 +60,8 @@ return [
          * 微信支付
          */
         'payment' => [
-            'merchant_id' => 'your-mch-id',
-            'key' => 'key-for-signature',
+            'merchant_id' => env('MONSTER_WECHAT_MCHID', 'your-mch-id'),
+            'key' => env('MONSTER_WECHAT_KEY', 'key-for-signature'),
             'cert_path' => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
             'key_path' => 'path/to/your/key',      // XXX: 绝对路径！！！！
             // 'device_info'     => '013467007045764',
