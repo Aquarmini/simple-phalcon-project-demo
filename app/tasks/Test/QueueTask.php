@@ -14,7 +14,7 @@ use limx\phalcon\Redis;
 use limx\phalcon\Cli\Color;
 use Phalcon\Exception;
 
-class QueueTask extends \App\Tasks\System\QueueTask
+class QueueTask extends \App\Tasks\System\Queue
 {
     // 最大进程数
     protected $maxProcesses = 2;
