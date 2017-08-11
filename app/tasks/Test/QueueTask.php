@@ -9,7 +9,9 @@
 
 namespace App\Tasks\Test;
 
+use App\Jobs\Test;
 use App\Utils\Log;
+use App\Utils\Queue;
 use limx\phalcon\Redis;
 use limx\phalcon\Cli\Color;
 use Phalcon\Exception;
@@ -71,6 +73,19 @@ class QueueTask extends \App\Tasks\System\Queue
                 'data' => 'delay queue',
             ];
             $redis->zadd($this->delayKey, time() + 10, json_encode($data));
+        }
+    }
+
+    public function addDefaultAction()
+    {
+        for ($i = 0; $i < 100; $i++) {
+            $msg = 'push handle id= ' . $i . PHP_EOL;
+            Queue::push(new Test($msg));
+        }
+
+        for ($i = 0; $i < 10; $i++) {
+            $msg = 'delay handle id= ' . $i . PHP_EOL;
+            Queue::delay(new Test($msg), 10);
         }
     }
 
