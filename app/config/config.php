@@ -26,7 +26,7 @@ return new Config(
         | This value is version for this project.
         |
         */
-        'version' => '1.10.4',
+        'version' => '1.10.5',
 
         /*
         |--------------------------------------------------------------------------
@@ -250,6 +250,7 @@ return new Config(
         'queue' => [
             'key' => env('QUEUE_KEY', 'phalcon:queue:default'),
             'delay_key' => env('QUEUE_DELAY_KEY', 'phalcon:queue:delay'),
+            'error_key' => env('QUEUE_ERROR_KEY', 'phalcon:queue:error'),
         ],
 
         /*
