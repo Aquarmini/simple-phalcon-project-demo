@@ -5,7 +5,7 @@ namespace App\Tasks;
 use App\Tasks\System\Queue;
 use limx\phalcon\Cli\Color;
 use limx\phalcon\Redis;
-use Phalcon\Exception;
+use Exception;
 
 class QueueTask extends Queue
 {

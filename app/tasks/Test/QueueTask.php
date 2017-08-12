@@ -10,6 +10,7 @@
 namespace App\Tasks\Test;
 
 use App\Jobs\Test;
+use App\Jobs\TestFailed;
 use App\Utils\Log;
 use App\Utils\Queue;
 use limx\phalcon\Redis;
@@ -86,6 +87,11 @@ class QueueTask extends \App\Tasks\System\Queue
         for ($i = 0; $i < 10; $i++) {
             $msg = 'delay handle id= ' . $i . PHP_EOL;
             Queue::delay(new Test($msg), 10);
+        }
+
+        for ($i = 0; $i < 10; $i++) {
+            $msg = 'error handle id= ' . $i . PHP_EOL;
+            Queue::push(new TestFailed($msg));
         }
     }
 
