@@ -44,6 +44,16 @@ class RedisTask extends Task
         echo Color::colorize('  luasha1         lua脚本evalsha操作方法', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  withtime        写入数据同时设置超时时间', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  model           RedisModel测试', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  zadd            Zadd测试', Color::FG_GREEN), PHP_EOL;
+    }
+
+    public function zaddAction()
+    {
+        $key = 'zset:key';
+        \App\Utils\Redis::zadd($key, time(), uniqid());
+
+        $res = \App\Utils\Redis::zrevrange($key, 0, 1, true);
+        dump($res);
     }
 
     public function modelAction()
