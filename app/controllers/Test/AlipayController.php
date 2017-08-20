@@ -72,6 +72,16 @@ class AlipayController extends Controller
         echo $res;
     }
 
+    public function refundAction()
+    {
+        $order_no = Redis::hget(Sys::REDIS_KEY_ALIPAY_PAYMENT, 'order_no');
+        $money = Redis::hget(Sys::REDIS_KEY_ALIPAY_PAYMENT, 'money');
+
+        $client = AlipayClient::getInstance();
+        $res = $client->refund($order_no, $money);
+        dump($res);
+    }
+
     /**
      * @desc   支付宝代扣 首次签约并扣款
      * @author limx
