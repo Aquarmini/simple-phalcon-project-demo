@@ -115,6 +115,12 @@ class AlipayClient
 
     }
 
+    /**
+     * @desc   用户信息
+     * @author limx
+     * @param $accessToken
+     * @return bool|mixed|\SimpleXMLElement
+     */
     public function getUserInfo($accessToken)
     {
         $request = new \AlipayUserInfoShareRequest();
@@ -144,6 +150,12 @@ class AlipayClient
         return $this->aopClient->pageExecute($req, "POST");
     }
 
+    /**
+     * @desc   获取芝麻信用
+     * @author limx
+     * @param $userId
+     * @return \SimpleXMLElement[]
+     */
     public function getCreditScore($userId)
     {
         $request = new \ZhimaCreditScoreBriefGetRequest();
@@ -196,6 +208,28 @@ class AlipayClient
             ],
         ];
         $request = new \AlipayOpenPublicMessageSingleSendRequest();
+        $request->setBizContent(json_encode($data));
+        $result = $this->aopClient->execute($request);
+
+        $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
+        return $result->$responseNode;
+    }
+
+    /**
+     * @desc   退款
+     * @author limx
+     * @param $outTradeNo
+     * @param $refundAmount
+     * @return \SimpleXMLElement[]
+     */
+    public function refund($outTradeNo, $refundAmount)
+    {
+        $request = new \AlipayTradeRefundRequest();
+        $data = [
+            'out_trade_no' => $outTradeNo,
+            'refund_amount' => $refundAmount,
+            'refund_reason' => '测试退款',
+        ];
         $request->setBizContent(json_encode($data));
         $result = $this->aopClient->execute($request);
 
