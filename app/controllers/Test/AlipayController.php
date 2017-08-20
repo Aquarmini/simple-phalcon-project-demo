@@ -8,7 +8,6 @@ use App\Sys;
 use App\Utils\Cache;
 use App\Utils\Log;
 use App\Utils\Redis;
-use function GuzzleHttp\Psr7\parse_query;
 use limx\Support\Str;
 
 class AlipayController extends Controller
@@ -72,6 +71,10 @@ class AlipayController extends Controller
         echo $res;
     }
 
+    /**
+     * @desc   退款方法
+     * @author limx
+     */
     public function refundAction()
     {
         $order_no = Redis::hget(Sys::REDIS_KEY_ALIPAY_PAYMENT, 'order_no');
