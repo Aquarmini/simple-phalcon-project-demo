@@ -4,8 +4,10 @@ namespace App\Controllers\Test;
 
 use App\Library\Alipay\AlipayClient;
 use App\Library\Alipay\ZhimaClient;
+use App\Sys;
 use App\Utils\Cache;
 use App\Utils\Log;
+use App\Utils\Redis;
 use function GuzzleHttp\Psr7\parse_query;
 use limx\Support\Str;
 
@@ -58,7 +60,14 @@ class AlipayController extends Controller
         $client = AlipayClient::getInstance();
         $notify_url = $this->appUrl . "/test/alipay/notify";
         $return_url = $this->appUrl . "/test/alipay/return";
-        $res = $client->getPaymentOrder("ORDER" . Str::random(12), 0.01, $notify_url, $return_url);
+
+        $order_no = "TEST" . Str::random(12);
+        $money = 0.01;
+
+        Redis::hset(Sys::REDIS_KEY_ALIPAY_PAYMENT, 'order_no', $order_no);
+        Redis::hset(Sys::REDIS_KEY_ALIPAY_PAYMENT, 'money', $money);
+
+        $res = $client->getPaymentOrder($order_no, $money, $notify_url, $return_url);
 
         echo $res;
     }

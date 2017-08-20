@@ -133,11 +133,11 @@ class AlipayClient
      * @author limx
      * @return string|\提交表单HTML文本
      */
-    public function getPaymentOrder($order_no, $real_price, $notifyUrl, $returnUrl)
+    public function getPaymentOrder($orderNo, $realPrice, $notifyUrl, $returnUrl)
     {
         $req = new AlipayTradeWapPayRequest();
-        $data['out_trade_no'] = $order_no;
-        $data['total_amount'] = $real_price;
+        $data['out_trade_no'] = $orderNo;
+        $data['total_amount'] = $realPrice;
         $data['subject'] = '测试支付';
         $data['seller_id'] = $this->sellerId;
         $data['product_code'] = 'QUICK_WAP_PAY';
