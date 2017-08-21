@@ -16,10 +16,10 @@ class DelaySync implements JobInterface
     public function handle()
     {
         if (Redis::incr('phalcon:test:delay:jobs') < 5) {
-            //     // Log::info('delaying...');
-            //     // echo 'delaying...' . PHP_EOL;
-            //     // Queue::delay(new static(), 1);
-            //     // return;
+            Log::info('delaying...');
+            echo 'delaying...' . PHP_EOL;
+            Queue::delay(new static(), 1);
+            return;
         }
         echo 'handle...' . PHP_EOL;
         Log::info('handle...');
