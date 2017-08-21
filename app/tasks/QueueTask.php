@@ -29,7 +29,7 @@ class QueueTask extends Queue
     protected function redisClient()
     {
         $config = di('config')->redis;
-        return Redis::getInstance($config->host, $config->auth, $config->index, $config->port);
+        return Redis::getInstance($config->host, $config->auth, $config->index, $config->port, 'queue');
     }
 
     protected function redisChildClient()
