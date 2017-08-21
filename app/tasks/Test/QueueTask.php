@@ -9,6 +9,7 @@
 
 namespace App\Tasks\Test;
 
+use App\Jobs\DelaySync;
 use App\Jobs\Test;
 use App\Jobs\TestFailed;
 use App\Utils\Log;
@@ -93,6 +94,11 @@ class QueueTask extends \App\Tasks\System\Queue
             $msg = 'error handle id= ' . $i . PHP_EOL;
             Queue::push(new TestFailed($msg));
         }
+    }
+
+    public function addDefaultDelayAction()
+    {
+        Queue::push(new DelaySync());
     }
 
     protected function quit()
