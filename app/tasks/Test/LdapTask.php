@@ -66,7 +66,7 @@ class LdapTask extends Task
         $user = $client->query($this->baseDn, "(&(objectClass={$objectClass})(gidNumber=10093))")
             ->execute()
             ->toArray();
-        
+
         $res = $user[0]->getAttributes();
         print_r($res);
     }
