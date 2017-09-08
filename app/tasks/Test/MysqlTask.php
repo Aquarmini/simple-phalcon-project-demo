@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace App\Tasks\Test;
 
+use App\Models\Title;
 use App\Models\User;
 use App\Models\UserTitle;
 use App\Utils\DB;
@@ -40,11 +41,17 @@ class MysqlTask extends Task
     public function builderAction()
     {
         $res = $this->modelsManager->createBuilder()
-            ->addFrom(User::class)
+            ->addFrom(User::class, 'u')
+            // ->columns('u.id,ut.uid,t.name')
+            ->leftJoin(UserTitle::class, "u.id = ut.uid", 'ut')
+            ->leftJoin(Title::class, 'ut.title_id = t.id', 't')
+            ->where("u.id = ?0")
             ->getQuery()
-            ->execute();
+            ->execute([1]);
+
         foreach ($res as $item) {
-            dd($item->username);
+            dd($item);
+            dd($item->user_title->toArray());
         }
     }
 
