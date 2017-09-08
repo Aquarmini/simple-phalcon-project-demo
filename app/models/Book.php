@@ -67,7 +67,12 @@ class Book extends Model
 
     public function initialize()
     {
-        $this->belongsTo('uid', 'App\\Models\\User', 'id', ['alias' => 'user']);
+        $this->belongsTo(
+            'uid',
+            User::class,
+            'id',
+            ['alias' => 'user', 'reusable' => true]
+        );
     }
 
     /**

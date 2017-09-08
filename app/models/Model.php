@@ -9,9 +9,11 @@
 namespace App\Models;
 
 use limx\phalcon\Logger\Sys as LogSys;
+use Xin\Phalcon\Mvc\Model\EagerLoadingTrait;
 
 abstract class Model extends \Phalcon\Mvc\Model
 {
+    use EagerLoadingTrait;
 
     /**
      * Initialize method for model.

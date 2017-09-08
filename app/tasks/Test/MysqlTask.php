@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace App\Tasks\Test;
 
+use App\Models\Book;
 use App\Models\Title;
 use App\Models\User;
 use App\Models\UserTitle;
@@ -36,6 +37,34 @@ class MysqlTask extends Task
         echo Color::colorize('  modelUpdateOnly 只写入某些字段', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  testIn          测试In的效率', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  builder         测试builder', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  relation        测试relation', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  eager           测试eager', Color::FG_GREEN) . PHP_EOL;
+
+    }
+
+    public function eagerAction()
+    {
+        $user = User::with('book', [
+            'conditions' => 'id IN (1,2)'
+        ]);
+        foreach ($user as $v) {
+            foreach ($v->book as $b) {
+                dump($b->toArray());
+            }
+        }
+    }
+
+    public function relationAction()
+    {
+        $books = Book::find([
+            'conditions' => 'id IN (?0,?1,?2,?3,?4)',
+            'bind' => [14, 20, 23, 25, 5]
+        ]);
+
+        foreach ($books as $v) {
+            $t = $v->user;
+        }
+        dd($books->toArray());
     }
 
     public function builderAction()
@@ -48,6 +77,14 @@ class MysqlTask extends Task
             ->where("u.id = ?0")
             ->getQuery()
             ->execute([1]);
+
+        $res2 = $this->modelsManager->createBuilder()->from(User::class)
+            ->inWhere('id', [1, 2])
+            ->getQuery()
+            ->execute()
+            ->toArray();
+
+        dd($res2);
 
         foreach ($res as $item) {
             dd($item);

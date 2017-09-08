@@ -46,5 +46,10 @@
             "php -r \"copy('.env.example', '.env');\"",
             "php run"
         ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Xin\\Phalcon\\": "limingxinleo/phalcon-eager-loading/src"
+        }
     }
 }
