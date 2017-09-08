@@ -10,6 +10,7 @@ namespace App\Tasks\Test;
 
 use App\Models\User;
 use App\Models\UserTitle;
+use App\Utils\DB;
 use limx\Support\Str;
 use Phalcon\Cli\Task;
 use limx\phalcon\Cli\Color;
@@ -32,6 +33,26 @@ class MysqlTask extends Task
         echo Color::colorize('  modelUpdateNoIndex     通过模型更新没有主键的数据', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  modelWrite      写入', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  modelUpdateOnly 只写入某些字段', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  testIn          测试In的效率', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function modelListAction()
+    {
+        $ids = [];
+        for ($i = 0; $i < 5000; $i++) {
+            $ids[] = rand(0, 327310);
+        }
+        $sql = "SELECT id,user_login FROM test_sphinx WHERE id IN (" . implode(',', $ids) . ")";
+        $time = microtime(true);
+        DB::query($sql);
+        echo Color::colorize("Query 50000 By In Time=" . (microtime(true) - $time), Color::FG_GREEN) . PHP_EOL;
+
+        // $sql = "SELECT id,user_login FROM test_sphinx WHERE id = ?";
+        // $time = microtime(true);
+        // foreach ($ids as $id) {
+        //     DB::fetch($sql, [$id]);
+        // }
+        // echo Color::colorize("Query 50000 By = Time=" . (microtime(true) - $time), Color::FG_GREEN) . PHP_EOL;
     }
 
     public function modelUpdateOnlyAction()
@@ -42,7 +63,7 @@ class MysqlTask extends Task
         $res = $user->updateOnly([
             'username' => uniqid(),
         ]);
-        
+
         $res = $user->updateOnly([
             'name' => uniqid(),
         ]);
