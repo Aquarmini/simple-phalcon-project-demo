@@ -34,6 +34,18 @@ class MysqlTask extends Task
         echo Color::colorize('  modelWrite      写入', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  modelUpdateOnly 只写入某些字段', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  testIn          测试In的效率', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  builder         测试builder', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function builderAction()
+    {
+        $res = $this->modelsManager->createBuilder()
+            ->addFrom(User::class)
+            ->getQuery()
+            ->execute();
+        foreach ($res as $item) {
+            dd($item->username);
+        }
     }
 
     public function modelListAction()
