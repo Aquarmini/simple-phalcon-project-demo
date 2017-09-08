@@ -47,12 +47,16 @@ class MysqlTask extends Task
         DB::query($sql);
         echo Color::colorize("Query 50000 By In Time=" . (microtime(true) - $time), Color::FG_GREEN) . PHP_EOL;
 
-        // $sql = "SELECT id,user_login FROM test_sphinx WHERE id = ?";
-        // $time = microtime(true);
-        // foreach ($ids as $id) {
-        //     DB::fetch($sql, [$id]);
-        // }
-        // echo Color::colorize("Query 50000 By = Time=" . (microtime(true) - $time), Color::FG_GREEN) . PHP_EOL;
+        $str = '';
+        foreach ($ids as $id) {
+            $str .= ' id = ' . $id . ' OR';
+        }
+        $where = rtrim($str, 'OR');
+        $sql = "SELECT id,user_login FROM test_sphinx WHERE " . $where;
+        $time = microtime(true);
+        DB::query($sql);
+
+        echo Color::colorize("Query 50000 By OR Time=" . (microtime(true) - $time), Color::FG_GREEN) . PHP_EOL;
     }
 
     public function modelUpdateOnlyAction()
