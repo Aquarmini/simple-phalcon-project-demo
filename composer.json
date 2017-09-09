@@ -49,7 +49,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Xin\\Phalcon\\": "limingxinleo/phalcon-eager-loading/src"
+            "Xin\\Phalcon\\": "limingxinleo/x-phalcon-console/src"
         }
     }
 }
