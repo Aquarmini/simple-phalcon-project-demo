@@ -38,16 +38,15 @@ ini_set('date.timezone', $config->timezone);
  */
 $di = (new DI($config))->getDI();
 
-$console = $di->getShared('console');
+$console = $di->getShared('xconsole');
 
 try {
 
     /**
      * Handle
      */
-    // $console->handle($arguments);
-    $xconsole = new \Xin\Phalcon\Cli\XConsole($di);
-    $xconsole->handle($argv);
+    $console->handle($argv);
+
     /**
      * If configs is set to true, then we print a new line at the end of each execution
      *

@@ -26,7 +26,7 @@ return new Config(
         | This value is version for this project.
         |
         */
-        'version' => '1.10.8',
+        'version' => '1.10.9',
 
         /*
         |--------------------------------------------------------------------------
@@ -280,6 +280,7 @@ return new Config(
             'cli' => [
                 'dispatcher' => App\Services\Cli\Dispatcher::class,
                 'console' => App\Services\Cli\Console::class,
+                'xconsole' => App\Services\Cli\XConsole::class,
             ],
             'http' => [
                 'router' => App\Services\Http\Router::class,
