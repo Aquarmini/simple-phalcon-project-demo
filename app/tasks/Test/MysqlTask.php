@@ -56,6 +56,13 @@ class MysqlTask extends Task
 
     public function relationAction()
     {
+        $user = User::findFirst(1);
+        $user->book;
+
+        $user = User::findFirst(1);
+        $user->book;
+        dd(1);
+
         $books = Book::find([
             'conditions' => 'id IN (?0,?1,?2,?3,?4)',
             'bind' => [14, 20, 23, 25, 5]
@@ -64,6 +71,7 @@ class MysqlTask extends Task
         foreach ($books as $v) {
             $t = $v->user;
         }
+
         dd($books->toArray());
     }
 

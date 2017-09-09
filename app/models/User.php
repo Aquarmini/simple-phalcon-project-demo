@@ -98,7 +98,7 @@ class User extends Model
 
     public function initialize()
     {
-        $this->hasMany('id', 'App\\Models\\Book', 'uid', ['alias' => 'book']);
+        $this->hasMany('id', 'App\\Models\\Book', 'uid', ['alias' => 'book', 'reusable' => true]);
         $this->hasManyToMany(
             'id',
             'App\\Models\\UserTitle', 'uid', 'title_id',
