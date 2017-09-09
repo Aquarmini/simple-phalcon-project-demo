@@ -17,7 +17,6 @@ use limx\Support\Str;
 use Phalcon\Cli\Task;
 use limx\phalcon\Cli\Color;
 use App\Logics\Test;
-use Xin\Phalcon\Mvc\Model\EagerLoading\QueryBuilder;
 
 class MysqlTask extends Task
 {
