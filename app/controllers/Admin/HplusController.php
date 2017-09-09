@@ -2,10 +2,10 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\ControllerBase;
+use App\Controllers\Controller;
 use App\Models\Test\User;
 
-class HplusController extends ControllerBase
+class HplusController extends Controller
 {
 
     public function indexAction()
