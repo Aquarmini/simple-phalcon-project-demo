@@ -17,6 +17,7 @@ use limx\Support\Str;
 use Phalcon\Cli\Task;
 use limx\phalcon\Cli\Color;
 use App\Logics\Test;
+use Xin\Phalcon\Mvc\Model\EagerLoading\QueryBuilder;
 
 class MysqlTask extends Task
 {
@@ -44,7 +45,7 @@ class MysqlTask extends Task
 
     public function eagerAction()
     {
-        $user = User::with('book', [
+        $user = User::with(['book'], [
             'conditions' => 'id IN (1,2)'
         ]);
         foreach ($user as $v) {

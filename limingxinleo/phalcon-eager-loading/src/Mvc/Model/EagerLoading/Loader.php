@@ -11,13 +11,13 @@ class Loader
 {
     const E_INVALID_SUBJECT = 'Expected value of `subject` is either a ModelInterface object, a Simple object or an array of ModelInterface objects';
 
-    /** @var ModelInterface[] */
+    /** @var ModelInterface[] 原模型实例数组 */
     protected $subject;
-    /** @var string */
+    /** @var string 模型类名 */
     protected $subjectClassName;
-    /** @var array */
+    /** @var array 需要Eager加载的实例 */
     protected $eagerLoads;
-    /** @var boolean */
+    /** @var boolean 是否返回一个模型 */
     protected $mustReturnAModel;
 
     /**
@@ -25,63 +25,58 @@ class Loader
      * @param array                                  $arguments
      * @throws \InvalidArgumentException
      */
+
     public function __construct($from, ...$arguments)
     {
         $error = false;
-        $className = NULL;
-
-        if (!$from instanceof ModelInterface) {
-            if (!$from instanceof Simple) {
-                if (($fromType = gettype($from)) !== 'array') {
-                    if (NULL !== $from && $fromType !== 'boolean') {
-                        $error = TRUE;
-                    } else {
-                        $from = NULL;
-                    }
-                } else {
-                    $from = array_filter($from);
-
-                    if (empty ($from)) {
-                        $from = NULL;
-                    } else {
-                        foreach ($from as $el) {
-                            if ($el instanceof ModelInterface) {
-                                if ($className === NULL) {
-                                    $className = get_class($el);
-                                } else {
-                                    if ($className !== get_class($el)) {
-                                        $error = TRUE;
-                                        break;
-                                    }
-                                }
-                            } else {
-                                $error = TRUE;
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
-                $prev = $from;
-                $from = [];
-
-                foreach ($prev as $record) {
-                    $from[] = $record;
-                }
-
-                if (empty ($from)) {
-                    $from = NULL;
-                } else {
-                    $className = get_class($record);
-                }
-            }
-
-            $this->mustReturnAModel = false;
-        } else {
+        $className = null;
+        if ($from instanceof ModelInterface) {
             $className = get_class($from);
             $from = [$from];
 
-            $this->mustReturnAModel = TRUE;
+            $mustReturnAModel = true;
+        } else if ($from instanceof Simple) {
+            $from = $this->SimpleToArray($from);
+
+            if (empty ($from)) {
+                $from = null;
+            } else {
+                $className = get_class($from[0]);
+            }
+
+            $mustReturnAModel = false;
+
+        } else if (($fromType = gettype($from)) !== 'array') {
+            if (null !== $from && $fromType !== 'boolean') {
+                $error = true;
+            } else {
+                $from = null;
+            }
+            $mustReturnAModel = false;
+
+        } else {
+            $from = array_filter($from);
+
+            if (empty ($from)) {
+                $from = null;
+            } else {
+                foreach ($from as $el) {
+                    if ($el instanceof ModelInterface) {
+                        if ($className === null) {
+                            $className = get_class($el);
+                        } else {
+                            if ($className !== get_class($el)) {
+                                $error = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        $error = true;
+                        break;
+                    }
+                }
+            }
+            $mustReturnAModel = false;
         }
 
         if ($error) {
@@ -90,7 +85,23 @@ class Loader
 
         $this->subject = $from;
         $this->subjectClassName = $className;
-        $this->eagerLoads = ($from === NULL || empty ($arguments)) ? [] : static::parseArguments($arguments);
+        $this->eagerLoads = ($from === null || empty ($arguments)) ? [] : static::parseArguments($arguments);
+        $this->mustReturnAModel = $mustReturnAModel;
+    }
+
+    /**
+     * @desc   把Simple集合转化为数组
+     * @author limx
+     * @param Simple $from
+     */
+    private function SimpleToArray(Simple $from): array
+    {
+        $prev = $from;
+        $from = [];
+        foreach ($prev as $record) {
+            $from[] = $record;
+        }
+        return $from;
     }
 
     /**
@@ -159,7 +170,7 @@ class Loader
     {
         $ret = $this->subject;
 
-        if (NULL !== $ret && $this->mustReturnAModel) {
+        if (null !== $ret && $this->mustReturnAModel) {
             $ret = $ret[0];
         }
 
@@ -192,17 +203,17 @@ class Loader
         if (count($arguments) === 1 && isset ($arguments[0]) && is_array($arguments[0])) {
             foreach ($arguments[0] as $relationAlias => $queryConstraints) {
                 if (is_string($relationAlias)) {
-                    $relations[$relationAlias] = is_callable($queryConstraints) ? $queryConstraints : NULL;
+                    $relations[$relationAlias] = is_callable($queryConstraints) ? $queryConstraints : null;
                 } else {
                     if (is_string($queryConstraints)) {
-                        $relations[$queryConstraints] = NULL;
+                        $relations[$queryConstraints] = null;
                     }
                 }
             }
         } else {
             foreach ($arguments as $relationAlias) {
                 if (is_string($relationAlias)) {
-                    $relations[$relationAlias] = NULL;
+                    $relations[$relationAlias] = null;
                 }
             }
         }
@@ -219,7 +230,7 @@ class Loader
      * @param null|callable $constraints
      * @return $this
      */
-    public function addEagerLoad($relationAlias, callable $constraints = NULL)
+    public function addEagerLoad($relationAlias, callable $constraints = null)
     {
         if (!is_string($relationAlias)) {
             throw new \InvalidArgumentException(sprintf(
@@ -309,7 +320,7 @@ class Loader
                 }
 
                 $parent = $nestingLevel > 0 ? $eagerLoads[$parentName] : $this;
-                $constraints = $nestingLevel + 1 === $nestingLevels ? $queryConstraints : NULL;
+                $constraints = $nestingLevel + 1 === $nestingLevels ? $queryConstraints : null;
 
                 $eagerLoads[$name] = new EagerLoad($relation, $constraints, $parent);
             } while (++$nestingLevel < $nestingLevels);
