@@ -34,7 +34,14 @@ class TestTask extends Task
         echo Color::colorize('  file        file', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  stdClass    stdClass用法', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  json        json编码', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  exception   exception测试', Color::FG_GREEN), PHP_EOL;
 
+    }
+
+    public function exceptionAction()
+    {
+        dd(new \ErrorException('11',1,0,'aa',12));
+        dd(new \ErrorException('11', 1, 0, 'aaa', 12, 0));
     }
 
     public function jsonAction()
