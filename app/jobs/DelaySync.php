@@ -9,16 +9,19 @@ use App\Utils\Redis;
 
 class DelaySync implements JobInterface
 {
-    public function __construct()
+    public $count;
+
+    public function __construct($count = 0)
     {
+        $this->count = $count;
     }
 
     public function handle()
     {
-        if (Redis::incr('phalcon:test:delay:jobs') < 5) {
+        if ($this->count < 5) {
             Log::info('delaying...');
-            echo 'delaying...' . PHP_EOL;
-            Queue::delay(new static(), 1);
+            echo $this->count . 'delaying...' . PHP_EOL;
+            Queue::delay(new static(++$this->count), 1);
             return;
         }
         echo 'handle...' . PHP_EOL;

@@ -10,6 +10,7 @@
 namespace App\Tasks\Test;
 
 use App\Jobs\DelaySync;
+use App\Jobs\ErrorSync;
 use App\Jobs\Test;
 use App\Jobs\TestFailed;
 use App\Utils\Log;
@@ -99,6 +100,11 @@ class QueueTask extends \App\Tasks\System\Queue
     public function addDefaultDelayAction()
     {
         Queue::push(new DelaySync());
+    }
+
+    public function addDefaultErrorAction()
+    {
+        Queue::push(new ErrorSync());
     }
 
     protected function quit()
