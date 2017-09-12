@@ -2,11 +2,8 @@
 
 namespace App\Controllers\Test;
 
-use App\Traits\System\Response;
-
 class Controller extends \App\Controllers\Controller
 {
-    use Response;
     protected $settings = [];
 
     protected $host;
