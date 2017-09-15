@@ -32,7 +32,7 @@ abstract class Socket extends Task
             'backlog' => 128,
         ));
 
-        $server->on('Connect', function (swoole_server $server, $fd, $from_id) {
+        $server->on('connect', function (swoole_server $server, $fd, $from_id) {
             /**
              * $request->fd     客户端的socket id
              * $request->header 请求的头文件
@@ -42,7 +42,7 @@ abstract class Socket extends Task
             $this->connect($server, $fd, $from_id);
         });
 
-        $server->on('Receive', function (swoole_server $server, $fd, $reactor_id, $data) {
+        $server->on('receive', function (swoole_server $server, $fd, $reactor_id, $data) {
             /**
              * $frame->fd       客户端的socket id，使用$server->push推送数据时需要用到
              * $frame->data     数据内容，可以是文本内容也可以是二进制数据，可以通过opcode的值来判断
@@ -52,7 +52,7 @@ abstract class Socket extends Task
             $this->receive($server, $fd, $reactor_id, $data);
         });
 
-        $server->on('Close', function (swoole_server $server, $fd, $reactorId) {
+        $server->on('close', function (swoole_server $server, $fd, $reactorId) {
             /**
              * $fd 客户端的socket id，使用$server->push推送数据时需要用到
              */
