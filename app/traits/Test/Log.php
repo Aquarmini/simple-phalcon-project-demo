@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace App\Traits\Test;
 
-use limx\phalcon\Logger;
+use Xin\Phalcon\Logger;
 
 trait Log
 {
