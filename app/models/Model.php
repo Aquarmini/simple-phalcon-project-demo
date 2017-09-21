@@ -8,8 +8,8 @@
 // +----------------------------------------------------------------------
 namespace App\Models;
 
-use limx\phalcon\Logger\Sys as LogSys;
 use Phalcon\Mvc\Model\EagerLoadingTrait;
+use Xin\Phalcon\Logger\Sys as LogSys;
 
 abstract class Model extends \Phalcon\Mvc\Model
 {

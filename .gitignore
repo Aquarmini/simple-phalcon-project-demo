@@ -18,4 +18,4 @@ data/ssl
 public/dist/
 node_modules/
 package-lock.json
-
+socket.pid
