@@ -36,6 +36,7 @@ class MainTask extends Task
         echo Color::colorize('  Math                    数学方法测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  MongoDB                 MongoDB测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  Mysql                   Mysql测试', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  Number                  Number测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  OAuth                   OAuth函数相关测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  Password                密码函数测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  Pcre                    正则相关函数测试', Color::FG_GREEN), PHP_EOL;

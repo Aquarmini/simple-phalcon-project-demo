@@ -12,11 +12,7 @@ use Phalcon\Cli\Task;
 
 class MainTask extends Task
 {
-<<<<<<< HEAD
-    public $description = "初始化脚本";
-=======
     public $description = '初始化脚本';
->>>>>>> master
 
     public static $tasks = [
         ['task' => 'System\\Init', 'action' => 'storage', 'params' => []],
