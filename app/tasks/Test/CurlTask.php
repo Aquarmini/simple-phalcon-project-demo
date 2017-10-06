@@ -14,6 +14,8 @@ use limx\phalcon\Cli\Color;
 
 class CurlTask extends Task
 {
+    public $url = "http://demo.phalcon.lmx0536.cn/test/api/api";
+
     public function mainAction()
     {
         echo Color::head('Help:') . PHP_EOL;
@@ -39,7 +41,7 @@ class CurlTask extends Task
     {
         $curl = new Application();
         $url = 'https://demo.phalcon.lmx0536.cn/test/api/api';
-        $url = 'https://m.emmars.cn/log/info';
+        // $url = 'https://m.emmars.cn/log/info';
         $headers = [
             'Test' => 'Test'
         ];
@@ -306,6 +308,31 @@ class CurlTask extends Task
         curl_close($ch);
         $res = json_decode($result, true);
         print_r($res);
+    }
+
+    public function guzzlePostAction($params)
+    {
+        $res = [];
+        foreach ($params as $i => $param) {
+            $res['key' . $i] = $param;
+        }
+
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('POST', $this->url);
+        dump($res->getStatusCode());
+        dump($res->getHeaderLine('content-type'));
+        if ($body = strval($res->getBody())) {
+            dump(json_decode($body, true));
+        }
+
+        // Send an asynchronous request.
+        $request = new \GuzzleHttp\Psr7\Request('POST', $this->url);
+        $promise = $client->sendAsync($request)->then(function ($response) {
+            echo 'I completed! ' . $response->getBody() . PHP_EOL;
+        });
+        echo 'begin' . PHP_EOL;
+        $promise->wait();
+        echo 'end' . PHP_EOL;
     }
 
     public function getAction($params)
