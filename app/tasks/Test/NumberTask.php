@@ -18,6 +18,19 @@ class NumberTask extends Task
         echo Color::colorize('  php run Test:number@[action]', Color::FG_GREEN), PHP_EOL, PHP_EOL;
         echo Color::head('Actions:'), PHP_EOL;
         echo Color::colorize('  format                     number_format测试', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  decbin                     decbin 10进制到2进制 测试', Color::FG_GREEN), PHP_EOL;
+    }
+
+    public function decbinAction()
+    {
+        $time = time() - strtotime('2017-01-01');
+        // $time = strtotime('2018-01-01') - strtotime('2017-01-01');
+
+        // 64bit
+        $bit = decbin($time);
+        $bit = str_pad($bit, 42, '0', STR_PAD_LEFT);
+        $int = str_pad($bit, 64, '0');
+        dd(bindec($int));
     }
 
     public function formatAction()
