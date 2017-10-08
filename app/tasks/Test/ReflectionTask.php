@@ -3,7 +3,7 @@
 namespace App\Tasks\Test;
 
 use App\Models\User;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class ReflectionTask extends \Phalcon\Cli\Task
 {

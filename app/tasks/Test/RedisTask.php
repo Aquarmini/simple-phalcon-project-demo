@@ -13,7 +13,7 @@ use limx\tools\LRedis;
 use App\Utils\Redis as RedisUtil;
 use Phalcon\Cli\Task;
 use limx\phalcon\DB;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use Phalcon\Exception;
 use Predis\Client;
 use swoole_process;

@@ -4,7 +4,7 @@ namespace App\Tasks\Test;
 
 use App\Utils\Cache;
 use EasyWeChat\Foundation\Application;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class WeChatTask extends \Phalcon\Cli\Task
 {

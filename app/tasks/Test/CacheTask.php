@@ -4,7 +4,7 @@ namespace App\Tasks\Test;
 
 use App\Logics\Test;
 use App\Utils\Cache;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class CacheTask extends \Phalcon\Cli\Task
 {

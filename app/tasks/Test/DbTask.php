@@ -10,7 +10,7 @@ namespace App\Tasks\Test;
 
 use Phalcon\Cli\Task;
 use limx\phalcon\DB;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class DbTask extends Task
 {

@@ -10,7 +10,7 @@ namespace App\Tasks\Test;
 
 use limx\curl\Application;
 use Phalcon\Cli\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class CurlTask extends Task
 {

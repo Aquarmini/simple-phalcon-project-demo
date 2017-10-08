@@ -3,7 +3,7 @@
 namespace App\Tasks\Test;
 
 use App\Logics\Test\ThriftRegister;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use limx\Support\Str;
 use Yar_Client;
 

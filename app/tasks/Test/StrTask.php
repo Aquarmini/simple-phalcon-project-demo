@@ -10,7 +10,7 @@ namespace App\Tasks\Test;
 
 use limx\phalcon\Utils\Str;
 use Phalcon\Cli\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use Phalcon\Text;
 
 class StrTask extends Task

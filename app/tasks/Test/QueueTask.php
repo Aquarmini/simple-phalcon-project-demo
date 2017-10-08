@@ -16,7 +16,7 @@ use App\Jobs\TestFailed;
 use App\Utils\Log;
 use App\Utils\Queue;
 use limx\phalcon\Redis;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use Phalcon\Exception;
 
 class QueueTask extends \App\Tasks\System\Queue

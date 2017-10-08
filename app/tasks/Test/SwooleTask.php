@@ -11,7 +11,7 @@ declare(ticks=1);
 namespace App\Tasks\Test;
 
 use Phalcon\Cli\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use swoole_process;
 
 class SwooleTask extends Task

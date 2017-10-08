@@ -13,7 +13,7 @@ use App\Utils\Log;
 use App\Utils\Redis;
 use limx\Utils\Facades\Excel;
 use Phalcon\Cli\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class FileTask extends Task
 {

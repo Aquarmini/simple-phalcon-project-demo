@@ -15,7 +15,7 @@ use App\Models\UserTitle;
 use App\Utils\DB;
 use limx\Support\Str;
 use Phalcon\Cli\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use App\Logics\Test;
 
 class MysqlTask extends Task

@@ -3,7 +3,7 @@
 namespace App\Tasks\Test;
 
 use App\Tasks\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use SebastianBergmann\CodeCoverage\Report\PHP;
 
 class NumberTask extends Task

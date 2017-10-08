@@ -14,7 +14,7 @@ namespace App\Tasks\Swoole;
 
 use App\Utils\Redis;
 use Phalcon\Cli\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use swoole_process;
 
 class ProcessTask extends Task

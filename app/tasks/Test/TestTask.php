@@ -10,7 +10,7 @@ namespace App\Tasks\Test;
 
 use App\Logics\TestPimple\ConfigServiceProvider;
 use App\Logics\TestPimple\TestServiceProvider;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use Phalcon\Cli\Task;
 use Pimple\Container;
 

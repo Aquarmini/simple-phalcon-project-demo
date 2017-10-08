@@ -3,7 +3,7 @@
 namespace App\Tasks\Test;
 
 use App\Tasks\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\Ldap;
 

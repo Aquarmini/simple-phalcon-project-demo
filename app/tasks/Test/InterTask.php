@@ -2,7 +2,7 @@
 
 namespace App\Tasks\Test;
 
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use Traversable;
 
 class InterTask extends \Phalcon\Cli\Task

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace App\Tasks\Swoole;
 
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use App\Tasks\System\WebSocket;
 use swoole_websocket_frame;
 use swoole_websocket_server;

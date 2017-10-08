@@ -10,7 +10,7 @@ namespace App\Tasks\Test;
 
 use App\Utils\Log;
 use Phalcon\Cli\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class MatchTask extends Task
 {

@@ -3,7 +3,7 @@
 namespace App\Tasks\Test;
 
 use Illuminate\Support\Collection;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class LaravelTask extends \Phalcon\Cli\Task
 {

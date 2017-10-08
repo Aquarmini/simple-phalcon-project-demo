@@ -12,7 +12,7 @@ use App\Logics\MongoTest;
 use App\Utils\Mongo;
 use limx\Support\Str;
 use Phalcon\Cli\Task;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 use MongoDB;
 use MongoDB\BSON\Timestamp;
 
