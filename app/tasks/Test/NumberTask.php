@@ -19,6 +19,19 @@ class NumberTask extends Task
         echo Color::head('Actions:'), PHP_EOL;
         echo Color::colorize('  format                     number_format测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  decbin                     decbin 10进制到2进制 测试', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  bc                         高精度运算', Color::FG_GREEN), PHP_EOL;
+    }
+
+    public function bcAction()
+    {
+        $a = 0.1;
+        $b = 0.7;
+        $scale = 2; // 精确到小数点位数
+        echo Color::colorize("普通加法：") . PHP_EOL;
+        dump($a + $b == 0.8);
+        echo Color::colorize("高精度加法：") . PHP_EOL;
+        dump(bcadd($a, $b, $scale) == 0.8);
+
     }
 
     public function decbinAction()
