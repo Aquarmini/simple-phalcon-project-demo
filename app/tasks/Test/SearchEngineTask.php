@@ -25,6 +25,29 @@ class SearchEngineTask extends \Phalcon\Cli\Task
         echo Color::colorize('  xsQuery     讯搜搜索文档', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  esIndex     ElasticSearch 添加文档', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  esGet       ElasticSearch 搜索文档', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  esSearch    ElasticSearch 搜索文档', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function esSearchAction()
+    {
+        $builder = ClientBuilder::create();
+        $builder->setHosts(['centos.monster.host']);
+        $client = $builder->build();
+
+        $params = [
+            'index' => 'test',
+            'type' => 'test',
+            'body' => [
+                'query' => [
+                    'match' => [
+                        'date' => '2017-10-11'
+                    ]
+                ]
+            ]
+        ];
+
+        $response = $client->search($params);
+        dump($response);
     }
 
     public function esGetAction()
@@ -55,7 +78,7 @@ class SearchEngineTask extends \Phalcon\Cli\Task
         $params = [
             'index' => 'test',
             'type' => 'test',
-            'id' => 'test',
+            'id' => time(),
             'body' => ['date' => date('Y-m-d H:i:s')]
         ];
         $res = $client->index($params);
