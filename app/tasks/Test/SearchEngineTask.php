@@ -2,6 +2,7 @@
 
 namespace App\Tasks\Test;
 
+use Elasticsearch\ClientBuilder;
 use Xin\Cli\Color;
 
 class SearchEngineTask extends \Phalcon\Cli\Task
@@ -17,11 +18,48 @@ class SearchEngineTask extends \Phalcon\Cli\Task
         echo Color::colorize('  开源搜索引擎测试') . PHP_EOL . PHP_EOL;
 
         echo Color::head('Usage:') . PHP_EOL;
-        echo Color::colorize('  php run Test\\\\SearchEngine [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        echo Color::colorize('  php run test:searchEngine@[action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         echo Color::head('Actions:') . PHP_EOL;
         echo Color::colorize('  xsAdd       讯搜添加文档', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  xsQuery     讯搜搜索文档', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  esIndex     ElasticSearch 添加文档', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  esGet       ElasticSearch 搜索文档', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function esGetAction()
+    {
+        $builder = ClientBuilder::create();
+        $builder->setHosts(['centos.monster.host']);
+        $client = $builder->build();
+
+        $params = [
+            'index' => 'test',
+            'type' => 'test',
+            'id' => 'test',
+        ];
+
+        $response = $client->getSource($params);
+        dump($response);
+
+        $response = $client->get($params);
+        dump($response);
+    }
+
+    public function esIndexAction()
+    {
+        $builder = ClientBuilder::create();
+        $builder->setHosts(['centos.monster.host']);
+        $client = $builder->build();
+
+        $params = [
+            'index' => 'test',
+            'type' => 'test',
+            'id' => 'test',
+            'body' => ['date' => date('Y-m-d H:i:s')]
+        ];
+        $res = $client->index($params);
+        dd($res);
     }
 
     public function xsAddAction()

@@ -34,6 +34,7 @@
         "limingxinleo/support-schedule": "^0.0.2",
         "symfony/ldap": "^3.3",
         "guzzlehttp/guzzle": "^6.3",
+        "elasticsearch/elasticsearch": "^5.3",
         "limingxinleo/phalcon-project-library": "^1.0.3"
     },
     "require-dev": {
