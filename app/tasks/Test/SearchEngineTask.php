@@ -31,7 +31,7 @@ class SearchEngineTask extends \Phalcon\Cli\Task
     public function esSearchAction()
     {
         $builder = ClientBuilder::create();
-        $builder->setHosts(['centos.monster.host']);
+        $builder->setHosts([env('ELASTIC_SEARCH_HOST')]);
         $client = $builder->build();
 
         $params = [
@@ -53,7 +53,7 @@ class SearchEngineTask extends \Phalcon\Cli\Task
     public function esGetAction()
     {
         $builder = ClientBuilder::create();
-        $builder->setHosts(['centos.monster.host']);
+        $builder->setHosts([env('ELASTIC_SEARCH_HOST')]);
         $client = $builder->build();
 
         $params = [
@@ -72,7 +72,7 @@ class SearchEngineTask extends \Phalcon\Cli\Task
     public function esIndexAction()
     {
         $builder = ClientBuilder::create();
-        $builder->setHosts(['centos.monster.host']);
+        $builder->setHosts([env('ELASTIC_SEARCH_HOST')]);
         $client = $builder->build();
 
         $params = [

@@ -25,12 +25,25 @@ class SwooleTask extends Task
         echo Color::colorize('  Swoole相关测试'), PHP_EOL, PHP_EOL;
 
         echo Color::head('Usage:'), PHP_EOL;
-        echo Color::colorize('  php run Test\\\\Swoole [action]', Color::FG_GREEN), PHP_EOL, PHP_EOL;
+        echo Color::colorize('  php run test:swoole@[action]', Color::FG_GREEN), PHP_EOL, PHP_EOL;
 
         echo Color::head('Actions:'), PHP_EOL;
         echo Color::colorize('  check               检验是否有Swoole扩展', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  processSimple       简单的进程测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  processAdd          子进程计算父进程总结测试', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  tick                定时器', Color::FG_GREEN), PHP_EOL;
+    }
+
+    public function tickAction()
+    {
+        swoole_timer_tick(1000, function () {
+            echo Color::colorize('1s 走一次', Color::FG_GREEN) . PHP_EOL;
+        });
+
+        swoole_timer_tick(2000, function () {
+            echo Color::colorize('2s 走一次 并且延时2s', Color::FG_GREEN) . PHP_EOL;
+            sleep(2);
+        });
     }
 
     public function processAddAction()
