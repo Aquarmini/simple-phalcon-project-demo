@@ -2,7 +2,7 @@
 
 namespace App\Tasks\Swoole;
 
-use App\Tasks\System\Socket;
+use App\Core\Cli\Task\Socket;
 use swoole_server;
 
 class SocketTask extends Socket
@@ -23,8 +23,9 @@ class SocketTask extends Socket
 
     public function receive(swoole_server $server, $fd, $reactor_id, $data)
     {
-        echo 'receive' . PHP_EOL;
-        echo $data . PHP_EOL;
+        $data = 'receive:' . $data;
+        echo $data;
+        $server->send($fd, $data);
     }
 
     public function close(swoole_server $server, $fd, $reactorId)
