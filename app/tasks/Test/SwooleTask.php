@@ -33,7 +33,26 @@ class SwooleTask extends Task
         echo Color::colorize('  processAdd          子进程计算父进程总结测试', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  tick                定时器', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  processWait         阻塞等待子进程退出', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  processTick         子进程定时器', Color::FG_GREEN), PHP_EOL;
 
+    }
+
+    public function processTickAction()
+    {
+        $process = new swoole_process(function (swoole_process $worker) {
+            swoole_timer_tick(1000, function () {
+                echo Color::colorize('tick') . PHP_EOL;
+            });
+        });
+
+        if ($process->start()) {
+            $this->process++;
+        }
+
+        if (swoole_process::wait()) {
+            $this->process--;
+            echo Color::colorize("kill deadprocess successful!", Color::FG_LIGHT_RED) . PHP_EOL;
+        }
     }
 
     public function processWaitAction()
@@ -53,7 +72,7 @@ class SwooleTask extends Task
             $this->process--;
             echo Color::colorize("kill deadprocess successful!", Color::FG_LIGHT_RED) . PHP_EOL;
         }
-        
+
     }
 
     public function tickAction()
