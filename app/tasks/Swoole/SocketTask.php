@@ -24,7 +24,7 @@ class SocketTask extends Socket
             if (!file_exists(ROOT_PATH . '/tick.lock')) {
                 file_put_contents(ROOT_PATH . '/tick.lock', 1);
             }
-            $server->tick(1000, function () use ($worker) {
+            swoole_timer_tick(1000, function () use ($worker) {
                 if (file_get_contents(ROOT_PATH . '/tick.lock')) {
                     echo 'tick:' . time() . ':' . $worker->pid . PHP_EOL;
                 }
