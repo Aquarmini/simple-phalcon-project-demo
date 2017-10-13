@@ -40,8 +40,9 @@ class CurlTask extends Task
     public function postArrAction()
     {
         $curl = new Application();
-        $url = 'https://demo.phalcon.lmx0536.cn/test/api/api';
-        // $url = 'https://m.emmars.cn/log/info';
+        // $url = 'https://demo.phalcon.lmx0536.cn/test/api/api';
+        // $url = 'https://qa.emmars.cn/log/info';
+        $url = 'http://log.monster.lmx0536.cn/log/info';
         $headers = [
             'Test' => 'Test'
         ];
