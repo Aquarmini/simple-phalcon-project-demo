@@ -163,8 +163,13 @@ class FileTask extends Task
 
     public function logAction()
     {
-        Log::info("测试信息");
-        echo Color::success("日志写入成功");
+        for ($i = 0; $i < 100; $i++) {
+            Log::info("测试信息");
+            echo 'log...' . PHP_EOL;
+            sleep(1);
+        }
+
+        // echo Color::success("日志写入成功");
     }
 
     public function csvAction()

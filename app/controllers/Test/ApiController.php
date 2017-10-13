@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Test;
 
+use App\Utils\Debug;
 use Gregwar\Captcha\CaptchaBuilder;
 use limx\func\Curl;
 
@@ -86,6 +87,7 @@ class ApiController extends Controller
             'body' => $data,
             'json' => $json,
             'method' => $method,
+            'ip' => Debug::ip()
         ];
 
         return self::success($res);
