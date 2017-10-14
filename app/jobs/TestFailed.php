@@ -9,9 +9,8 @@
 namespace App\Jobs;
 
 use App\Jobs\Contract\JobInterface;
-use App\Utils\Log;
 use Exception;
-use limx\phalcon\Cli\Color;
+use Xin\Cli\Color;
 
 class TestFailed implements JobInterface
 {

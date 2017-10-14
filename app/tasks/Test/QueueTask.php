@@ -82,20 +82,22 @@ class QueueTask extends QueueBase
 
     public function addDefaultAction()
     {
-        for ($i = 0; $i < 100; $i++) {
-            $msg = 'push handle id= ' . $i . PHP_EOL;
-            Queue::push(new Test($msg));
-        }
-
-        for ($i = 0; $i < 10; $i++) {
-            $msg = 'delay handle id= ' . $i . PHP_EOL;
-            Queue::delay(new Test($msg), 10);
-        }
-
-        for ($i = 0; $i < 10; $i++) {
-            $msg = 'error handle id= ' . $i . PHP_EOL;
-            Queue::push(new TestFailed($msg));
-        }
+        Queue::push(new TestFailed('111'));
+        
+        // for ($i = 0; $i < 100; $i++) {
+        //     $msg = 'push handle id= ' . $i . PHP_EOL;
+        //     Queue::push(new Test($msg));
+        // }
+        //
+        // for ($i = 0; $i < 10; $i++) {
+        //     $msg = 'delay handle id= ' . $i . PHP_EOL;
+        //     Queue::delay(new Test($msg), 10);
+        // }
+        //
+        // for ($i = 0; $i < 10; $i++) {
+        //     $msg = 'error handle id= ' . $i . PHP_EOL;
+        //     Queue::push(new TestFailed($msg));
+        // }
     }
 
     public function addDefaultDelayAction()
