@@ -269,6 +269,7 @@ return new Config(
                 'dispatcher' => App\Core\Services\Cli\Dispatcher::class,
                 'console' => App\Core\Services\Cli\Console::class,
                 'xconsole' => App\Core\Services\Cli\XConsole::class,
+                'view' => App\Core\Services\Mvc\View::class,
             ],
             'mvc' => [
                 'router' => App\Core\Services\Mvc\Router::class,
