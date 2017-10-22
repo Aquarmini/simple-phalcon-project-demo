@@ -20,6 +20,8 @@ class TimerTask extends Task
     {
         $id = swoole_timer_tick(1000, function () {
             echo Color::colorize("Hello world", Color::FG_LIGHT_BLUE) . PHP_EOL;
+            return;
+            echo 111;
         });
 
         swoole_timer_after(10000, function () use ($id) {

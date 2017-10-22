@@ -234,8 +234,10 @@ class CurlTask extends Task
         foreach ($params as $i => $param) {
             $res['key' . $i] = $param;
         }
+        $res['sn'] = 1111;
         $body = json_encode($res);
-        $url = "http://demo.phalcon.lmx0536.cn/test/api/api";
+        // $url = "http://demo.phalcon.lmx0536.cn/test/api/api";
+        $url = "http://127.0.0.1:8127/admin/test";
         $ch = curl_init();
         // 设置抓取的url
         curl_setopt($ch, CURLOPT_URL, $url);
