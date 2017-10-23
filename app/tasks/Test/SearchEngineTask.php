@@ -26,6 +26,136 @@ class SearchEngineTask extends \Phalcon\Cli\Task
         echo Color::colorize('  esIndex     ElasticSearch 添加文档', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  esGet       ElasticSearch 搜索文档', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  esSearch    ElasticSearch 搜索文档', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  esGrpsIns   ElasticSearch 经纬度算法 插入', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  esGrpsSearch   ElasticSearch 经纬度算法 查询', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  esSearch    ElasticSearch 搜索文档', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  esDel       ElasticSearch 删除文档', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  esMapping   ElasticSearch 给表分配类型', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function esMappingAction()
+    {
+        $builder = ClientBuilder::create();
+        $builder->setHosts([env('ELASTIC_SEARCH_HOST')]);
+        $client = $builder->build();
+
+        // $res = $client->indices()->flush();
+        // dd($res);
+
+        // $params = [
+        //     'index' => 'test',
+        //     'type' => 'grps',
+        //     'body' => [
+        //         'grps' => [
+        //             'properties' => [
+        //                 'location' => [
+        //                     'type' => 'geo_point',
+        //                 ]
+        //             ]
+        //         ],
+        //     ]
+        // ];
+        // $res = $client->indices()->putMapping($params);
+        // dd($res);
+
+        $params = [
+            'index' => 'test',
+            'type' => 'grps',
+        ];
+        $res = $client->indices()->getMapping($params);
+        dd($res);
+
+        // $params = [
+        //     'body' => [
+        //         "source" => [
+        //             "index" => "test",
+        //         ],
+        //         "dest" => [
+        //             "index" => "test2"
+        //         ]
+        //     ]
+        // ];
+        // $res = $client->reindex($params);
+        // dd($res);
+
+    }
+
+    public function esDelAction()
+    {
+        $builder = ClientBuilder::create();
+        $builder->setHosts([env('ELASTIC_SEARCH_HOST')]);
+        $client = $builder->build();
+
+        $params = [
+            'index' => 'test',
+            'type' => 'grps',
+            'body' => [
+                'query' => [
+                    'match' => [
+                        'date' => '2017-10-21'
+                    ],
+                ],
+            ]
+        ];
+
+        // Delete doc at /my_index/my_type/my_id
+        $response = $client->deleteByQuery($params);
+    }
+
+    public function esGrpsSearchAction()
+    {
+        $builder = ClientBuilder::create();
+        $builder->setHosts([env('ELASTIC_SEARCH_HOST')]);
+        $client = $builder->build();
+
+        $params = [
+            'index' => 'test',
+            'type' => 'grps',
+            'body' => [
+                'query' => [
+                    "filtered" => [
+                        'filter' => [
+                            'geo_distance_range' => [
+                                'distance' => '10km',
+                                'location' => [
+                                    'lat' => 31.249162,
+                                    'lon' => 121.487899,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'size' => 20
+            ]
+        ];
+
+        $response = $client->search($params);
+        dump($response);
+    }
+
+    public function esGrpsInsAction()
+    {
+
+        $builder = ClientBuilder::create();
+        $builder->setHosts([env('ELASTIC_SEARCH_HOST')]);
+        $client = $builder->build();
+
+        for ($i = 0; $i < 100; $i++) {
+            $num = $i + rand(1, 1000);
+            $lat = bcadd(31.249162, $num / 100000, 6);
+            $lon = bcadd(121.487899, $num / 100000, 6);
+            $params = [
+                'index' => 'test',
+                'type' => 'grps',
+                'id' => uniqid(),
+                'body' => [
+                    'date' => date('Y-m-d H:i:s'),
+                    'location' => "{$lat},{$lon}",
+                ]
+            ];
+
+            $client->index($params);
+        }
     }
 
     public function esSearchAction()
@@ -40,7 +170,7 @@ class SearchEngineTask extends \Phalcon\Cli\Task
             'body' => [
                 'query' => [
                     'match' => [
-                        'date' => '2017-10-11'
+                        'date' => '2017-10-21'
                     ]
                 ]
             ]
