@@ -8,6 +8,8 @@
 // +----------------------------------------------------------------------
 namespace App\Support\Sign;
 
+use App\Utils\Log;
+
 class Md5
 {
     public function sign($params, $key = null)
@@ -22,6 +24,7 @@ class Md5
 
         $sign = md5($str . $params[$key]);
         $new_sign = substr_replace($sign, $key, 2, 0);
+        Log::info($new_sign);
         return $new_sign;
     }
 
