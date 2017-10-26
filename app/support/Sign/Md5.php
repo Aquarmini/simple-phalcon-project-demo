@@ -21,7 +21,7 @@ class Md5
         $sign_array = $this->recursiveMapToArray($params);
         sort($sign_array);
         $str = implode('&', $sign_array);
-
+        Log::info($str);
         $sign = md5($str . $params[$key]);
         $new_sign = substr_replace($sign, $key, 2, 0);
         Log::info($new_sign);
@@ -47,6 +47,8 @@ class Md5
         foreach ($params as $key => $item) {
             if (is_array($item)) {
                 $result = array_merge($result, $this->recursiveMapToArray($item));
+            } else if (!isset($item)) {
+
             } else {
                 $result[] = $key . '=' . $item;
             }
