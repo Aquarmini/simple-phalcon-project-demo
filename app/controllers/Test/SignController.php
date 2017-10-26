@@ -4,6 +4,7 @@ namespace App\Controllers\Test;
 
 use App\Controllers\Controller;
 use App\Support\Sign\Md5;
+use App\Utils\Log;
 
 class SignController extends Controller
 {
@@ -32,6 +33,8 @@ class SignController extends Controller
             ]);
         }
 
+        Log::info(json_encode($params));
+        Log::info($sign);
         $result = (new Md5())->verify($params, $sign);
 
         return $this->response->setJsonContent([
