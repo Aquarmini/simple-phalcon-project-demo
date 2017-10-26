@@ -47,9 +47,12 @@ class ArrayTask extends Task
     public function arrayGetAction()
     {
         $arr = [
-            'shop_no' => 53252104150,
+            'shop_no' => 5325210415012312,
         ];
+        dd(trim($arr['shop_no']));
+
         dd($arr['shop_no']);
+        // strval();
         // dd(trim(array_get($arr, 'shop_no', 000)));
     }
 
