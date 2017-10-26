@@ -8,6 +8,21 @@ use App\Utils\Log;
 
 class SignController extends Controller
 {
+    public $headers = [
+        'X-APP-MAC',
+        'X-APP-VERSION',
+        'X-APP-TOKEN',
+        'X-APP-PLATFORM',
+        'X-APP-KEY',
+        'X-APP-NONCE',
+        'X-APP-UUIDS',
+        'X-APP-TIMES'
+    ];
+
+    public function headerToServer($header)
+    {
+        return 'HTTP_' . str_replace('-', '_', $header);
+    }
 
     public function verifyAction()
     {
@@ -15,19 +30,13 @@ class SignController extends Controller
         unset($params['_url']);
         $json = $this->request->getJsonRawBody(true) ?? [];
         $params = array_merge($params, $json);
-        $headers = $this->request->getHeaders();
-        foreach ($headers as $key => $val) {
-            $headers[strtoupper($key)] = $val;
-        }
 
-        $params['xappmac'] = $headers['X-APP-MAC'] ?? null;
-        $params['xappversion'] = $headers['X-APP-VERSION'] ?? null;
-        $params['xapptoken'] = $headers['X-APP-TOKEN'] ?? null;
-        $params['xappplatform'] = $headers['X-APP-PLATFORM'] ?? null;
-        $params['xappkey'] = $headers['X-APP-KEY'] ?? null;
-        $params['xappnonce'] = $headers['X-APP-NONCE'] ?? null; // 0
-        $params['xappuuids'] = $headers['X-APP-UUIDS'] ?? null; // 1
-        $params['xapptimes'] = $headers['X-APP-TIMES'] ?? null; // 2
+        foreach ($this->headers as $header) {
+            if ($this->request->hasServer($this->headerToServer($header))) {
+                $key = strtolower(str_replace('-', '', $header));
+                $params[$key] = $this->request->getHeader($header);
+            }
+        }
 
         $sign = $this->request->getHeader('X-APP-SIGN');
 
@@ -46,6 +55,7 @@ class SignController extends Controller
             'result' => $result,
         ]);
     }
+
 
 }
 

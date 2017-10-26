@@ -31,7 +31,7 @@ class SignTask extends Task
             'X-APP-VERSION' => 'v1.0',
             'X-APP-TOKEN' => Str::random(32),
             'X-APP-PLATFORM' => 1,
-            // 'X-APP-KEY' => 2,
+            'X-APP-KEY' => 2,
             'X-APP-NONCE' => Str::random(64),
             'X-APP-UUIDS' => Str::random(64),
             'X-APP-TIMES' => microtime(true),
@@ -42,7 +42,7 @@ class SignTask extends Task
         $sign_body['xappversion'] = $header['X-APP-VERSION'];
         $sign_body['xapptoken'] = $header['X-APP-TOKEN'];
         $sign_body['xappplatform'] = $header['X-APP-PLATFORM'];
-        $sign_body['xappkey'] = $header['X-APP-KEY'] ?? null;
+        $sign_body['xappkey'] = $header['X-APP-KEY'];
         $sign_body['xappnonce'] = $header['X-APP-NONCE']; // 0
         $sign_body['xappuuids'] = $header['X-APP-UUIDS']; // 1
         $sign_body['xapptimes'] = $header['X-APP-TIMES']; // 2
@@ -92,8 +92,7 @@ class SignTask extends Task
         }
         //关闭URL请求
         curl_close($ch);
-        $res = json_decode($result, true);
-        return $res;
+        return $result;
     }
 
 }
