@@ -12,6 +12,7 @@ class SignTask extends Task
     public function mainAction()
     {
         $url = 'http://demo.phalcon.app/test/sign/verify';
+
         $body = [
             'id' => 1,
             'name' => 'limx',
