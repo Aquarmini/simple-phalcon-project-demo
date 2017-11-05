@@ -109,19 +109,18 @@ class StrTask extends Task
 
     public function strstrAction()
     {
-        $str = 'asdfinfo3-erroradsf';
-        $res = strstr($str, 'info4-error');
-        if ($res) {
-            echo 'success';
-        } else {
-            echo 'error';
-        }
-
-        $res = strstr($str, 'info3-error');
-        if ($res) {
-            echo 'success';
-        } else {
-            echo 'error';
+        $strs = [
+            'N_asdasdf',
+            'N_0',
+            'N_0000000000000',
+            'N_1234567',
+            'N_0aafassdfasdf',
+        ];
+        foreach ($strs as $str) {
+            $res = strstr($str, 'N_');
+            echo Color::colorize('原' . $str, Color::FG_GREEN) . PHP_EOL;
+            echo Color::colorize('结果' . $res, Color::FG_GREEN) . PHP_EOL;
+            if ($res) echo Color::colorize('成功', Color::FG_BLUE) . PHP_EOL;
         }
     }
 
