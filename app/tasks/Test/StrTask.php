@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 namespace App\Tasks\Test;
 
-use limx\phalcon\Utils\Str;
+use Illuminate\Support\Str;
 use Phalcon\Cli\Task;
 use Xin\Cli\Color;
 use Phalcon\Text;

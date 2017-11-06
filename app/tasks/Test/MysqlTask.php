@@ -187,7 +187,6 @@ class MysqlTask extends Task
         $user = \App\Models\User::findFirst([
             'conditions' => 'id=?0',
             'bind' => [24],
-            // 'columns' => 'id,username',
         ]);
         $user->username = Str::quickRandom(12);
         $res = $user->save();
