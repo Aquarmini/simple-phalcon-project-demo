@@ -10,6 +10,7 @@ namespace App\Tasks\Test;
 
 use App\Logics\TestPimple\ConfigServiceProvider;
 use App\Logics\TestPimple\TestServiceProvider;
+use App\Support\Demo\Test;
 use Xin\Cli\Color;
 use Phalcon\Cli\Task;
 use Pimple\Container;
@@ -35,12 +36,58 @@ class TestTask extends Task
         echo Color::colorize('  stdClass    stdClass用法', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  json        json编码', Color::FG_GREEN), PHP_EOL;
         echo Color::colorize('  exception   exception测试', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  class       class嵌套测试', Color::FG_GREEN), PHP_EOL;
+        echo Color::colorize('  copy        写时复制', Color::FG_GREEN), PHP_EOL;
 
+    }
+
+    public function copyAction()
+    {
+        $test = new Test();
+        $test->id = 1;
+        dump($test->id);
+        $test2 = $test;
+        $test2->id = 2;
+        dump($test2->id);
+        dump($test->id);
+        echo PHP_EOL;
+        $test = ['id' => 1];
+        dump($test['id']);
+        $test2 = $test;
+        $test2['id'] = 2;
+        dump($test2['id']);
+        dump($test['id']);
+    }
+
+    public function classAction()
+    {
+        $test = new Test();
+        $test->id = 1;
+        dump($test->id);
+        $test2 = $test;
+        $test2->id = 2;
+        dump($test2->id);
+        dd($test->id);
+
+
+        $arr = [];
+        for ($i = 0; $i < 10; $i++) {
+            $arr[] = new Test();
+        }
+        foreach ($arr as $key => $item) {
+            $item->id = $key;
+        }
+        dd($arr);
+
+        $test = new Test();
+        $test2 = new Test($test);
+        $test3 = new Test($test2);
+        dd($test->children->children === $test3);
     }
 
     public function exceptionAction()
     {
-        dd(new \ErrorException('11',1,0,'aa',12));
+        dd(new \ErrorException('11', 1, 0, 'aa', 12));
         dd(new \ErrorException('11', 1, 0, 'aaa', 12, 0));
     }
 

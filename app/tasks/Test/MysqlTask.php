@@ -40,7 +40,22 @@ class MysqlTask extends Task
         echo Color::colorize('  relation        测试relation', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  eager           测试eager', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  dynamic         测试dynamic更新', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  modelAdd        通过模型实现++', Color::FG_GREEN) . PHP_EOL;
 
+    }
+
+    public function modelAddAction()
+    {
+        $user = User::findFirst([
+            'order' => 'id DESC'
+        ]);
+
+        $user_id = $user->id;
+        $sql = "UPDATE `user` SET `role_id` = role_id + 1 WHERE `id` = ?";
+        DB::execute($sql, [$user_id]);
+
+        $user->role_id = new \Phalcon\Db\RawValue('role_id + 1');
+        $user->save();
     }
 
     public function dynamicAction()
@@ -54,12 +69,18 @@ class MysqlTask extends Task
 
     public function eagerAction()
     {
-        $user = User::with(['book'], [
+        $user = User::with(['book.user.book', 'title'], [
             'conditions' => 'id IN (1,2)'
         ]);
         foreach ($user as $v) {
             foreach ($v->book as $b) {
-                dump($b->toArray());
+                dd($b->user->toArray());
+            }
+            foreach ($v->book as $b) {
+                dd($b->toArray());
+            }
+            foreach ($v->title as $b) {
+                dd($b->toArray());
             }
         }
     }
