@@ -98,6 +98,7 @@ class User extends Model
 
     public function initialize()
     {
+        parent::initialize();
         $this->hasMany('id', 'App\\Models\\Book', 'uid', ['alias' => 'book', 'reusable' => true]);
         $this->hasManyToMany(
             'id',
@@ -105,7 +106,7 @@ class User extends Model
             'App\\Models\\Title', 'id',
             ['alias' => 'title']
         );
-        $this->useDynamicUpdate(true);
+        // $this->useDynamicUpdate(true);
     }
 
     /**

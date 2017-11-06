@@ -32,7 +32,7 @@ abstract class Model extends \Phalcon\Mvc\Model
         // $this->hasManyToMany(...$params, $options = null)
 
         // Sets if a model must use dynamic update instead of the all-field update
-        // $this->useDynamicUpdate(true);
+        $this->useDynamicUpdate(true);
     }
 
     /**
