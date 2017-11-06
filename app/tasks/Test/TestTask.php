@@ -50,13 +50,27 @@ class TestTask extends Task
         $test2->id = 2;
         dump($test2->id);
         dump($test->id);
+        unset($test);
+        unset($test2);
         echo PHP_EOL;
+
         $test = ['id' => 1];
         dump($test['id']);
         $test2 = $test;
         $test2['id'] = 2;
         dump($test2['id']);
         dump($test['id']);
+        unset($test);
+        unset($test2);
+        echo PHP_EOL;
+
+        $test = new Test();
+        $test->id = 1;
+        dump($test->id);
+        $test2 = clone $test;
+        $test2->id = 2;
+        dump($test2->id);
+        dump($test->id);
     }
 
     public function classAction()
