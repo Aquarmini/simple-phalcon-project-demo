@@ -39,7 +39,17 @@ class MysqlTask extends Task
         echo Color::colorize('  builder         测试builder', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  relation        测试relation', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  eager           测试eager', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  dynamic         测试dynamic更新', Color::FG_GREEN) . PHP_EOL;
 
+    }
+
+    public function dynamicAction()
+    {
+        $user = User::findFirst([
+            'order' => 'id DESC'
+        ]);
+        $user->name = time();
+        $user->save();
     }
 
     public function eagerAction()

@@ -105,6 +105,7 @@ class User extends Model
             'App\\Models\\Title', 'id',
             ['alias' => 'title']
         );
+        $this->useDynamicUpdate(true);
     }
 
     /**
