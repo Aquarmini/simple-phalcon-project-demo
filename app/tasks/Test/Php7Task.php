@@ -8,6 +8,8 @@
 // +----------------------------------------------------------------------
 namespace App\Tasks\Test;
 
+use App\Core\System;
+use App\Test\Obj\StaticFuncClass;
 use Phalcon\Cli\Task;
 use Xin\Cli\Color;
 
@@ -19,7 +21,7 @@ class Php7Task extends Task
         echo Color::colorize('  PHP7函数测试') . PHP_EOL . PHP_EOL;
 
         echo Color::head('Usage:') . PHP_EOL;
-        echo Color::colorize('  php run Test\\\\Ret [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        echo Color::colorize('  php run test:php7@[action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         echo Color::head('Actions:') . PHP_EOL;
         echo Color::colorize('  declare     规定返回值测试', Color::FG_GREEN) . PHP_EOL;
