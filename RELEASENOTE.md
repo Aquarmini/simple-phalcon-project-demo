@@ -2,6 +2,36 @@
 
 ## [Unreleased]
 ### Checked
+- [ ] php单元测试
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Deleted
+* 删除Logic目录
+
+## [2.0.7]
+### Checked
+- [x] php单元测试
+
+### Added
+* 增加路由group方法
+* 增加系统环境变量
+* 增加单例基类
+
+### Changed
+* 不使用系统方法 system删除缓存
+* 完善消息队列失败时逻辑处理
+* 修改异常捕获时，错误信息的格式
+* 修改缓存基类位置
+
+### Fixed
+
+## [2.0.5]
+### Checked
 - [x] php单元测试
 
 ### Added
@@ -13,6 +43,7 @@
 * 重写Debug工具类
 * 重构Mongo工具类
 * 重构Mongo服务注入
+* 修改limx\Support\Str工具类为Phalcon\Text工具类
 
 ### Fixed
 * 修改中间件在php7.1下报错的BUG
