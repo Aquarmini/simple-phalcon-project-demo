@@ -39,6 +39,7 @@ class PhpTask extends Task
 
         try {
             $str = StaticFuncClass::test1();
+            echo Color::colorize('静态调用非静态方法：' . $str, Color::FG_GREEN) . PHP_EOL;
         } catch (\Exception $ex) {
             echo Color::colorize('静态调用非静态方法：' . $ex->getMessage(), Color::FG_RED) . PHP_EOL;
         }
