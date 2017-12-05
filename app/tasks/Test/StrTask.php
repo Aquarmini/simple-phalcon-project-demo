@@ -30,6 +30,24 @@ class StrTask extends Task
         echo Color::colorize('  textRandom              Phalcon\\Text随机字符串', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  camelize                大驼峰转化', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  match                   检测字符串是否存在中文', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  pregReplace             通过正则替换字符串', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function pregReplaceAction()
+    {
+        $name = 'https://xxx.sss.jpg#click';
+        $match = "/\.jpg|\.png/";
+        preg_match($match, $name, $result);
+        if (isset($result[0])) {
+            $ext = $result[0];
+            $res = str_replace($ext, '_xx' . $ext, $name);
+        }
+        echo Color::colorize('初始字符串:' . $name, Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('匹配正则:' . $match, Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('替换结果:' . $res, Color::FG_GREEN) . PHP_EOL;
+
+        $res = preg_replace($match, '_xx.png', $name);
+        echo Color::colorize('正则替换结果:' . $res, Color::FG_GREEN) . PHP_EOL;
     }
 
     public function matchAction()
