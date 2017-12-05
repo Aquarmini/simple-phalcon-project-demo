@@ -81,6 +81,13 @@ class StrTask extends Task
         } else {
             echo Color::colorize(sprintf($msg, $str, '不包含空格'), Color::FG_GREEN) . PHP_EOL;
         }
+
+        $str = 'aaassdd';
+        if (preg_match("/d(d|s)$/", $str, $ss)) {
+            echo Color::colorize(sprintf($msg, $str, '以dd或s结尾'), Color::FG_GREEN) . PHP_EOL;
+        } else {
+            echo Color::colorize(sprintf($msg, $str, '不以dd或s结尾'), Color::FG_GREEN) . PHP_EOL;
+        }
     }
 
     public function camelizeAction()
