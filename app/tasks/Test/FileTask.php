@@ -40,7 +40,11 @@ class FileTask extends Task
     public function mkdirAction()
     {
         $dir = ROOT_PATH . '/storage/test';
-        mkdir($dir, 0777, true);
+        try {
+            mkdir($dir, 0777, true);
+        } catch (\Exception $ex) {
+            dump($ex->getMessage());
+        }
         echo '新建完毕' . PHP_EOL;
         file_put_contents(
             $dir . '/t.log',
