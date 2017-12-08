@@ -11,20 +11,23 @@ class SignTask extends Task
 
     public function mainAction()
     {
+
+        $body = $this->getBody();
+        // dd($body);
         $url = 'http://demo.phalcon.app/test/sign/verify';
 
-        $body = [
-            'id' => 1,
-            'name' => 'limx',
-            'book' => [
-                'name' => '三天放弃php',
-                'price' => 88,
-                'author' => 'limx',
-                'desc' => '中文',
-                'text' => null,
-            ],
-            'text' => null,
-        ];
+        // $body = [
+        //     'id' => 1,
+        //     'name' => 'limx',
+        //     'book' => [
+        //         'name' => '三天放弃php',
+        //         'price' => 88,
+        //         'author' => 'limx',
+        //         'desc' => '中文',
+        //         'text' => null,
+        //     ],
+        //     'text' => null,
+        // ];
 
         $header = [
             'X-APP-MAC' => Str::random(12),
@@ -93,6 +96,12 @@ class SignTask extends Task
         //关闭URL请求
         curl_close($ch);
         return $result;
+    }
+
+    public function getBody()
+    {
+        $str = '{"contractNo":"111","merchantNo":"MN932535729786605568","merchantName":"飞鱼的小杨生煎","bdCode":"111","status":0,"signedDate":"2017-11-09","partBName":"11","legalPerson":"11","legalPersonPhone":"11","contactName":"11","contactPhone":"111","contactAddress":"111","contactEmail":"gff@qq.com","signedShopAddress":"111","effectStartDate":"2017-11-08","effectDuration":111,"isBenifit":1,"ossFiles":[{"fileKey":"151124458044947","originalName":"logo.png"},{"fileKey":"1511232324947","originalName":"logo1.png"}],"id":18,"shops":{"shop_id":263,"shop_name":"支付宝大厦5","shops":{"shop_id":267,"shop_name":"支付宝大厦1"}}}';
+        return json_decode($str, true);
     }
 
 }
