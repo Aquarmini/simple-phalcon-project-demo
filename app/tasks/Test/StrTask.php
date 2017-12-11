@@ -21,7 +21,7 @@ class StrTask extends Task
         echo Color::colorize('  PHP函数参数测试') . PHP_EOL . PHP_EOL;
 
         echo Color::head('Usage:') . PHP_EOL;
-        echo Color::colorize('  php run Test\\\\Str [action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
+        echo Color::colorize('  php run test:str@[action]', Color::FG_GREEN) . PHP_EOL . PHP_EOL;
 
         echo Color::head('Actions:') . PHP_EOL;
         echo Color::colorize('  random      {$1}        随机字符串', Color::FG_GREEN) . PHP_EOL;
@@ -31,6 +31,43 @@ class StrTask extends Task
         echo Color::colorize('  camelize                大驼峰转化', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  match                   检测字符串是否存在中文', Color::FG_GREEN) . PHP_EOL;
         echo Color::colorize('  pregReplace             通过正则替换字符串', Color::FG_GREEN) . PHP_EOL;
+        echo Color::colorize('  length                  数字长度', Color::FG_GREEN) . PHP_EOL;
+    }
+
+    public function lengthAction()
+    {
+        $num = 9;
+        $length = 1;
+        echo Color::head('整形长度:') . PHP_EOL;
+        for ($i = 2; $i < 20; $i++) {
+            $num = $num * 10 + 9;
+            $msg = sprintf("    当前长度{$i},当前值={$num}");
+            if (strlen($num) > $length) {
+                $length = strlen($num);
+                echo Color::colorize($msg, Color::FG_LIGHT_GREEN) . PHP_EOL;
+            } else {
+                echo Color::colorize($msg, Color::FG_LIGHT_GREEN) . PHP_EOL;
+                break;
+            }
+        }
+
+        echo Color::colorize('结论：整形长度最大位数为' . ($i - 1), Color::FG_LIGHT_RED) . PHP_EOL;
+        $num = 1;
+        $length = 1;
+        echo PHP_EOL;
+        echo Color::head('浮点型长度:') . PHP_EOL;
+        for ($i = 1; $i < 20; $i++) {
+            $num = $num / 10 + $num;
+            $msg = sprintf("    小数位数{$i},当前值={$num}");
+            if (strlen($num) > $length) {
+                $length = strlen($num);
+                echo Color::colorize($msg, Color::FG_LIGHT_GREEN) . PHP_EOL;
+            } else {
+                echo Color::colorize($msg, Color::FG_LIGHT_GREEN) . PHP_EOL;
+                break;
+            }
+        }
+        echo Color::colorize('结论：浮点数小数最大位数为' . ($i - 1), Color::FG_LIGHT_RED) . PHP_EOL;
     }
 
     public function pregReplaceAction()
