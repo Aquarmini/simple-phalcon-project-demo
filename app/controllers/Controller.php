@@ -9,11 +9,9 @@
 namespace App\Controllers;
 
 use App\Utils\Log;
-use App\Controllers\Traits\Response;
 
 abstract class Controller extends \Phalcon\Mvc\Controller
 {
-    use Response;
 
     public function initialize()
     {
